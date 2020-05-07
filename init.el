@@ -1,4 +1,4 @@
-;; Most content of these config files are inspired by or directly copy from https://github.com/seagle0128/.emacs.d
+;; Most of the content in these config files are inspired by or directly copy from https://github.com/seagle0128/.emacs.d
 ;; Also thanks to the help of Condy Chen https://github.com/condy0919/.emacs.d/
 
 ;; accelerate start up
@@ -87,6 +87,11 @@ decrease this. If you experience stuttering, increase this.")
   (expand-file-name "settings" user-emacs-directory))
 (add-to-list 'load-path settings-dir)
 
+;; language specified settings
+(defvar lang-dir
+  (expand-file-name "settings/lang" user-emacs-directory))
+(add-to-list 'load-path lang-dir)
+
 ;; packages
 (defvar packages-dir
   (expand-file-name "packages" user-emacs-directory))
@@ -95,10 +100,20 @@ decrease this. If you experience stuttering, increase this.")
   (when (file-directory-p package)
     (add-to-list 'load-path package)))
 
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+
 (require 'init-core)
 (require 'init-basic)
 (require 'init-startup)
-(require 'init-tools)
 (require 'init-org)
 (require 'init-ui)
+(require 'init-tools)
+(require 'init-lsp)
 (require 'init-keys)
+
+;(use-package init-keys
+;  :ensure nil
+;  :hook (after-init . keys-init))
+
+(when (file-exists-p custom-file)
+  (load custom-file))

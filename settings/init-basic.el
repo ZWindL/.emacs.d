@@ -242,7 +242,7 @@
 (use-package browse-url
   :ensure nil
   :custom
-  (browse-url-generic-program "firefox"))
+  (browse-url-generic-program "firefox-nightly"))
 
 ;; Notifications
 (use-package notifications
