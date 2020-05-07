@@ -1,0 +1,27 @@
+# Compiled
+*.elc
+
+# Packaging
+.cask
+
+# Backup files
+*~
+
+# Undo-tree save-files
+*.~undo-tree
+
+# flycheck temp file
+.flycheck*
+
+.cache/
+.extension/
+elpa/
+eshell/
+straight/
+transient/
+url/
+var/
+auto-save-list
+bookmarks
+network-security.data
+recentf
