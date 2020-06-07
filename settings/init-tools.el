@@ -117,17 +117,18 @@
 ;; Beautiful term mode & friends
 (use-package vterm
   :ensure t
-  :defines (evil-insert-state-cursor)
-  :commands (evil-insert-state vterm)
+;  :defines (evil-insert-state-cursor)
+;  :commands (evil-insert-state vterm)
   :custom
   (vterm-kill-buffer-on-exit t)
   (vterm-clear-scrollback-when-clearing t)
   :hook (vterm-mode . (lambda ()
-                        (setq-local evil-insert-state-cursor 'box)
+;                        (setq-local evil-insert-state-cursor 'box)
                         (setq-local global-hl-line-mode nil)
                         ;; Dont prompt about processes when killing vterm
                         (setq confirm-kill-processes nil)
-                        (evil-insert-state)))
+                                        ;                       (evil-insert-state)))
+                        ))
   )
 
 (use-package shell-pop
@@ -135,6 +136,74 @@
   :custom
   (shell-pop-full-span t)
   (shell-pop-shell-type '("vterm" "*vterm*" #'vterm)))
+
+;; git/svn diff
+(use-package diff-hl
+  :ensure t
+  :hook ((prog-mode . (lambda ()
+                        (diff-hl-mode)
+                        (diff-hl-flydiff-mode)
+                        (diff-hl-margin-mode)))
+         (magit-post-refresh . diff-hl-magit-post-refresh)
+         (dired-mode . diff-hl-dired-mode-unless-remote)))
+
+;; winum
+(use-package winum
+  :ensure t)
+
+;; treemacs
+(use-package treemacs
+  :ensure t
+  :defer t
+  :config
+  (progn
+    (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
+          treemacs-deferred-git-apply-delay      0.5
+          treemacs-directory-name-transformer    #'identity
+          treemacs-display-in-side-window        t
+          treemacs-eldoc-display                 t
+          treemacs-file-event-delay              5000
+          treemacs-file-extension-regex          treemacs-last-period-regex-value
+          treemacs-tag-follow-delay              1.5
+          treemacs-user-mode-line-format         nil
+          treemacs-user-header-line-format       nil
+          treemacs-width                         35)
+    ;; The default width and height of the icons is 22 pixels. If you are
+    ;; using a Hi-DPI display, uncomment this to double the icon size.
+    ;;(treemacs-resize-icons 44)
+
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode t)
+    (pcase (cons (not (null (executable-find "git")))
+                 (not (null treemacs-python-executable)))
+      (`(t . t)
+       (treemacs-git-mode 'deferred))
+      (`(t . _)
+       (treemacs-git-mode 'simple))))
+)
+
+;(use-package treemacs-evil
+;  :after treemacs evil
+;  :ensure t)
+
+(use-package treemacs-projectile
+  :after treemacs projectile
+  :ensure t)
+
+(use-package treemacs-icons-dired
+  :after treemacs dired
+  :ensure t
+  :config (treemacs-icons-dired-mode))
+
+(use-package treemacs-magit
+  :after treemacs magit
+  :ensure t)
+
+(use-package treemacs-persp
+  :after treemacs persp-mode
+  :ensure t
+  :config (treemacs-set-scope-type 'Perspectives))
 
 ;; GC optimization
 (use-package gcmh

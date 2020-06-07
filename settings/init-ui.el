@@ -38,4 +38,23 @@
 ;; default, confused, emacs, nyan, rotating, science, thumbsup
 ;; (add-hook 'mu4e-index-updated-hook #'parrot-start-animation))
 
+;; pulse current line
+(use-package pulse
+  :ensure nil
+  :custom-face
+  (pulse-highlight-start-face ((t (:inherit highlight))))
+  (pulse-highlight-face ((t (:inherit highlight))))
+  :preface
+  (defun my/pulse-line (&rest _)
+    "Pulse the current line."
+    (pulse-momentary-highlight-one-line (point)))
+  (defun my/recenter-and-pulse (&rest _)
+    "Recenter and pulse the current line."
+    (recenter)
+    (my/pulse-line))
+  :hook ((counsel-grep-post-action
+          dumb-jump-after-jump
+          bookmark-after-jump
+          imenu-after-jump) . my/recenter-and-pulse))
+
 (provide 'init-ui)

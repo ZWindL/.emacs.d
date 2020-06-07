@@ -1,12 +1,18 @@
-;(defun keys-init ())
+;;; init-keys.el --- Define emacs keybindings
+
+;;; Commentary:
+
+;;; Code:
 
 ;; rg
 (use-package rg
+  :ensure t
   :hook (after-init . rg-enable-default-bindings)
   :bind ("C-c s" . rg))
 
 ;; avy
 (use-package avy
+  :ensure t
   :bind
   ("C-'" . avy-goto-char)
   ("C-\"" . avy-goto-char-2)
@@ -16,6 +22,7 @@
 
 ;; ivy
 (use-package ivy
+  :ensure t
   :bind (
          ("C-c C-r" . ivy-resume)
          ("\C-s" . swiper)
@@ -48,11 +55,13 @@
 
 ;; Fuzzy match
 (use-package counsel
+  :ensure t
   :bind (([remap recentf-open-files] . counsel-recentf)
          ([remap swiper]             . counsel-grep-or-swiper)))
 
 ;; Use swiper less, it takes up `ivy-height' lines.
 (use-package isearch
+  :ensure nil
   :bind (:map isearch-mode-map
          ;; consistent with ivy-occur
          ("C-c C-o" . isearch-occur)
@@ -61,15 +70,18 @@
 
 ;; VTERM
 (use-package shell-pop
+  :ensure t
   :bind ("M-=" . shell-pop))
 
 ;; Write documentation comment in an easy way
 (use-package separedit
+  :ensure t
   :bind (:map prog-mode-map
               ("C-c '" . separedit)))
 
 ;; The completion engine
 (use-package company
+  :ensure t
   :bind (:map company-mode-map
          ([remap completion-at-point] . company-complete)
          :map company-active-map
@@ -85,6 +97,7 @@
 
 ;; lsp-mode
 (use-package lsp-mode
+  :ensure t
   :custom
   (lsp-keymap-prefix "C-c l")
   :bind (:map lsp-mode-map
@@ -93,4 +106,63 @@
          ("C-c a" . lsp-execute-code-action)
          ("C-c r" . lsp-rename)))
 
+;; treemacs
+(use-package treemacs
+  :ensure t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :bind
+  (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+;; Highlight TODO
+(use-package hl-todo
+  :ensure t
+  :bind (:map hl-todo-mode-map
+         ("C-c t p" . hl-todo-previous)
+         ("C-c t n" . hl-todo-next)
+         ("C-c t o" . hl-todo-occur)))
+
+;; Quickrun codes, including cpp. awesome!
+(use-package quickrun
+  :ensure t
+  :bind (("C-c x" . quickrun)))
+
+
+;; Jump to definition, used as a fallback of lsp-find-definition
+(use-package dumb-jump
+  :ensure t
+  :bind (("M-g o" . dumb-jump-go-other-window)
+         ("M-g j" . dumb-jump-go)
+         ("M-g q" . dumb-jump-quick-look)
+         ("M-g b" . dumb-jump-back)
+         ("M-g i" . dumb-jump-go-prompt)
+         ("M-g x" . dumb-jump-go-prefer-external)
+         ("M-g z" . dumb-jump-go-prefer-external-other-window))
+  :custom
+  (dumb-jump-quiet t)
+  (dumb-jump-aggressive t)
+  (dumb-jump-selector 'ivy)
+  (dump-jump-prefer-searcher 'rg))
+
+;; Hiding structured data
+;; TODO: configure it for smooth experience
+(use-package hideshow
+  :ensure nil
+  :hook (prog-mode . hs-minor-mode))
+
+;; Org-mode key shortcuts
+(use-package org
+  :ensure nil
+  :bind (("C-c l" . org-store-link)
+         ("C-c a" . org-agenda)
+         ("C-c c" . org-capture)))
+
 (provide 'init-keys)
+;;; init-keys.el ends here

@@ -109,6 +109,7 @@ decrease this. If you experience stuttering, increase this.")
 (require 'init-ui)
 (require 'init-tools)
 (require 'init-lsp)
+(require 'init-dev)
 (require 'init-keys)
 
 ;(use-package init-keys
