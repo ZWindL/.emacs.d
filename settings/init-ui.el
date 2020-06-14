@@ -57,4 +57,11 @@
           bookmark-after-jump
           imenu-after-jump) . my/recenter-and-pulse))
 
+;; Highlight brackets according to their depth
+(use-package rainbow-delimiters
+  :ensure t
+  :hook (prog-mode . rainbow-delimiters-mode))
+
 (provide 'init-ui)
+
+;;; init-ui.el ends here

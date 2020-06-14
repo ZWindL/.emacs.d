@@ -7,13 +7,19 @@
 
 (use-package ccls
   :ensure t
+  :defines projectile-project-root-files-top-down-recurring
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda () (require 'ccls) (lsp)))
+  :config
+  (ccls-use-default-rainbow-sem-highlight)
+  (with-eval-after-load 'projectile
+    (setq projectile-project-root-files-top-down-recurring
+          (append '("compile_commands.json" ".ccls")
+                  projectile-project-root-files-top-down-recurring)))
   :init
   (setq ccls-executable "/usr/bin/ccls")
   (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
   (setq ccls-sem-highlight-method 'font-lock)
-  (ccls-use-default-rainbow-sem-highlight)
   (defun ccls/callee () (interactive) (lsp-ui-peek-find-custom "$ccls/call" '(:callee t)))
   (defun ccls/caller () (interactive) (lsp-ui-peek-find-custom "$ccls/call"))
   (defun ccls/vars (kind) (lsp-ui-peek-find-custom "$ccls/vars" `(:kind ,kind)))

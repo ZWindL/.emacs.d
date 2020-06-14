@@ -101,6 +101,7 @@
   :custom
   (lsp-keymap-prefix "C-c l")
   :bind (:map lsp-mode-map
+         ("C-c C-d" . lsp-describe-thing-at-point)
          ("C-c f" . lsp-format-region)
          ("C-c d" . lsp-describe-thing-at-point)
          ("C-c a" . lsp-execute-code-action)
