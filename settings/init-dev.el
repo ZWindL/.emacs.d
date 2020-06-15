@@ -228,6 +228,9 @@
 (require 'init-elisp)
 (require 'init-rust)
 (require 'init-html)
+(require 'init-python)
+(require 'init-ocaml)
 
 (provide 'init-dev)
+
 ;;; init-dev.el ends here

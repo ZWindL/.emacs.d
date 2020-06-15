@@ -122,6 +122,15 @@
         ("C-x t C-t" . treemacs-find-file)
         ("C-x t M-t" . treemacs-find-tag)))
 
+;; lsp-treemacs
+(use-package lsp-treemacs
+  :ensure t
+  :after lsp-mode
+  :bind (:map lsp-mode-map
+          ("C-<f8>" . lsp-treemacs-errors-list)
+          ("M-<f8>" . lsp-treemacs-symbols)
+          ("s-<f8>" . lsp-treemacs-java-deps-list)))
+
 ;; Highlight TODO
 (use-package hl-todo
   :ensure t
@@ -166,4 +175,5 @@
          ("C-c c" . org-capture)))
 
 (provide 'init-keys)
+
 ;;; init-keys.el ends here

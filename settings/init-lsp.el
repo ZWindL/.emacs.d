@@ -5,7 +5,6 @@
 
 ;;; Code:
 
-
 ;; lsp-mode
 (use-package lsp-mode
   :ensure t
@@ -53,6 +52,8 @@
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode
+  :custom-face
+     (lsp-ui-sideline-code-action ((t (:inherit warning))))
   :bind (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
               ([remap xref-find-references] . lsp-ui-peek-find-references))
@@ -62,7 +63,7 @@
   :custom
   ;; lsp-ui-sideline
   (lsp-ui-sideline-show-diagnostics t)
-  ;;(lsp-ui-sideline-show-hover t)
+  (lsp-ui-sideline-show-hover t)
   (lsp-ui-sideline-show-code-actions t)
 ;  (lsp-ui-sideline-update-mode t)
   (lsp-ui-sideline-delay 2)
@@ -81,7 +82,8 @@
 ;; lsp-treemacs
 (use-package lsp-treemacs
   :ensure t
-  :commands lsp-treemacs-errors-list
+  :after lsp-mode
+  :defines (lsp-metals-treeview-show-when-views-received)
   :config
   (lsp-metals-treeview-enable t)
   (setq lsp-metals-treeview-show-when-views-received t))

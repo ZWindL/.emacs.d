@@ -104,6 +104,17 @@
                 (Template . ,(all-the-icons-material "format_align_left" :height 0.8 :v-adjust -0.15)))
               company-box-icons-alist 'company-box-icons-all-the-icons)))
 
+;; yasnippet support
+(use-package yasnippet
+  :ensure t
+  :diminish yas-minor-mode
+  :hook (after-init . yas-global-mode))
+
+;; pre-wrote snippets
+(use-package yasnippet-snippets
+  :ensure t
+  :after yasnippet)
+
 (provide 'init-company)
 
 ;;; init-company.el ends here
