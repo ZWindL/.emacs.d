@@ -1,6 +1,6 @@
 ;;; init-core.el --- core functions -*- lexical-binding: t -*-
+
 ;;; Commentary:
-;;
 
 ;;; Code:
 

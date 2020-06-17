@@ -70,6 +70,12 @@
     "Remove highlight overlay when user quit gud."
     (delete-overlay gud-overlay)))
 
+;; Debugger Dap mode
+(use-package dap-mode
+  :ensure t
+  :init
+  (setq dap-auto-configure-features '(sessions locals controls tooltip)))
+
 ;; Highlight TODO
 (use-package hl-todo
   :ensure t
@@ -166,14 +172,7 @@
   (flycheck-emacs-lisp-load-path 'inherit)
   (flycheck-indication-mode 'right-fringe)
   ;; clang/gcc/cppcheck flycheckers never know the include path
-  (flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
-  :config
-  ;; consistent with help-mode
-  (with-eval-after-load 'evil
-    (evil-set-initial-state 'flycheck-error-list-mode 'normal)
-    (evil-define-key 'normal flycheck-error-list-mode-map
-      "q" 'quit-window))
-  )
+  (flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc)))
 
 (use-package flymake
   :disabled
@@ -197,32 +196,63 @@
   (flyspell-issue-message-flag nil))
 
 ;; xref
-;; (use-package ivy-xref
-;;   :ensure t
-;;   :init
+(use-package ivy-xref
+  :ensure t
+  :init
   ;; xref initialization is different in Emacs 27 - there are two different
   ;; variables which can be set rather than just one
-  ;; (when (>= emacs-major-version 27)
-  ;;   (setq xref-show-definitions-function #'ivy-xref-show-defs))
+  (when (>= emacs-major-version 27)
+    (setq xref-show-definitions-function #'ivy-xref-show-defs))
   ;; Necessary in Emacs <27. In Emacs 27 it will affect all xref-based
   ;; commands other than xref-find-definitions (e.g. project-find-regexp)
   ;; as well
-  ;; (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
-;;        )
+  (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 
 ;; Antlr mode
 (use-package antlr-mode
   :ensure nil
   :mode ("\\.g4\\'" . antlr-mode))
 
+;; Shell mode
+(use-package sh-script
+  :ensure nil
+  :mode ("\\.sh\\'" . sh-mode)
+  :bind (:map sh-mode-map
+         ("C-c C-e" . sh-execute-region))
+  :custom
+  (sh-basic-offset 2)
+  (sh-indentation 2))
+
+;; CSS
+(use-package css-mode
+  :ensure nil
+  :mode ("\\.scss\\'" . scss-mode)
+  :custom
+  (css-indent-offset 2))
+
+;; XML
+(use-package nxml-mode
+  :ensure nil
+  :mode (("\\.xml\\'" . nxml-mode)
+         ("\\.rss\\'" . nxml-mode))
+  :magic "<\\?xml"
+  :custom
+  (nxml-slash-auto-complete-flag t)
+  (nxml-auto-insert-xml-declaration-flag t))
+
 ;; Config files mode
 (use-package yaml-mode
   :ensure t
   :mode (("\\.yaml\\'" . yaml-mode)
          ("\\.yml\\'"  . yaml-mode)))
-(use-package toml-mode
-  :ensure t
-  :mode ("\\.toml\\'" . toml-mode))
+
+;; Syntax highlighting for systemd files
+(use-package conf-mode
+  :ensure nil
+  :mode ((rx "."
+             (or "automount" "busname" "link" "mount" "netdev" "network"
+                 "path" "service" "slice" "socket" "swap" "target" "timer")
+             string-end) . conf-toml-mode))
 
 (require 'init-cpp)
 (require 'init-elisp)
@@ -230,6 +260,7 @@
 (require 'init-html)
 (require 'init-python)
 (require 'init-ocaml)
+(require 'init-sql)
 
 (provide 'init-dev)
 

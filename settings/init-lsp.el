@@ -83,9 +83,9 @@
 (use-package lsp-treemacs
   :ensure t
   :after lsp-mode
-  :defines (lsp-metals-treeview-show-when-views-received)
+  :defines (lsp-metals-treeview-show-when-views-received lsp-metals-treeview-enable)
   :config
-  (lsp-metals-treeview-enable t)
+  (setq lsp-metals-treeview-enable t)
   (setq lsp-metals-treeview-show-when-views-received t))
 
 (provide 'init-lsp)

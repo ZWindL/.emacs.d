@@ -144,6 +144,12 @@
   :ensure t
   :bind (("C-c x" . quickrun)))
 
+;; Fold selected area
+;; (use-package fold-this
+;;   :ensure t
+;;   :bind (("C-c C-f" . fold-this-all)
+;;          ("C-c C-f" . fold-this)
+;;          ("C-c M-f" . fold-this-unfold-all)))
 
 ;; Jump to definition, used as a fallback of lsp-find-definition
 (use-package dumb-jump
@@ -162,14 +168,31 @@
   (dump-jump-prefer-searcher 'rg))
 
 ;; Hiding structured data
-;; TODO: configure it for smooth experience
+;;
+;; zm hide-all
+;; zr show-all
+;; za toggle-fold
+;; zo show-block
+;; zc hide-block
 (use-package hideshow
   :ensure nil
-  :hook (prog-mode . hs-minor-mode))
+  :hook (prog-mode . hs-minor-mode)
+  :bind (:map prog-mode-map
+         ("C-c TAB" . hs-toggle-hiding)
+         ("M-+" . hs-show-all))
+  :config
+  (defconst hideshow-folded-face '((t (:inherit 'font-lock-comment-face :box t))))
+  (defun hideshow-folded-overlay-fn (ov)
+    (when (eq 'code (overlay-get ov 'hs))
+      (let* ((nlines (count-lines (overlay-start ov) (overlay-end ov)))
+             (info (format " ... #%d " nlines)))
+        (overlay-put ov 'display (propertize info 'face hideshow-folded-face)))))
+  (setq hs-set-up-overlay 'hideshow-folded-overlay-fn))
 
 ;; Org-mode key shortcuts
 (use-package org
   :ensure nil
+  :hook (org-mode)
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)))

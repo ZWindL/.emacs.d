@@ -1,3 +1,10 @@
+;;; init-basic --- The necessary settings -*- lexical-binding: t -*-
+
+;;; Commentary:
+;;
+
+;;; Code:
+
 ;; Supress GUI features
 (setq use-file-dialog nil
       use-dialog-box nil
@@ -9,7 +16,7 @@
 (setq initial-frame-alist (quote ((fullscreen . maximized))))
 
 ;; No splash screen
-;; (setq inhibit-splash-screen 1)
+(setq inhibit-splash-screen 1)
 
 ;; Line number settings
 (global-display-line-numbers-mode)
@@ -17,6 +24,10 @@
 ;; Linux specific
 (setq x-gtk-use-system-tooltips nil
       x-underline-at-descent-line t)
+
+;; MacOS specific
+(setq ns-use-thing-smoothing t
+      ns-pop-up-frames nil)
 
 ;; Optimize for very long lines
 (setq bidi-paragraph-direction 'left-to-right
@@ -26,13 +37,28 @@
 (setq make-backup-files nil
       auto-save-default nil)
 
-;; Recent file settings
-(require 'recentf)
-(recentf-mode 1)
-(setq recentf-max-menu-item 10)
-
 ;; No lock files
 (setq create-lockfiles nil)
+
+;; Recent file settings
+(use-package recentf
+  :ensure nil
+  :after no-littering
+  :hook ((after-init . recentf-mode)
+         (focus-out-hook . (recentf-save-list recentf-cleanup)))
+  :custom
+  (recentf-max-saved-items 300)
+  (recentf-auto-cleanup 'never)
+  (recentf-exclude `(,(expand-file-name package-user-dir)
+                     ,no-littering-var-directory
+                     ,no-littering-etc-directory
+                     ".cache"
+                     "cache"
+                     "^/tmp/"
+                     "/ssh:"
+                     "/su\\(do\\)?:"
+                     "^/usr/include/"
+                     "COMMIT_EDITMSG\\'")))
 
 ;; Always load the newest file
 (setq load-prefer-newer t)
@@ -85,6 +111,14 @@
 
 ;; Use TeX as default IM
 (setq default-input-method "TeX")
+
+;; Enable the disabled narrow commands
+(put 'narrow-to-defun  'disabled nil)
+(put 'narrow-to-page   'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+
+;; Enable the disabled dired commands
+(put 'dired-find-alternate-file 'disabled nil)
 
 ;; Keep clean
 (when (fboundp 'menu-bar-mode)
@@ -180,7 +214,16 @@
 ;; Make escape more nature
 (use-package minibuffer
   :ensure nil
-  :bind ([escape] . abort-recursive-edit))
+  :bind (:map minibuffer-local-map
+         ([escape] . abort-recursive-edit)
+         :map minibuffer-local-ns-map
+         ([escape] . abort-recursive-edit)
+         :map minibuffer-local-completion-map
+         ([escape] . abort-recursive-edit)
+         :map minibuffer-local-must-match-map
+         ([escape] . abort-recursive-edit)
+         :map minibuffer-local-isearch-map
+         ([escape] . abort-recursive-edit)))
 
 ;; What day is it today?
 (use-package calendar
@@ -197,6 +240,15 @@
   ;; year/month/day
   (calendar-date-string 'iso))
 
+;; Appointment
+(use-package appt
+  :ensure nil
+  :hook (after-init . appt-activate)
+  :custom
+  (appt-display-mode-line t)
+  (appt-display-interval 3)
+  (appt-message-warning-time 15))
+
 ;; lifelog
 (use-package diary-lib
   :ensure nil
@@ -209,8 +261,10 @@
 (use-package speedbar
   :ensure nil
   :bind ("<f8>" . speedbar-get-focus)
+  :custom-face
+  (speedbar-file-face ((t (:foreground "cyan4"))))
+  (speedbar-selected-face ((t (:foreground "red3" :underline t))))
   :custom
-  (speedbar-use-images nil)
   (speedbar-indentation-width 2))
 
 ;; transparent remote access
@@ -227,8 +281,16 @@
   :custom
   (proced-auto-update-flag t))
 
+;; mouse wheel optimization
+(use-package mwheel
+  :ensure nil
+  :defer t
+  :custom
+  (mouse-wheel-progressive-speed nil)
+  (mouse-wheel-scroll-amount '(1 ((shift) . 2) ((control)))))
+
 ;; Better abbrev expansion
-(use-package hippie-exp
+(use-package hippie-expand
   :ensure nil
   :bind ("M-/" . hippie-expand))
 
@@ -256,6 +318,9 @@
 
 ;; Keep ~/.emacs.d clean
 (use-package no-littering
-  :ensure t)
+  :ensure t
+  :demand t)
 
 (provide 'init-basic)
+
+;;; init-basic.el ends here
