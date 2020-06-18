@@ -290,7 +290,7 @@
   (mouse-wheel-scroll-amount '(1 ((shift) . 2) ((control)))))
 
 ;; Better abbrev expansion
-(use-package hippie-expand
+(use-package hippie-exp
   :ensure nil
   :bind ("M-/" . hippie-expand))
 

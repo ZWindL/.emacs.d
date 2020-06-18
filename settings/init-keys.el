@@ -192,7 +192,7 @@
 ;; Org-mode key shortcuts
 (use-package org
   :ensure nil
-  :hook (org-mode)
+  ;; :hook (org-mode)
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)))
