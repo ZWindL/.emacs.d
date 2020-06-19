@@ -4,23 +4,6 @@
 
 ;;; Code:
 
-;; rg
-(use-package rg
-  :ensure t
-  :hook (after-init . rg-enable-default-bindings)
-  :bind ("C-c s" . rg))
-
-;; avy
-(use-package avy
-  :ensure t
-  :bind
-  ("C-'" . avy-goto-char)
-  ("C-\"" . avy-goto-char-2)
-  ("M-g f" . avy-goto-line)
-  ("M-g w" . avy-goto-word-1)
-  ("M-g e" . avy-goto-word-0))
-
-;; ivy
 (use-package ivy
   :ensure t
   :bind (
@@ -146,7 +129,6 @@
 
 ;; Fold selected area
 ;; (use-package fold-this
-;;   :ensure t
 ;;   :bind (("C-c C-f" . fold-this-all)
 ;;          ("C-c C-f" . fold-this)
 ;;          ("C-c M-f" . fold-this-unfold-all)))
@@ -192,7 +174,6 @@
 ;; Org-mode key shortcuts
 (use-package org
   :ensure nil
-  ;; :hook (org-mode)
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)))

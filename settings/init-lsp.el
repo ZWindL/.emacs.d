@@ -7,7 +7,6 @@
 
 ;; lsp-mode
 (use-package lsp-mode
-  :ensure t
   :hook (
          (prog-mode . lsp-deferred)
          (lsp-mode . lsp-enable-which-key-integration))
@@ -50,7 +49,6 @@
 
 ;; lsp-ui
 (use-package lsp-ui
-  :ensure t
   :commands lsp-ui-mode
   :custom-face
      (lsp-ui-sideline-code-action ((t (:inherit warning))))
@@ -81,7 +79,6 @@
 
 ;; lsp-treemacs
 (use-package lsp-treemacs
-  :ensure t
   :after lsp-mode
   :defines (lsp-metals-treeview-show-when-views-received lsp-metals-treeview-enable)
   :config

@@ -1,5 +1,10 @@
+;;; init --- Emacs init file
+
+;;; Commentary:
 ;; Most of the content in these config files are inspired by or directly copy from https://github.com/seagle0128/.emacs.d
 ;; Also thanks to the help of Condy Chen https://github.com/condy0919/.emacs.d/
+
+;;; Code:
 
 ;; accelerate start up
 ;; from https://github.com/seagle0128/.emacs.d/blob/master/init.el
@@ -17,10 +22,10 @@ decrease this. If you experience stuttering, increase this.")
 
 ;; elpa mirrors
 (setq package-archives
-           '(("melpa" . "https://elpa.emacs-china.org/melpa/")
-	       ("gnu"   . "https://elpa.emacs-china.org/gnu/")
-	       ("org"   . "https://elpa.emacs-china.org/org/")
-     ))
+      '(("melpa" . "https://elpa.emacs-china.org/melpa/")
+        ("gnu"   . "https://elpa.emacs-china.org/gnu/")
+        ("org"   . "https://elpa.emacs-china.org/org/")
+        ))
 
 (package-initialize)
 
@@ -119,3 +124,5 @@ decrease this. If you experience stuttering, increase this.")
 
 (when (file-exists-p custom-file)
   (load custom-file))
+
+;;; init.el ends here

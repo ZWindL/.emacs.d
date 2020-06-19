@@ -44,4 +44,5 @@
   (my/delete-file (buffer-file-name)))
 
 (provide 'init-core)
+
 ;;; init-core.el ends here

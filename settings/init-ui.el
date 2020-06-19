@@ -45,24 +45,22 @@
 ;; default, confused, emacs, nyan, rotating, science, thumbsup
 ;; (add-hook 'mu4e-index-updated-hook #'parrot-start-animation))
 
-;; pulse current line
-(use-package pulse
-  :ensure nil
-  :custom-face
-  (pulse-highlight-start-face ((t (:inherit highlight))))
-  (pulse-highlight-face ((t (:inherit highlight))))
+;; Blink the current line with fancy animation
+(use-package beacon
+  :ensure t
   :preface
-  (defun my/pulse-line (&rest _)
-    "Pulse the current line."
-    (pulse-momentary-highlight-one-line (point)))
-  (defun my/recenter-and-pulse (&rest _)
-    "Recenter and pulse the current line."
+  (defun my/recenter-and-blink (&rest _)
+    "Recenter and blink the current line."
     (recenter)
-    (my/pulse-line))
-  :hook ((counsel-grep-post-action
-          dumb-jump-after-jump
-          bookmark-after-jump
-          imenu-after-jump) . my/recenter-and-pulse))
+    (beacon-blink))
+  :config
+  (setq beacon-blink-when-window-scrolls nil)
+  (setq beacon-blink-when-window-changes t)
+  (setq beacon-blink-when-point-moves t)
+  :hook ((consel-grep-post-action
+         dumb-jump-after-jump
+         bookmark-after-jump
+         imenu-after-jump) . my/recenter-and-blink))
 
 ;; Highlight brackets according to their depth
 (use-package rainbow-delimiters

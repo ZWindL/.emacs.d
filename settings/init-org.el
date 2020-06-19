@@ -6,7 +6,6 @@
 ;;; Code:
 
 (use-package org
-  :ensure nil
   :mode ("\\.org\\'" . org-mode)
   :hook (org-mode . auto-fill-mode)
   :commands (org-find-exact-headline-in-buffer org-set-tags)
@@ -76,7 +75,6 @@
 
 ;; Keep track of tasks
 (use-package org-agenda
-  :ensure nil
   :after org
   :custom
   (org-agenda-files `(,org-directory))
@@ -120,7 +118,6 @@
 
 ;; Record the time
 (use-package org-clock
-  :ensure nil
   :after org
   :custom
   (org-clock-in-resume t)
@@ -144,7 +141,6 @@
 
 ;; Write codes in org-mode
 (use-package org-src
-  :ensure nil
   :after org
   :bind (:map org-src-mode-map
          ;; consistent with separedit/magit
@@ -163,14 +159,12 @@
                               (emacs-lisp . t))))
 
 (use-package org-id
-  :ensure nil
   :after org
   :custom
   (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
 
 ;; Create structured information quickly
 (use-package org-capture
-  :ensure nil
   :after org
   :custom
   (org-capture-use-agenda-date t)
@@ -229,7 +223,6 @@
 
 ;; org links
 (use-package ol
-  :ensure nil
   :after org
   :custom
   (org-link-keep-stored-after-insertion t)
@@ -240,7 +233,6 @@
 
 ;; export
 (use-package ox
-  :ensure nil
   :after org
   :custom
   (org-export-with-toc t)
@@ -260,7 +252,6 @@
   (org-export-backends '(ascii html md)))
 
 (use-package ox-html
-  :ensure nil
   :after org
   :custom
   (org-html-doctype "html5")
@@ -270,7 +261,6 @@
 
 ;; Pretty symbols
 (use-package org-superstar
-  :ensure t
   :custom
   ;; hide leading stars, rendering in spaces
   (org-hide-leading-stars nil)
@@ -279,20 +269,19 @@
 
 ;; Declarative Org Capture Templates
 (use-package doct
-  :ensure t
   :demand t
   :commands (doct doct-get))
 
 (use-package org-protocol
-  :ensure nil
   :after org
   :custom
   (org-protocol-default-template-key "nc"))
 
 (use-package org-habit
-  :ensure nil
   :after org
   :custom
   (org-habit-graph-column 50))
 
 (provide 'init-org)
+
+;;; init-org.el ends here
