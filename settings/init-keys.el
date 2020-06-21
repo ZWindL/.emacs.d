@@ -150,12 +150,7 @@
   (dump-jump-prefer-searcher 'rg))
 
 ;; Hiding structured data
-;;
-;; zm hide-all
-;; zr show-all
-;; za toggle-fold
-;; zo show-block
-;; zc hide-block
+;; C-c TAB hideshow toggle
 (use-package hideshow
   :ensure nil
   :hook (prog-mode . hs-minor-mode)

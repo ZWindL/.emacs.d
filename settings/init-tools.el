@@ -66,10 +66,12 @@
 (use-package isearch
   :ensure nil
   :bind (:map isearch-mode-map
-         ;; consistent with ivy-occur
-         ("C-c C-o" . isearch-occur)
-         ;; Edit the search string instead of jumping back
-         ([remap isearch-delete-char] . isearch-del-char))
+              ;; consistent with ivy-occur
+              ("C-c C-o" . isearch-occur)
+              ;; Edit the search string instead of jumping back
+              ([remap isearch-delete-char] . isearch-del-char)
+              ([remap isearch-query-replace] . anzu-isearch-query-replace)
+              ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
   :custom
   ;; One space can represent a sequence of whitespaces
   (isearch-lax-whitespace t)
@@ -113,6 +115,23 @@
   :defer t
   :custom
   (auto-package-update-delete-old-versions t))
+
+;; Preview search/replace results
+(use-package anzu
+  :ensure t
+  :init (global-anzu-mode +1)
+  :bind
+  ([remap query-replace] . anzu-query-replace)
+  ([remap query-replace-regexp] . anzu-query-replace-regexp)
+  :config
+  (set-face-attribute 'anzu-mode-line nil
+                      :foreground "yellow" :weight 'bold)
+  (custom-set-variables
+   '(anzu-mode-lighter "")
+   '(anzu-deactivate-region t)
+   '(anzu-search-threshold 1000)
+   '(anzu-replace-threshold 50)
+   '(anzu-replace-to-string-separator " => ")))
 
 ;; Beautiful term mode & friends
 (use-package vterm
@@ -302,3 +321,5 @@
   )
 
 (provide 'init-tools)
+
+;;; init-tools.el ends here

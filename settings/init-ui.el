@@ -48,6 +48,7 @@
 ;; Blink the current line with fancy animation
 (use-package beacon
   :ensure t
+  :init (beacon-mode 1)
   :preface
   (defun my/recenter-and-blink (&rest _)
     "Recenter and blink the current line."
