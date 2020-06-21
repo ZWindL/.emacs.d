@@ -90,13 +90,6 @@
   (dolist (keyword '("WORKAROUND" "HACK" "TRICK"))
     (cl-pushnew `(,keyword . ,(face-foreground 'warning)) hl-todo-keyword-faces)))
 
-;; Show trailing whitespaces
-(use-package whitespace
-  :ensure nil
-  :hook ((prog-mode markdown-mode conf-mode) . whitespace-mode)
-  :custom
-  (whitespace-style '(face trailing)))
-
 ;; Visual diff interface
 (use-package ediff
   :ensure nil

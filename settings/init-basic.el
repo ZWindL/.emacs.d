@@ -102,7 +102,7 @@
 (setq-default tab-width 4)
 
 ;; Font size
-(set-face-attribute 'default nil :height 100)
+(set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 110)
 
 ;; Prefer shorter names
 (fset 'yes-or-no-p 'y-or-n-p)

@@ -33,7 +33,6 @@
 (use-package ivy
   :ensure t
   :hook (after-init . ivy-mode)
-
   :custom
   (ivy-display-style 'fancy)          ;; fancy style
   (ivy-count-format "%d/%d ")         ;; better counts
@@ -108,6 +107,11 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode)))
+
+;; Jump forward-backward between CamelCasesWords
+(use-package subword
+  :ensure nil
+  :hook (after-init . global-subword-mode))
 
 ;; Free hands
 (use-package auto-package-update

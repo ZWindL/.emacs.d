@@ -68,6 +68,23 @@
   :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
 
+;; Show trailing whitespaces
+(use-package whitespace
+  :ensure nil
+  :hook ((prog-mode markdown-mode org-medo conf-mode) . whitespace-mode)
+  :config
+  (setq
+   whitespace-line-column nil
+   whitespace-style
+   '(face             ; visualize things below:
+     empty            ; empty lines at beginning/end of buffer
+     lines-tail       ; lines go beyond `fill-column'
+     space-before-tab ; spaces before tab
+     trailing         ; trailing blanks
+     tabs             ; tabs (show by face)
+     tab-mark         ; tabs (show by symbol)
+     )))
+
 (provide 'init-ui)
 
 ;;; init-ui.el ends here
