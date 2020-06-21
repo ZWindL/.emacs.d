@@ -16,18 +16,29 @@
   :custom (which-key-idle-delay 0.5))
 
 ;; The blazing grep tool
+;; Press C-c s to search
 (use-package rg
   :ensure t
-  :defer t)
+  :defer t
+  :when (executable-find "rg")
+  :hook (after-init . rg-enable-default-bindings))
 
 ;; Jump to arbitrary positions
 (use-package avy
   :ensure t
+  ;; integrate with isearch and others
+  ;; C-' to select isearch-candidate with avy
+  :hook (after-init . avy-setup-default)
   :custom
   (avy-timeout-seconds 0.2)
   (avy-all-windows nil)
   (avy-background t)
-  (avy-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l ?q ?w ?e ?r ?u ?i ?o ?p)))
+  (avy-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l ?q ?w ?e ?r ?u ?i ?o ?p))
+  :config
+  ;; Force to use pre `avy-style'
+  (define-advice avy-isearch (:around (func &rest args))
+    (let ((avy-style 'pre))
+      (apply func args))))
 
 ;; ivy core
 (use-package ivy
@@ -40,6 +51,10 @@
   (ivy-height 10)
   (ivy-fixed-height-minibuffer t)     ;; fixed height
   (ivy-on-del-error-function 'ignore) ;; dont quit minibuffer when del-error
+  :config
+  ;; Default keybinding: C-'
+  (use-package ivy-avy
+    :ensure t)
   )
 
 ;; Fuzzy matcher
@@ -64,13 +79,6 @@
 ;; Use swiper less, it takes up `ivy-height' lines.
 (use-package isearch
   :ensure nil
-  :bind (:map isearch-mode-map
-              ;; consistent with ivy-occur
-              ("C-c C-o" . isearch-occur)
-              ;; Edit the search string instead of jumping back
-              ([remap isearch-delete-char] . isearch-del-char)
-              ([remap isearch-query-replace] . anzu-isearch-query-replace)
-              ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
   :custom
   ;; One space can represent a sequence of whitespaces
   (isearch-lax-whitespace t)
@@ -96,17 +104,56 @@
   (wgrep-auto-save-buffer t)
   (wgrep-change-readonly-file t))
 
+;; View/Edit reStructuredText file
+(use-package rst
+  :ensure nil
+  :mode (("\\.rst\\'"  . rst-mode)
+         ("\\.rest\\'" . rst-mode)))
+
+;; Pixel alignment for org/markdown tables
+(use-package valign
+  :ensure t
+  :straight (:host github :repo "casouri/valign")
+  :hook ((markdown-mode org-mode) . valign-mode)
+  :config
+  ;; compatible with outline mode
+  (define-advice outline-show-entry (:override nil)
+    "Show the body directly following this heading.
+Show the heading too, if it is currently invisible."
+    (interactive)
+    (save-excursion
+      (outline-back-to-heading t)
+      (outline-flag-region (max (point-min) (1- (point)))
+                           (progn
+                             (outline-next-preface)
+                             (if (= 1 (- (point-max) (point)))
+                                 (point-max)
+                               (point)))
+                           nil)))
+  )
+
 ;; The markdown mode is awesome! unbeatable
 (use-package markdown-mode
   :ensure t
+  :mode ("README\\(?:\\.md\\)?\\'" . gfm-mode)
   :hook (markdown-mode . auto-fill-mode)
+  :init
+  (advice-add #'markdown--command-map-prompt :override #'ignore)
+  (advice-add #'markdown--style-map-prompt   :override #'ignore)
   :custom
-  (markdown-command "pandoc")
+  (markdown-header-scaling t)
+  (markdown-enable-wiki-links t)
+  (markdown-italic-underscore t)
   (markdown-asymmetric-header t)
-  (markdown-fontify-code-blocks-natively t)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode)))
+  (markdown-gfm-uppercase-checkbox t)
+  (markdown-fontify-code-blocks-natively t))
+
+;; Generate table of contents for markdown-mode
+(use-package markdown-toc
+  :ensure t
+  :after markdown-mode
+  :bind (:map markdown-mode-command-map
+         ("r" . markdown-toc-generate-or-refresh-toc)))
 
 ;; Jump forward-backward between CamelCasesWords
 (use-package subword
@@ -137,38 +184,13 @@
    '(anzu-replace-threshold 50)
    '(anzu-replace-to-string-separator " => ")))
 
-;; Beautiful term mode & friends
-(use-package vterm
-  :ensure t
-;  :defines (evil-insert-state-cursor)
-;  :commands (evil-insert-state vterm)
-  :custom
-  (vterm-kill-buffer-on-exit t)
-  (vterm-clear-scrollback-when-clearing t)
-  :hook (vterm-mode . (lambda ()
-;                        (setq-local evil-insert-state-cursor 'box)
-                        (setq-local global-hl-line-mode nil)
-                        ;; Dont prompt about processes when killing vterm
-                        (setq confirm-kill-processes nil)
-                                        ;                       (evil-insert-state)))
-                        ))
-  )
-
-(use-package shell-pop
+;; GC optimization
+(use-package gcmh
   :ensure t
   :custom
-  (shell-pop-full-span t)
-  (shell-pop-shell-type '("vterm" "*vterm*" #'vterm)))
-
-;; git/svn diff
-(use-package diff-hl
-  :ensure t
-  :hook ((prog-mode . (lambda ()
-                        (diff-hl-mode)
-                        (diff-hl-flydiff-mode)
-                        (diff-hl-margin-mode)))
-         (magit-post-refresh . diff-hl-magit-post-refresh)
-         (dired-mode . diff-hl-dired-mode-unless-remote)))
+  (gcmh-idle-delay 10)
+  (gcmh-high-cons-threshold #x6400000) ;; 100 MB
+  :hook (after-init . gcmh-mode))
 
 ;; winum
 (use-package winum
@@ -206,10 +228,6 @@
        (treemacs-git-mode 'simple))))
 )
 
-;(use-package treemacs-evil
-;  :after treemacs evil
-;  :ensure t)
-
 (use-package treemacs-projectile
   :after treemacs projectile
   :ensure t)
@@ -236,17 +254,6 @@
   (gcmh-high-cons-threshold #x6400000) ;; 100 MB
   :hook (after-init . gcmh-mode))
 
-;; Write documentation comment in an easy way
-(use-package separedit
-  :ensure t
-  :custom
-  (separedit-default-mode 'markdown-mode)
-  (separedit-remove-trailing-spaces-in-comment t)
-  (separedit-continue-fill-column t)
-  (separedit-buffer-creation-hook #'auto-fill-mode)
-  :bind (:map prog-mode-map
-         ("C-c '" . separedit)))
-
 ;; Pastebin service
 (use-package webpaste
   :ensure t
@@ -257,7 +264,9 @@
   (webpaste-add-to-killring nil)
   (webpaste-provider-priority '("paste.mozilla.org" "dpaste.org" "ix.io")))
 
-;; TODO: vlf (very large file)
+;; Open very large files
+(use-package vlf-setup
+  :ensure vlf)
 
 ;; Notes manager
 (use-package deft

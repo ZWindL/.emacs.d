@@ -8,19 +8,7 @@
   :ensure t
   :bind (
          ("C-c C-r" . ivy-resume)
-         ("\C-s" . swiper)
-         ("M-x" . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)
-         ("C-h f" . counsel-describe-function)
-         ("C-h v" . counsel-describe-variable)
-         ("C-h o" . counsel-describe-symbol)
-         ("C-h l" . counsel-find-library)
-         ("C-h i" . counsel-info-lookup-symbol)
-         ("C-h u" . counsel-unicode-char)
-         ("C-c g" . counsel-git)
-         ("C-c j" . counsel-git-grep)
          ("C-c k" . counsel-ag)
-         ("C-x l" . counsel-locate)
          :map ivy-minibuffer-map
          ("C-c C-e" . my/ivy-woccur)
          :map ivy-occur-mode-map
@@ -46,10 +34,12 @@
 (use-package isearch
   :ensure nil
   :bind (:map isearch-mode-map
-         ;; consistent with ivy-occur
-         ("C-c C-o" . isearch-occur)
-         ;; Edit the search string instead of jumping back
-         ([remap isearch-delete-char] . isearch-del-char)))
+              ;; consistent with ivy-occur
+              ("C-c C-o" . isearch-occur)
+              ;; Edit the search string instead of jumping back
+              ([remap isearch-delete-char] . isearch-del-char)
+              ([remap isearch-query-replace] . anzu-isearch-query-replace)
+              ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp)))
 
 ;; VTERM
 (use-package shell-pop
@@ -59,6 +49,11 @@
 ;; Write documentation comment in an easy way
 (use-package separedit
   :ensure t
+  :custom
+  (separedit-default-mode 'markdown-mode)
+  (separedit-remove-trailing-spaces-in-comment t)
+  (separedit-continue-fill-column t)
+  (separedit-buffer-creation-hook #'auto-fill-mode)
   :bind (:map prog-mode-map
               ("C-c '" . separedit)))
 
@@ -126,12 +121,6 @@
 (use-package quickrun
   :ensure t
   :bind (("C-c x" . quickrun)))
-
-;; Fold selected area
-;; (use-package fold-this
-;;   :bind (("C-c C-f" . fold-this-all)
-;;          ("C-c C-f" . fold-this)
-;;          ("C-c M-f" . fold-this-unfold-all)))
 
 ;; Jump to definition, used as a fallback of lsp-find-definition
 (use-package dumb-jump

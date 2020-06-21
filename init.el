@@ -1,24 +1,34 @@
 ;;; init --- Emacs init file
 
 ;;; Commentary:
-;; Most of the content in these config files are inspired by or directly copy from https://github.com/seagle0128/.emacs.d
+;; Most of the content in these config files are inspired by or
+;; directly copy from https://github.com/condy0919/.emacs.d
 ;; Also thanks to the help of Condy Chen https://github.com/condy0919/.emacs.d/
 
 ;;; Code:
 
-;; accelerate start up
-;; from https://github.com/seagle0128/.emacs.d/blob/master/init.el
-(defvar centaur-gc-cons-threshold (if (display-graphic-p) 16000000 1600000)
-  "The default value to use for `gc-cons-threshold'. If you experience freezing,
-decrease this. If you experience stuttering, increase this.")
+;; A big contributor to startup times is garbage collection. We up the gc
+;; threshold to temporarily prevent it from running, and then reset it later
+;; using a hook.
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6)
 
-(defvar centaur-gc-cons-upper-limit (if (display-graphic-p) 400000000 100000000)
-  "The temporary value for `gc-cons-threshold' to defer it.")
-
-(defvar centaur-gc-timer (run-with-idle-timer 10 t #'garbage-collect)
-  "Run garbarge collection when idle 10s.")
-
+;; Keep a ref to the actual file-name-handler
 (defvar default-file-name-handler-alist file-name-handler-alist)
+
+;; Set the file-name-handler to nil (because regexing is cpu intensive)
+(setq file-name-handler-alist nil)
+
+;; Reset file-name-handler-alist after initialization
+(add-hook 'emacs-startup-hook
+  (lambda ()
+    (setq gc-cons-threshold 16777216
+          gc-cons-percentage 0.1
+          file-name-handler-alist default-file-name-handler-alist)))
+
+;; Increase the amount of data from the process
+;; `lsp-mode' gains
+(setq read-process-output-max (* 1024 1024))
 
 ;; elpa mirrors
 (setq package-archives
@@ -56,55 +66,10 @@ decrease this. If you experience stuttering, increase this.")
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-;; magic...
-(setq file-name-handler-alist nil)
-(setq gc-cons-threshold centaur-gc-cons-upper-limit
-      gc-cons-percentage 0.5)
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            "Restore defalut values after startup."
-            (setq file-name-handler-alist default-file-name-handler-alist)
-            (setq gc-cons-threshold centaur-gc-cons-threshold
-                  gc-cons-percentage 0.1)
-
-            ;; GC automatically while unfocusing the frame
-            (if (boundp 'after-focus-change-function)
-                (add-function :after after-focus-change-function
-                  (lambda ()
-                    (unless (frame-focus-state)
-                      (garbage-collect)))))
-
-            ;; Avoid GCs while using `ivy'/`counsel'/`swiper' and `helm', etc.
-            ;; @see http://bling.github.io/blog/2016/01/18/why-are-you-changing-gc-cons-threshold/
-            (defun my-minibuffer-setup-hook ()
-              (setq gc-cons-threshold centaur-gc-cons-upper-limit))
-
-            (defun my-minibuffer-exit-hook ()
-              (setq gc-cons-threshold centaur-gc-cons-threshold))
-
-            (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
-            (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)))
-
 (setq debug-on-error t)
 
-;; settings
-(defvar settings-dir
-  (expand-file-name "settings" user-emacs-directory))
-(add-to-list 'load-path settings-dir)
-
-;; language specified settings
-(defvar lang-dir
-  (expand-file-name "settings/lang" user-emacs-directory))
-(add-to-list 'load-path lang-dir)
-
-;; packages
-(defvar packages-dir
-  (expand-file-name "packages" user-emacs-directory))
-(add-to-list 'load-path packages-dir)
-(dolist (package (directory-files packages-dir t "\\w+"))
-  (when (file-directory-p package)
-    (add-to-list 'load-path package)))
-
+(add-to-list 'load-path (expand-file-name "settings" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "settings/lang" user-emacs-directory))
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 (require 'init-core)
@@ -113,14 +78,12 @@ decrease this. If you experience stuttering, increase this.")
 (require 'init-org)
 (require 'init-ui)
 (require 'init-tools)
+(require 'init-shell)
 (require 'init-lsp)
 (require 'init-company)
 (require 'init-dev)
+(require 'init-git)
 (require 'init-keys)
-
-;(use-package init-keys
-;  :ensure nil
-;  :hook (after-init . keys-init))
 
 (when (file-exists-p custom-file)
   (load custom-file))
