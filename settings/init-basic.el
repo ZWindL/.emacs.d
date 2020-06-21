@@ -101,12 +101,12 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 
-;; Font size
+;; Fonts
 (set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 110)
 
 (dolist (charset '(kana han symbol cjk-misc bopomofo))
-      (set-fontset-font (frame-parameter nil 'font) charset
-                        (font-spec :family "Noto Sans CJK SC" :height 100)))
+  (set-fontset-font (frame-parameter nil 'font) charset
+                    (font-spec :family "Noto Sans CJK SC" :height 100)))
 
 ;; Prefer shorter names
 (fset 'yes-or-no-p 'y-or-n-p)
