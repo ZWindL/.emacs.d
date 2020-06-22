@@ -24,6 +24,16 @@
       (run-with-idle-timer 0 nil 'ivy-wgrep-change-to-wgrep-mode)
       (ivy-occur)))
 
+;; Jump to arbitary char
+(use-package avy
+  :ensure t
+  :bind (
+         ("C-:"   . avy-goto-char)
+         ("C-'"   . avy-goto-char-timer)
+         ("M-g g" . avy-goto-line)
+         ("M-g w" . avy-goto-word-1)
+         ("M-g e" . avy-goto-word-0)))
+
 ;; Fuzzy match
 (use-package counsel
   :ensure t
