@@ -33,7 +33,6 @@
   (company-dabbrev-downcase nil)
   (company-backends '(company-capf
                       company-files
-                      company-yasnippet
                       (company-dabbrev-code company-keywords)
                       company-dabbrev))
   (company-frontends '(company-pseudo-tooltip-frontend
@@ -57,8 +56,7 @@
   :defines company-box-icons-all-the-icons
   :hook (company-mode . company-box-mode)
   :init (setq company-box-enable-icon t
-              company-box-backends-colors '((company-yasnippet . (:background "yellow"))
-                                            (company-files . (:backgroud "blue")))
+              company-box-backends-colors nil
               company-box-show-single-candidate t
               company-box-max-candidates 50
               company-box-doc-delay 0.5))
