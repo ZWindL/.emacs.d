@@ -38,7 +38,13 @@
   ;; Force to use pre `avy-style'
   (define-advice avy-isearch (:around (func &rest args))
     (let ((avy-style 'pre))
-      (apply func args))))
+      (apply func args)))
+  :bind (
+         ("C-:"   . avy-goto-char)
+         ("C-'"   . avy-goto-char-timer)
+         ("M-g g" . avy-goto-line)
+         ("M-g w" . avy-goto-word-1)
+         ("M-g e" . avy-goto-word-0)))
 
 ;; ivy core
 (use-package ivy
@@ -55,7 +61,23 @@
   ;; Default keybinding: C-'
   (use-package ivy-avy
     :ensure t)
-  )
+  :bind (
+         ("C-c C-r" . ivy-resume)
+         ("C-c k" . counsel-ag)
+         :map ivy-minibuffer-map
+         ("C-c C-e" . my/ivy-woccur)
+         :map ivy-occur-mode-map
+         ("C-c C-e" . ivy-wgrep-change-to-wgrep-mode)
+         :map ivy-occur-grep-mode-map
+         ("C-c C-e" . ivy-wgrep-change-to-wgrep-mode))
+  :preface
+  ;; Copy from
+  ;; https://github.com/honmaple/maple-emacs/blob/master/lisp/init-ivy.el
+  (defun my/ivy-woccur ()
+    "ivy-occur with wgrep-mode enabled."
+    (interactive)
+    (run-with-idle-timer 0 nil 'ivy-wgrep-change-to-wgrep-mode)
+    (ivy-occur)))
 
 ;; Fuzzy matcher
 (use-package counsel
@@ -69,6 +91,8 @@
      ("l" vlf            "view large file")
      ("b" hexl-find-file "open file in binary mode")
      ("x" counsel-find-file-as-root "open as root")))
+  :bind (([remap recentf-open-files] . counsel-recentf)
+         ([remap swiper]             . counsel-grep-or-swiper))
   :custom
   (counsel-preselect-current-file t)
   (counsel-yank-pop-preselect-last t)
@@ -87,7 +111,14 @@
   (isearch-lazy-count t)
   (lazy-count-prefix-format "%s/%s ")
   (lazy-count-suffix-format nil)
-  (lazy-highlight-cleanup nil))
+  (lazy-highlight-cleanup nil)
+  :bind (:map isearch-mode-map
+              ;; consistent with ivy-occur
+              ("C-c C-o" . isearch-occur)
+              ;; Edit the search string instead of jumping back
+              ([remap isearch-delete-char] . isearch-del-char)
+              ([remap isearch-query-replace] . anzu-isearch-query-replace)
+              ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp)))
 
 ;; isearch alternative
 (use-package swiper
@@ -109,6 +140,17 @@
   :ensure nil
   :mode (("\\.rst\\'"  . rst-mode)
          ("\\.rest\\'" . rst-mode)))
+
+;; Write documentation comment in an easy way
+(use-package separedit
+  :ensure t
+  :custom
+  (separedit-default-mode 'markdown-mode)
+  (separedit-remove-trailing-spaces-in-comment t)
+  (separedit-continue-fill-column t)
+  (separedit-buffer-creation-hook #'auto-fill-mode)
+  :bind (:map prog-mode-map
+              ("C-c '" . separedit)))
 
 ;; Pixel alignment for org/markdown tables
 (use-package valign
@@ -200,6 +242,17 @@ Show the heading too, if it is currently invisible."
 (use-package treemacs
   :ensure t
   :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :bind
+  (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag))
   :config
   (progn
     (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)

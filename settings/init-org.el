@@ -15,6 +15,9 @@
   :commands (org-find-exact-headline-in-buffer org-set-tags)
   :custom-face
   (org-document-title ((t (:height 1.75 :weight bold))))
+  :bind (("C-c l" . org-store-link)
+         ("C-c a" . org-agenda)
+         ("C-c c" . org-capture))
   :custom
   (org-modules '(ol-info org-habit org-protocol org-tempo ol-eww))
   (org-directory "~/.org/")

@@ -90,6 +90,39 @@
   (dolist (keyword '("WORKAROUND" "HACK" "TRICK"))
     (cl-pushnew `(,keyword . ,(face-foreground 'warning)) hl-todo-keyword-faces)))
 
+;; Jump to definition, used as a fallback of lsp-find-definition
+(use-package dumb-jump
+  :ensure t
+  :bind (("M-g o" . dumb-jump-go-other-window)
+         ("M-g j" . dumb-jump-go)
+         ("M-g q" . dumb-jump-quick-look)
+         ("M-g b" . dumb-jump-back)
+         ("M-g i" . dumb-jump-go-prompt)
+         ("M-g x" . dumb-jump-go-prefer-external)
+         ("M-g z" . dumb-jump-go-prefer-external-other-window))
+  :custom
+  (dumb-jump-quiet t)
+  (dumb-jump-aggressive t)
+  (dumb-jump-selector 'ivy)
+  (dump-jump-prefer-searcher 'rg))
+
+;; Hiding structured data
+;; C-c TAB hideshow toggle
+(use-package hideshow
+  :ensure nil
+  :hook (prog-mode . hs-minor-mode)
+  :bind (:map prog-mode-map
+         ("C-c TAB" . hs-toggle-hiding)
+         ("M-+" . hs-show-all))
+  :config
+  (defconst hideshow-folded-face '((t (:inherit 'font-lock-comment-face :box t))))
+  (defun hideshow-folded-overlay-fn (ov)
+    (when (eq 'code (overlay-get ov 'hs))
+      (let* ((nlines (count-lines (overlay-start ov) (overlay-end ov)))
+             (info (format " ... #%d " nlines)))
+        (overlay-put ov 'display (propertize info 'face hideshow-folded-face)))))
+  (setq hs-set-up-overlay 'hideshow-folded-overlay-fn))
+
 ;; Visual diff interface
 (use-package ediff
   :ensure nil

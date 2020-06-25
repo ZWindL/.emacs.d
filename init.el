@@ -83,7 +83,6 @@
 (require 'init-dev)
 (require 'init-lsp)
 (require 'init-git)
-(require 'init-keys)
 
 (when (file-exists-p custom-file)
   (load custom-file))

@@ -11,14 +11,6 @@
   (and (display-graphic-p)
        (require 'all-the-icons nil t)))
 
-(use-package company-quickhelp
-  :ensure t
-  :defines company-quickhelp-delay
-  :bind (:map company-active-map
-              ([remap company-show-doc-buffer] . company-quickhelp-manual-begin))
-  :hook (global-company-mode . company-quickhelp-mode)
-  :init (setq company-quickhelp-delay 0.5))
-
 ;; The completion engine
 (use-package company
   :ensure t
@@ -41,10 +33,23 @@
   (company-dabbrev-downcase nil)
   (company-backends '(company-capf
                       company-files
+                      company-yasnippet
                       (company-dabbrev-code company-keywords)
                       company-dabbrev))
   (company-frontends '(company-pseudo-tooltip-frontend
-                       company-echo-metadata-frontend)))
+                       company-echo-metadata-frontend))
+  :bind (:map company-mode-map
+         ([remap completion-at-point] . company-complete)
+         :map company-active-map
+         ([escape] . company-abort)
+         ("C-p" . company-select-previous)
+         ("C-n" . company-select-next)
+         ("C-s" . company-filter-candidates)
+         ("<tab>" . company-complete-common-or-cycle)
+         :map company-search-map
+         ([escape] . company-search-abort)
+         ("C-p" . company-select-previous)
+         ("C-n" . company-select-next)))
 
 ;; Copied from https://github.com/seagle0128/.emacs.d/blob/master/lisp/init-company.el#L115
 (use-package company-box
@@ -52,10 +57,11 @@
   :defines company-box-icons-all-the-icons
   :hook (company-mode . company-box-mode)
   :init (setq company-box-enable-icon t
-              company-box-backends-colors nil
+              company-box-backends-colors '((company-yasnippet . (:background "yellow"))
+                                            (company-files . (:backgroud "blue")))
               company-box-show-single-candidate t
               company-box-max-candidates 50
-              company-box-doc-delay 0.2)
+              company-box-doc-delay 0.5))
   :config
   (with-no-warnings
     ;; Prettify icons
@@ -68,7 +74,7 @@
                 ((boundp sym) 'Variable)
                 ((symbolp sym) 'Text)
                 (t . nil)))))
-    (advice-add #'company-box-icons--elisp :override #'my-company-box-icons--elisp))
+    (advice-add #'company-box-icons--elisp :override #'my-company-box-icons--elisp)
 
   (when (icons-displayable-p)
     (declare-function all-the-icons-faicon 'all-the-icons)

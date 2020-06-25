@@ -7,6 +7,7 @@
 
 ;; lsp-mode
 (use-package lsp-mode
+  :ensure t
   :hook (
          (prog-mode . lsp-deferred)
          (lsp-mode . lsp-enable-which-key-integration))
@@ -43,12 +44,20 @@
   (lsp-eldoc-enable-hover nil)         ;; disable eldoc hover
   (lsp-signature-auto-activate t)      ;; show function signature
   (lsp-signature-doc-lines 2)          ;; but dont take up more lines
-  )
+  :custom
+  (lsp-keymap-prefix "C-c l")
+  :bind (:map lsp-mode-map
+         ("C-c C-d" . lsp-describe-thing-at-point)
+         ("C-c f" . lsp-format-region)
+         ("C-c d" . lsp-describe-thing-at-point)
+         ("C-c a" . lsp-execute-code-action)
+         ("C-c r" . lsp-rename)))
 
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
 
 ;; lsp-ui
 (use-package lsp-ui
+  :ensure t
   :commands lsp-ui-mode
   :custom-face
      (lsp-ui-sideline-code-action ((t (:inherit warning))))
@@ -79,11 +88,16 @@
 
 ;; lsp-treemacs
 (use-package lsp-treemacs
+  :ensure t
   :after lsp-mode
   :defines (lsp-metals-treeview-show-when-views-received lsp-metals-treeview-enable)
   :config
   (setq lsp-metals-treeview-enable t)
-  (setq lsp-metals-treeview-show-when-views-received t))
+  (setq lsp-metals-treeview-show-when-views-received t)
+  :bind (:map lsp-mode-map
+          ("C-<f8>" . lsp-treemacs-errors-list)
+          ("M-<f8>" . lsp-treemacs-symbols)
+          ("s-<f8>" . lsp-treemacs-java-deps-list)))
 
 (provide 'init-lsp)
 

@@ -7,7 +7,7 @@
 
 (use-package ccls
   :ensure t
-  :defines projectile-project-root-files-top-down-recurring
+  :defines (projectile-project-root-files-top-down-recurring lsp:ccls-semantic-highlight-symbol-ranges)
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda () (require 'ccls) (lsp)))
   :config
@@ -16,6 +16,13 @@
     (setq projectile-project-root-files-top-down-recurring
           (append '("compile_commands.json" ".ccls")
                   projectile-project-root-files-top-down-recurring)))
+  (progn
+    (eval-when-compile
+      (lsp-interface
+       (CclsLR (:L :R) nil)
+       (CclsSemanticHighlightSymbol (:id :parentKind :kind :storage :ranges) nil)
+       (CclsSemanticHighlight (:uri :symbols) nil)
+       (CclsSkippedRanges (:uri :skippedRanges) nil))))
   :init
   (setq ccls-executable "/usr/bin/ccls")
   (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
