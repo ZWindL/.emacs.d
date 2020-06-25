@@ -79,9 +79,9 @@
 (require 'init-ui)
 (require 'init-tools)
 (require 'init-shell)
-(require 'init-lsp)
 (require 'init-company)
 (require 'init-dev)
+(require 'init-lsp)
 (require 'init-git)
 (require 'init-keys)
 

@@ -5,6 +5,8 @@
 
 ;;; Code:
 
+(setq diary-file "~/.org/diary")
+
 (use-package org
   :ensure nil
   :mode ("\\.org\\'" . org-mode)
