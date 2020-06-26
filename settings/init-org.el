@@ -19,8 +19,8 @@
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
          :map org-mode-map
-         ("s-k" . org-priority-up)
-         ("s-j" . org-priority-down))
+         ("s-K" . org-priority-up)
+         ("s-J" . org-priority-down))
   :custom
   (org-modules '(ol-info org-habit org-protocol org-tempo ol-eww))
   (org-directory "~/.org/")
