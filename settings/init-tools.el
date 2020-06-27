@@ -127,6 +127,23 @@
   :custom
   (swiper-action-recenter t))
 
+;; Preview search/replace results
+(use-package anzu
+  :ensure t
+  :init (global-anzu-mode +1)
+  :bind
+  ([remap query-replace] . anzu-query-replace)
+  ([remap query-replace-regexp] . anzu-query-replace-regexp)
+  :config
+  (set-face-attribute 'anzu-mode-line nil
+                      :foreground "yellow" :weight 'bold)
+  (custom-set-variables
+   '(anzu-mode-lighter "")
+   '(anzu-deactivate-region t)
+   '(anzu-search-threshold 1000)
+   '(anzu-replace-threshold 50)
+   '(anzu-replace-to-string-separator " => ")))
+
 ;; Writable grep buffer. company well with ivy-occur
 (use-package wgrep
   :ensure t
@@ -208,23 +225,6 @@ Show the heading too, if it is currently invisible."
   :defer t
   :custom
   (auto-package-update-delete-old-versions t))
-
-;; Preview search/replace results
-(use-package anzu
-  :ensure t
-  :init (global-anzu-mode +1)
-  :bind
-  ([remap query-replace] . anzu-query-replace)
-  ([remap query-replace-regexp] . anzu-query-replace-regexp)
-  :config
-  (set-face-attribute 'anzu-mode-line nil
-                      :foreground "yellow" :weight 'bold)
-  (custom-set-variables
-   '(anzu-mode-lighter "")
-   '(anzu-deactivate-region t)
-   '(anzu-search-threshold 1000)
-   '(anzu-replace-threshold 50)
-   '(anzu-replace-to-string-separator " => ")))
 
 ;; GC optimization
 (use-package gcmh

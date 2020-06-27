@@ -7,7 +7,7 @@
 
 (use-package ccls
   :ensure t
-  :defines (projectile-project-root-files-top-down-recurring lsp:ccls-semantic-highlight-symbol-ranges)
+  :defines projectile-project-root-files-top-down-recurring
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda () (require 'ccls) (lsp)))
   :config
@@ -67,8 +67,40 @@
   ;; (ccls/vars 4) => parameter
 
   ;; References whose filenames are under this project
-  ;; (lsp-ui-peek-find-references nil (list :folders (vector (projectile-project-root))))
-  )
+  ;;(lsp-ui-peek-find-references nil (list :folders (vector (projectile-project-root)))))
+)
+
+;; (use-package cc-mode
+;;   :ensure nil
+;;   :mode ("\\.cxx\\'" . cc-mode)
+;;   :hook (c-mode . (lambda ()
+;;                     (setq comment-start "// "
+;;                           comment-end "")))
+;;   :defines (lsp-clients-clangd-args)
+;;   :custom
+;;   (c-offsets-alist '((inline-open           . 0)
+;;                      (brace-list-open       . 0)
+;;                      (inextern-lang         . 0)
+;;                      (statement-case-open   . 4)
+;;                      (access-label          . -)
+;;                      (case-label            . 0)
+;;                      (member-init-intro     . +)
+;;                      (topmost-intro         . 0)
+;;                      (inlambda              . 0) ;; better indentation for lambda
+;;                      (innamespace           . -) ;; no indentation after namespace
+;;                      (arglist-cont-nonempty . +)))
+;;   :config
+;;   (setq c-basic-offset 4)
+;;   (with-eval-after-load 'lsp-mode
+;;     (setq lsp-clients-clangd-args
+;;           '("-j=2"
+;;             "--background-index"
+;;             "--clang-tidy"
+;;             "--completion-style=bundled"
+;;             "--pch-storage=memory"
+;;             "--suggest-missing-includes"
+;;             "--header-insertion-decorators=0")))
+;;   )
 
 (use-package modern-cpp-font-lock
   :ensure t
