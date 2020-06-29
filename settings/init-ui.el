@@ -8,9 +8,19 @@
 (use-package doom-themes
   :ensure t
   :config
-  (load-theme 'doom-one t)
-;  (load-theme 'doom-one-light t)
-  (doom-themes-org-config))
+;;  (load-theme 'doom-one t)
+;;  (load-theme 'doom-one-light t)
+  (doom-themes-org-config)
+  (doom-themes-visual-bell-config)
+  (setq doom-themes-treemacs-theme "doom-colors")
+  (doom-themes-treemacs-config))
+
+(use-package leuven-theme
+  :ensure t
+  :config
+  (load-theme 'leuven-dark t)
+  (setq org-fontify-whole-heading-line t)
+  (setq leuven-scale-org-agenda-structure t))
 
 (use-package doom-modeline
   :ensure t
