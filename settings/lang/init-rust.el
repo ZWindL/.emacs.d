@@ -5,20 +5,16 @@
 
 ;;; Code:
 
-(use-package rust-mode
+(use-package rustic
   :ensure t
-  :mode ("\\.rs\\'" . rust-mode)
-  :custom
-  (rust-format-on-save t))
+  :after (flycheck)
+  :config
+  (setq rustic-format-trigger nil)
+  (push 'rustic-clippy flycheck-checkers))
 
 (use-package cargo
   :ensure t
   :hook (rust-mode . cargo-minor-mode))
-
-(use-package flycheck-rust
-  :ensure t
-  :after rust-mode
-  :hook (flycheck-mode . flycheck-rust-setup))
 
 (provide 'init-rust)
 

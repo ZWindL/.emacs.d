@@ -359,6 +359,28 @@
          ("C-c n j" . org-roam-jump-to-index)
          ("C-c n l" . org-roam)))
 
+;; Complete roam files
+(use-package company-org-roam
+  :ensure t
+  :after (company org-roam)
+  :requires (org-roam-protocol)
+  :config
+  (push 'company-org-roam company-backends))
+
+;; Visulize org-roam files
+(use-package org-roam-server
+  :ensure t
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8080
+        org-roam-server-export-inline-images t
+        org-roam-server-authenticate nil
+        org-roam-server-network-poll t
+        org-roam-server-network-arrows nil
+        org-roam-server-network-label-truncate t
+        org-roam-server-network-label-truncate-length 60
+        org-roam-server-network-label-wrap-length 20))
+
 ;; Declarative Org Capture Templates
 (use-package doct
   :ensure t

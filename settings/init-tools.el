@@ -386,6 +386,15 @@ Show the heading too, if it is currently invisible."
                    ("\\*ivy-occur .*\\*"       :regexp t :select t :align t)))
   )
 
+;; Leetcode!!!
+(use-package leetcode
+  :ensure t
+  :config
+  (setq leetcode-prefer-language "c++")
+  (setq leetcode-prefer-sql "mysql")
+  (setq leetcode-save-solutions t)
+  (setq leetcode-directory "~/project/leetcode"))
+
 (provide 'init-tools)
 
 ;;; init-tools.el ends here
