@@ -325,6 +325,11 @@
   :ensure t
   :demand t)
 
+;; Undo tree, do what vim does
+(use-package undo-tree
+  :ensure t
+  :hook (after-init . global-undo-tree-mode))
+
 (provide 'init-basic)
 
 ;;; init-basic.el ends here
