@@ -78,7 +78,7 @@
   (org-tag-alist '((:startgroup)
                    ("HandsOn" . ?o)
                    (:grouptags)
-                   ("Write" . ?w) ("Code" . ?c) ("Project" . ?p)
+                   ("Write" . ?w) ("Code" . ?c) ("Project" . ?p) ("Bug" . ?g)
                    (:endgroup)
                    (:startgroup)
                    ("HandsOff" . ?f)
@@ -341,46 +341,6 @@
   (org-tree-slide-skip-outline-level 2)
   (org-tree-slide-heading-emphasis t))
 
-;; Make better connection in your notes
-(use-package org-roam
-  :ensure t
-  :hook ((org-load . org-roam-mode)
-         (org-roam-backlinks-mode . visual-line-mode))
-  :custom
-  (org-roam-directory (expand-file-name (concat org-directory "roam/")))
-  (org-roam-buffer-no-delete-other-windows t)
-  (org-roam-completion-system 'ivy)
-  :bind (:map org-roam-mode-map
-         ("C-c n b" . org-roam-switch-to-buffer)
-         ("C-c n c" . org-roam-capture)
-         ("C-c n f" . org-roam-find-file)
-         ("C-c n g" . org-roam-graph)
-         ("C-c n i" . org-roam-insert)
-         ("C-c n j" . org-roam-jump-to-index)
-         ("C-c n l" . org-roam)))
-
-;; Complete roam files
-(use-package company-org-roam
-  :ensure t
-  :after (company org-roam)
-  :requires (org-roam-protocol)
-  :config
-  (push 'company-org-roam company-backends))
-
-;; Visulize org-roam files
-(use-package org-roam-server
-  :ensure t
-  :config
-  (setq org-roam-server-host "127.0.0.1"
-        org-roam-server-port 8080
-        org-roam-server-export-inline-images t
-        org-roam-server-authenticate nil
-        org-roam-server-network-poll t
-        org-roam-server-network-arrows nil
-        org-roam-server-network-label-truncate t
-        org-roam-server-network-label-truncate-length 60
-        org-roam-server-network-label-wrap-length 20))
-
 ;; Declarative Org Capture Templates
 (use-package doct
   :ensure t
@@ -410,6 +370,7 @@
   :custom
   (org-habit-graph-column 50))
 
+(require 'init-org-roam)
 (provide 'init-org)
 
 ;;; init-org.el ends here

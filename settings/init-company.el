@@ -33,10 +33,16 @@
   (company-dabbrev-downcase nil)
   (company-backends '(company-capf
                       company-files
+                      company-yasnippet
                       (company-dabbrev-code company-keywords)
                       company-dabbrev))
   (company-frontends '(company-pseudo-tooltip-frontend
                        company-echo-metadata-frontend))
+  :config
+  (advice-add 'company-complete :before (lambda () (setq my-company-point (point))))
+  (advice-add 'company-complete :after (lambda ()
+                                                (when (equal my-company-point (point))
+                                                  (yas-expand))))
   :bind (:map company-mode-map
          ([remap completion-at-point] . company-complete)
          :map company-active-map
@@ -112,7 +118,10 @@
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
-  :hook (after-init . yas-global-mode))
+  :hook (after-init . yas-global-mode)
+  :config
+  (setq yas-snippet-dirs
+        '("~/.emacs.d/snippets")))
 
 ;; pre-wrote snippets
 (use-package yasnippet-snippets
