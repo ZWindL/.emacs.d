@@ -321,26 +321,13 @@ Show the heading too, if it is currently invisible."
 (use-package vlf-setup
   :ensure vlf)
 
-;; Notes manager
-(use-package deft
-  :ensure t
-  :defer t
-  :defines (org-directory)
-  :init (setq deft-default-extension "org")
-  :custom
-  (deft-directory org-directory)
-  (deft-use-filename-as-title nil)
-  (deft-use-filter-string-for-filename t)
-  (deft-file-naming-rules '((noslash . "-")
-                            (nospace . "-")
-                            (case-fn . downcase))))
-
-;; Note taking app
-(use-package zetteldeft
-  :ensure t
-  :after deft
-  :config
-  (zetteldeft-set-classic-keybindings))
+;; ;; Note taking app
+;; ;; Replaced by org-roam
+;; (use-package zetteldeft
+;;   :ensure t
+;;   :after deft
+;;   :config
+;;  (zetteldeft-set-classic-keybindings))
 
 ;; Visual bookmarks
 (use-package bm

@@ -25,10 +25,12 @@
 (use-package doom-modeline
   :ensure t
   :custom
+  (doom-modeline-icon (display-graphic-p))
   (doom-modeline-irc nil)
   (doom-modeline-mu4e nil)
   (doom-modeline-github nil)
   (doom-modeline-unicode-fallback t)
+  (doom-modeline-env-version t)
   :hook (after-init . doom-modeline-mode))
 
 ;; Restore windows layout

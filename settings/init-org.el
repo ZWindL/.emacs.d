@@ -5,7 +5,7 @@
 
 ;;; Code:
 
-(setq diary-file "~/.org/diary")
+;; (setq diary-file "~/.org/diary")
 
 (use-package org
   :ensure nil
@@ -95,8 +95,8 @@
   :after org
   :custom
   (org-agenda-files `(,org-directory))
-  (org-agenda-diary-file (expand-file-name "diary.org" org-directory))
-  (org-agenda-insert-diary-extract-time t)
+  ;; (org-agenda-diary-file (expand-file-name "diary.org" org-directory))
+  ;; (org-agenda-insert-diary-extract-time t)
   (org-agenda-compact-blocks t)
   (org-agenda-block-separator nil)
   (org-habit-show-habits t)
@@ -369,6 +369,29 @@
   :after org
   :custom
   (org-habit-graph-column 50))
+
+;; Diaries
+(use-package org-journal
+  :ensure t
+  :defer t
+  :after org
+  :bind ("C-c j" . org-journal-new-entry)
+  :custom
+  (org-journal-dir (expand-file-name (concat org-directory "diary")))
+  (org-journal-date-format "%A, %d %B %Y")
+  (org-journal-file-format "%Y-%m-%d.org")
+  ;; (org-journal-date-prefix "#+title: ")
+  (org-extend-today-until 6)
+  :init
+  (defun org-journal-file-header-func (time)
+  "Custom function to create journal header."
+  (concat
+    (pcase org-journal-file-type
+      (`daily "#+TITLE: Daily Journal\n#+STARTUP: showeverything")
+      (`weekly "#+TITLE: Weekly Journal\n#+STARTUP: folded")
+      (`monthly "#+TITLE: Monthly Journal\n#+STARTUP: folded")
+      (`yearly "#+TITLE: Yearly Journal\n#+STARTUP: folded"))))
+  (setq org-journal-file-header 'org-journal-file-header-func))
 
 (require 'init-org-roam)
 (provide 'init-org)
