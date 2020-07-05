@@ -68,7 +68,7 @@
   (org-log-into-drawer t)
   (org-log-state-notes-insert-after-drawers nil)
   ;; refile
-  (org-refile-use-cache t)
+  (org-refile-use-cache nil)
   (org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
   (org-refile-use-outline-path 'file)
   (org-outline-path-complete-in-steps nil)
