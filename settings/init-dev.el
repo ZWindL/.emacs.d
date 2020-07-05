@@ -283,7 +283,7 @@
 (require 'init-cpp)
 (require 'init-elisp)
 (require 'init-rust)
-(require 'init-html)
+(require 'init-web-dev)
 (require 'init-python)
 (require 'init-ocaml)
 (require 'init-sql)
