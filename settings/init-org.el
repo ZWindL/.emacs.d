@@ -187,6 +187,12 @@
                               (shell      . t)
                               (sql        . t))))
 
+;; Rich text clipboard
+(use-package org-rich-yank
+  :ensure t
+  :bind (:map org-mode-map
+              ("C-M-y" . org-rich-yank)))
+
 (use-package org-id
   :ensure nil
   :after org
