@@ -172,6 +172,10 @@
                                     :compile "bazel build //..."
                                     :test "bazel test //...")
 
+  ;; golang project builds
+  (projectile-register-project-type 'go '("go.mod")
+                                    :compile "go build")
+
   (dolist (dir '(".ccls-cache"
                  ".clangd"
                  "bazel-bin"
