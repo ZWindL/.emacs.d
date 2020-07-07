@@ -12,12 +12,10 @@
          (prog-mode . lsp-deferred)
          (lsp-mode . lsp-enable-which-key-integration))
   :commands (lsp-enable-which-key-integration lsp-format-buffer lsp-organize-imports lsp)
-  :diminish
+  ;;:diminish
   ;; :bind (:map lsp-mode-map
   ;;           ([remap xref-find-definitions] . lsp-find-definition)
   ;;           ([remap xref-find-references] . lsp-find-references))
-  :init
-  (setq lsp-enable-symbol-highlighting t)
   ;; (lsp-face-highlight-* textDocument/documentSymbol)
   :custom
   (lsp-idle-delay 0.5)                 ;; lazy refresh
@@ -26,6 +24,7 @@
   (lsp-auto-configure t)
   (lsp-enable-links t)
   (lsp-eldoc-render-all t)
+  (lsp-enable-symbol-highlighting t)
   (lsp-diagnostic-package :flycheck)   ;; prefer flycheck
   (lsp-lens-auto-enable t)             ;; enable lens
   (lsp-flycheck-live-reporting nil)    ;; obey `flycheck-check-syntax-automatically'
@@ -44,7 +43,6 @@
   (lsp-eldoc-enable-hover nil)         ;; disable eldoc hover
   (lsp-signature-auto-activate t)      ;; show function signature
   (lsp-signature-doc-lines 2)          ;; but dont take up more lines
-  :custom
   (lsp-keymap-prefix "C-c l")
   :bind (:map lsp-mode-map
          ("C-c C-d" . lsp-describe-thing-at-point)

@@ -373,6 +373,13 @@ Show the heading too, if it is currently invisible."
                    ("\\*ivy-occur .*\\*"       :regexp t :select t :align t)))
   )
 
+;; smart parens
+(use-package smartparens
+  :ensure t
+  :hook (prog-mode . smartparens-mode)
+  :init
+  (require 'smartparens-config))
+
 ;; Leetcode!!!
 (use-package leetcode
   :ensure t
