@@ -8,12 +8,15 @@
   :ensure t
   :bind
   (:map go-mode-map
-        ("C-c e g" . godoc)
-        ("C-c P" . my-godoc-package))
+        ("C-c e g" . godoc-at-point))
   :hook ((go-mode . lsp)
          (go-mode . smartparens-mode))
+  :config
+  ;; Env vars
+  (with-eval-after-load 'exec-path-from-shell
+    (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
   :init
-  (setq go-fontify-function-calls nil))
+  (setq go-fontify-function-calls t))
 
 
 (use-package go-guru
