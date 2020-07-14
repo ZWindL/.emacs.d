@@ -13,16 +13,18 @@
   (org-roam-buffer-no-delete-other-windows t)
   (org-roam-completion-system 'ivy)
   (org-roam-tag-sources '(prop all-directories))
+  (org-roam-title-sources '(title alias))
   (org-roam-index-file (expand-file-name "index.org" org-roam-directory))
   (org-roam-graph-viewer "/usr/bin/firefox-nightly")
   (org-roam-completion-system 'ivy)
   (org-roam-db-gc-threshold most-positive-fixnum)
+  (org-roam-link-title-format "R:%s")
   (org-roam-capture-templates
         '(("d" "default" plain (function org-roam--capture-get-point)
            ;; shortcut / full-name / plain | entry (for headers) | dedicated function
-           "%?" ;; The template inserted on each call to `capture'
+           "* What is it? %?" ;; The template inserted on each call to `capture'
            :file-name "%<%Y%m%d%H%M%S>-${slug}"
-           :head "#+title: ${title}\n"
+           :head "#+title: ${title}\n#+roam_alias: \n\n- tags :: \n\n"
            :unnarrowed t) ;; Tells the org-roam to show the contents of the whole file
           ))
   :bind (:map org-roam-mode-map
@@ -32,7 +34,8 @@
          ("C-c n g" . org-roam-graph)
          ("C-c n i" . org-roam-insert)
          ("C-c n j" . org-roam-jump-to-index)
-         ("C-c n l" . org-roam))
+         ("C-c n l" . org-roam)
+         ("C-c n d d" . org-roam-doctor))
   :config
   (use-package org-roam-protocol))
 
