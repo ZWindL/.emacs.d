@@ -8,8 +8,8 @@
 (use-package doom-themes
   :ensure t
   :config
-;;  (load-theme 'doom-one t)
-;;  (load-theme 'doom-one-light t)
+  ;; (load-theme 'doom-one t)
+  ;; (load-theme 'doom-one-light t)
   (doom-themes-org-config)
   (doom-themes-visual-bell-config)
   (setq doom-themes-treemacs-theme "doom-colors")
@@ -121,6 +121,7 @@
   :ensure t
   :demand
   :config
+  (centaur-tabs-headline-match)
   (centaur-tabs-mode t)
   (setq centaur-tabs-style "slant"
         ;; (setq centaur-tabs-style "rounded")
