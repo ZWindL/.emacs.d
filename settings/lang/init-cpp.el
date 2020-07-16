@@ -24,7 +24,9 @@
        (CclsSemanticHighlight (:uri :symbols) nil)
        (CclsSkippedRanges (:uri :skippedRanges) nil))))
   :init
-  (setq ccls-executable "/usr/bin/ccls")
+  (if (eq system-type 'darwin)
+      (setq ccls-executable "/usr/local/bin/ccls")
+    (setq ccls-executable "/usr/bin/ccls"))
   (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
   (setq ccls-sem-highlight-method 'font-lock)
   (defun ccls/callee () (interactive) (lsp-ui-peek-find-custom "$ccls/call" '(:callee t)))

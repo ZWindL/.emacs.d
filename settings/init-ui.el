@@ -116,6 +116,30 @@
      tab-mark         ; tabs (show by symbol)
      )))
 
+;; Modern tabs
+(use-package centaur-tabs
+  :ensure t
+  :demand
+  :config
+  (centaur-tabs-mode t)
+  (setq centaur-tabs-style "slant"
+        ;; (setq centaur-tabs-style "rounded")
+        centaur-tabs-set-icons t
+        centaur-tabs-gray-out-icons 'buffer
+        ;; centaur-tabs-close-button "x"
+        centaur-tabs-set-modified-marker t
+        ;; centaur-tabs-modified-marker "*"
+        centaur-tabs-show-navigation-buttons t)
+  :hook
+  (dashboard-mode . centaur-tabs-local-mode)
+  (term-mode . centaur-tabs-local-mode)
+  (calendar-mode . centaur-tabs-local-mode)
+  (org-agenda-mode . centaur-tabs-local-mode)
+  (helpful-mode . centaur-tabs-local-mode)
+  :bind
+  ("C-<prior>" . centaur-tabs-backward)
+  ("C-<next>" . centaur-tabs-forward))
+
 (provide 'init-ui)
 
 ;;; init-ui.el ends here

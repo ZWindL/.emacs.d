@@ -102,7 +102,10 @@
 (setq-default tab-width 4)
 
 ;; Fonts
-(set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 110)
+;; If running Emacs under Macos, set :height to 140
+(if (eq system-type 'darwin)
+    (set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 140)
+    (set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 110))
 
 (dolist (charset '(kana han symbol cjk-misc bopomofo))
   (set-fontset-font (frame-parameter nil 'font) charset
