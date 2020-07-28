@@ -17,6 +17,11 @@
 ;;   :hook (tuareg-mode . ocp-setup-indent)
 ;;   :commands (ocp-indent-region ocp-indent-buffer))
 
+;; The dune build system
+(use-package dune
+  :ensure t
+  :mode ("dune\\(?:\\.inc\\)?\\'" . dune-mode))
+
 (provide 'init-ocaml)
 
 ;;; init-ocaml.el ends here
