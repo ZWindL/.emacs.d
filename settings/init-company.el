@@ -11,6 +11,20 @@
   (and (display-graphic-p)
        (require 'all-the-icons nil t)))
 
+;; yasnippet support
+(use-package yasnippet
+  :ensure t
+  :diminish yas-minor-mode
+  :hook (after-init . yas-global-mode)
+  :config
+  (setq yas-snippet-dirs
+        '("~/.emacs.d/snippets")))
+
+;; pre-wrote snippets
+(use-package yasnippet-snippets
+  :ensure t
+  :after yasnippet)
+
 ;; The completion engine
 (use-package company
   :ensure t
@@ -19,11 +33,6 @@
   :init
   (setq company-global-modes '(not erc-mode message-mode help-mode
                                    gud-mode eshell-mode shell-mode))
-  (defun my-company-yasnippet ()
-    "Hide the current completeions and show snippets."
-    (interactive)
-    (company-cancel)
-    (call-interactively 'company-yasnippet))
   :custom
   (company-idle-delay 0)
   (company-echo-delay 0)
@@ -36,51 +45,14 @@
   ;; make dabbrev case-sensitive
   (company-dabbrev-ignore-case nil)
   (company-dabbrev-downcase nil)
-  (company-backends '(company-capf
-                      company-files
-                      company-yasnippet
-                      (company-dabbrev-code company-keywords)
-                      company-dabbrev))
+  (company-backends
+        '((company-capf :with company-dabbrev-code :separate)
+          (company-files :with company-dabbrev-code)
+          (company-nxml company-dabbrev-code company-keywords :with company-yasnippet)
+          (company-oddmuse :with company-yasnippet)
+          (company-dabbrev :with company-yasnippet)))
   (company-frontends '(company-pseudo-tooltip-frontend
                        company-echo-metadata-frontend))
-  :config
-  ;; copied from https://github.com/seagle0128/.emacs.d/blob/master/lisp/init-company.el
-  ;; `yasnippet' integration
-  (with-no-warnings
-    (with-eval-after-load 'yasnippet
-      (defun company-backend-with-yas (backend)
-        "Add `yasnippet' to company backend."
-        (if (and (listp backend) (member 'company-yasnippet backend))
-            backend
-          (append (if (consp backend) backend (list backend))
-                  '(:with company-yasnippet))))
-
-      (defun my-company-enbale-yas (&rest _)
-        "Enable `yasnippet' in `company'."
-        (setq company-backends (mapcar #'company-backend-with-yas company-backends)))
-      ;; Enable in current backends
-      (my-company-enbale-yas)
-      ;; Enable in `lsp-mode'
-      (advice-add #'lsp--auto-configure :after #'my-company-enbale-yas)
-
-      (defun my-company-yasnippet-disable-inline (fun command &optional arg &rest _ignore)
-        "Enable yasnippet but disable it inline."
-        (if (eq command 'prefix)
-            (when-let ((prefix (funcall fun 'prefix)))
-              (unless (memq (char-before (- (point) (length prefix)))
-                            '(?. ?< ?> ?\( ?\) ?\[ ?{ ?} ?\" ?' ?`))
-                prefix))
-          (progn
-            (when (and (bound-and-true-p lsp-mode)
-                       arg (not (get-text-property 0 'yas-annotation-patch arg)))
-              (let* ((name (get-text-property 0 'yas-annotation arg))
-                     (snip (format "%s (Snippet)" name))
-                     (len (length arg)))
-                (put-text-property 0 len 'yas-annotation snip arg)
-                (put-text-property 0 len 'yas-annotation-patch t arg)))
-            (funcall fun command arg))))
-      (advice-add #'company-yasnippet :around #'my-company-yasnippet-disable-inline)))
-
   :bind (:map company-mode-map
               ([remap completion-at-point] . company-complete)
               ("<backtab>" . company-yasnippet)
@@ -105,7 +77,7 @@
               company-box-backends-colors nil
               company-box-show-single-candidate t
               company-box-max-candidates 50
-              company-box-doc-delay 0.5))
+              company-box-doc-delay 0.5)
   :config
   (with-no-warnings
     ;; Prettify icons
@@ -152,21 +124,12 @@
             (Operator . ,(all-the-icons-material "control_point" :height 0.8 :v-adjust -0.15))
             (TypeParameter . ,(all-the-icons-faicon "arrows" :height 0.8 :v-adjust -0.02))
             (Template . ,(all-the-icons-material "format_align_left" :height 0.8 :v-adjust -0.15)))
-          company-box-icons-alist 'company-box-icons-all-the-icons)))
+          company-box-icons-alist 'company-box-icons-all-the-icons))))
 
-;; yasnippet support
-(use-package yasnippet
+(use-package company-prescient
   :ensure t
-  :diminish yas-minor-mode
-  :hook (after-init . yas-global-mode)
-  :config
-  (setq yas-snippet-dirs
-        '("~/.emacs.d/snippets")))
-
-;; pre-wrote snippets
-(use-package yasnippet-snippets
-  :ensure t
-  :after yasnippet)
+  :init
+  (company-prescient-mode 1))
 
 (provide 'init-company)
 

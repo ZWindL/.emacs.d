@@ -8,6 +8,7 @@
 ;; lsp-mode
 (use-package lsp-mode
   :ensure t
+  :after (company-mode)
   :hook (
          (prog-mode . lsp-deferred)
          (lsp-mode . lsp-enable-which-key-integration))
