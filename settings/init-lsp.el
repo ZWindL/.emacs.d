@@ -29,7 +29,6 @@
   (lsp-diagnostic-package :flycheck)   ;; prefer flycheck
   (lsp-lens-auto-enable t)             ;; enable lens
   (lsp-flycheck-live-reporting nil)    ;; obey `flycheck-check-syntax-automatically'
-  (lsp-prefer-capf t)                  ;; using `company-capf' by default
   (lsp-enable-snippet t)
   (lsp-enable-xref t)
   (lsp-enable-file-watchers nil)       ;; turn off for better performance
@@ -46,7 +45,6 @@
   (lsp-signature-doc-lines 2)          ;; but dont take up more lines
   (lsp-keymap-prefix "C-c l")
   :bind (:map lsp-mode-map
-         ("C-c C-d" . lsp-describe-thing-at-point)
          ("C-c f" . lsp-format-region)
          ("C-c d" . lsp-describe-thing-at-point)
          ("C-c a" . lsp-execute-code-action)

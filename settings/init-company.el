@@ -1,5 +1,4 @@
 ;; init-company.el --- Initialize company configurations.	-*- lexical-binding: t -*-
-
 ;;; Commentary:
 ;;
 ;; Auto-completion configurations.

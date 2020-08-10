@@ -321,32 +321,6 @@ Show the heading too, if it is currently invisible."
 (use-package vlf-setup
   :ensure vlf)
 
-;; ;; Note taking app
-;; ;; Replaced by org-roam
-;; (use-package zetteldeft
-;;   :ensure t
-;;   :after deft
-;;   :config
-;;  (zetteldeft-set-classic-keybindings))
-
-;; Visual bookmarks
-(use-package bm
-  :ensure t
-  :hook ((after-init   . bm-repository-load)
-         (find-file    . bm-buffer-restore)
-         (after-revert . bm-buffer-restore)
-         (kill-buffer  . bm-buffer-save)
-         (kill-emacs   . (lambda ()
-                           (bm-buffer-save-all)
-                           (bm-repository-save))))
-  :custom
-  (bm-annotate-on-create t)
-  (bm-buffer-persistence t)
-  (bm-cycle-all-buffers t)
-  (bm-goto-position nil)
-  (bm-in-lifo-order t)
-  (bm-recenter t))
-
 ;; Customize popwin behavior
 (use-package shackle
   :ensure t

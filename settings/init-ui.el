@@ -116,6 +116,8 @@
      tab-mark         ; tabs (show by symbol)
      )))
 
+
+
 ;; Modern tabs
 (use-package centaur-tabs
   :ensure t
@@ -140,6 +142,14 @@
   :bind
   ("C-<prior>" . centaur-tabs-backward)
   ("C-<next>" . centaur-tabs-forward))
+
+;; native Emacs tab bar
+;; (use-package tab-bar
+;;   :ensure nil
+;;   :when (>= emacs-major-version 27)
+;;   :hook (after-init . (lambda ()
+;;                         (tab-bar-mode)
+;;                         (tab-bar-history-mode))))
 
 (provide 'init-ui)
 
