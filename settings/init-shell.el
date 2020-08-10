@@ -113,7 +113,7 @@
     (concat
      (propertize user-login-name 'face 'font-lock-keyword-face)
      "@"
-     "Youmu "
+     "zwindl "
      (if (equal (eshell/pwd) "~")
          "~"
        (abbreviate-file-name (shrink-path-file (eshell/pwd))))
