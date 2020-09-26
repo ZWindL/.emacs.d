@@ -311,6 +311,9 @@ Show the heading too, if it is currently invisible."
 (use-package webpaste
   :ensure t
   :defer 1
+  :bind (("C-c C-p C-b" . webpaste-paste-buffer)
+         ("C-c C-p C-r" . webpaste-paste-region)
+         ("C-c C-p C-p" . webpaste-paste-buffer-or-region))
   :custom
   (webpaste-open-in-browser t)
   (webpaste-paste-confirmation t)
