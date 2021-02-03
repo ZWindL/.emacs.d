@@ -32,9 +32,9 @@
 
 ;; elpa mirrors
 (setq package-archives
-      '(("melpa" . "https://elpa.emacs-china.org/melpa/")
-        ("gnu"   . "https://elpa.emacs-china.org/gnu/")
-        ("org"   . "https://elpa.emacs-china.org/org/")
+      '(("melpa" . "http://elpa.emacs-china.org/melpa/")
+        ("gnu"   . "http://elpa.emacs-china.org/gnu/")
+        ("org"   . "http://elpa.emacs-china.org/org/")
         ))
 
 (package-initialize)

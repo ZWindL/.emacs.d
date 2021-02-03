@@ -110,7 +110,7 @@
 (if (display-graphic-p)
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
       (set-fontset-font (frame-parameter nil 'font) charset
-                        (font-spec :family "Noto Sans CJK SC" :height 100))))
+                        (font-spec :family "Noto Sans CJK SC" :height 110))))
 
 
 ;; Prefer shorter names
@@ -119,7 +119,7 @@
 (defalias 'list-buffers 'ibuffer)
 
 ;; Use TeX as default IM
-(setq default-input-method "TeX")
+;; (setq default-input-method "TeX")
 
 ;; Enable the disabled narrow commands
 (put 'narrow-to-defun  'disabled nil)

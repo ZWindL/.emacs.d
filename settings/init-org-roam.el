@@ -19,6 +19,7 @@
   (org-roam-completion-system 'ivy)
   (org-roam-db-gc-threshold most-positive-fixnum)
   (org-roam-link-title-format "R:%s")
+  (org-roam-completion-everywhere t)
   (org-roam-capture-templates
         '(("d" "default" plain (function org-roam--capture-get-point)
            ;; shortcut / full-name / plain | entry (for headers) | dedicated function
@@ -38,13 +39,6 @@
          ("C-c n d d" . org-roam-doctor))
   :config
   (use-package org-roam-protocol))
-
-;; Complete roam files
-(use-package company-org-roam
-  :ensure t
-  :after (company org-roam)
-  :config
-  (push 'company-org-roam company-backends))
 
 ;; Visulize org-roam files
 (use-package org-roam-server
@@ -78,6 +72,14 @@
   (deft-file-naming-rules '((noslash . "-")
                             (nospace . "-")
                             (case-fn . downcase))))
+
+;; org download
+(use-package org-download
+  :after org
+  :bind
+  (:map org-mode-map
+        (("s-Y" . org-download-screenshot)
+         ("s-y" . org-download-yank))))
 
 (provide 'init-org-roam)
 ;;; init-org-roam.el ends here

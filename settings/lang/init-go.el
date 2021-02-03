@@ -15,6 +15,10 @@
   ;; Env vars
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
+  (with-eval-after-load 'lsp-mode
+    (lsp-register-custom-settings
+     '(("gopls.usePlaceholders" t t)
+       ("codelens.gc_details" t t))))
   :init
   (setq go-fontify-function-calls t))
 

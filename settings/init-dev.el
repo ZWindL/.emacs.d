@@ -285,6 +285,7 @@
 (require 'init-ocaml)
 (require 'init-sql)
 (require 'init-go)
+(require 'init-protobuf)
 
 (provide 'init-dev)
 
