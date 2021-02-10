@@ -286,6 +286,7 @@
 (require 'init-sql)
 (require 'init-go)
 (require 'init-protobuf)
+(require 'init-haskell)
 
 (provide 'init-dev)
 

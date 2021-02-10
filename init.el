@@ -84,6 +84,8 @@
 (require 'init-company)
 (require 'init-git)
 (require 'init-templates)
+(require 'init-reader)
+(require 'init-evil)
 
 (when (file-exists-p custom-file)
   (load custom-file))
