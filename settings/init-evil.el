@@ -26,8 +26,8 @@
   (evil-vsplit-window-right t)
   (evil-symbol-word-search t)
   (evil-undo-system (if (>= emacs-major-version 28) 'undo-redo 'undo-tree))
-  (evil-want-c-g-bindings t)
-  (evil-want-c-u-scroll t)
+  (evil-want-C-g-bindings t)
+  (evil-want-C-u-scroll t)
   (evil-want-keybinding nil) ; for evil-collection
   (evil-want-fine-undo t))
 
