@@ -122,19 +122,15 @@
 (use-package centaur-tabs
   :ensure t
   :demand
+  :after evil
+  :hook
+  (dashboard-mode . centaur-tabs-local-mode)
+  (term-mode . centaur-tabs-local-mode)
+  (calendar-mode . centaur-tabs-local-mode)
+  (org-agenda-mode . centaur-tabs-local-mode)
+  (helpful-mode . centaur-tabs-local-mode)
   :config
   (centaur-tabs-headline-match)
-  (centaur-tabs-mode t)
-  (setq ;;centaur-tabs-style "slant"
-   ;;centaur-tabs-style "wave"
-   centaur-tabs-style "bar"
-   centaur-tabs-set-bar 'left
-   centaur-tabs-set-icons t
-   centaur-tabs-gray-out-icons 'buffer
-   ;; centaur-tabs-close-button "x"
-   centaur-tabs-set-modified-marker t
-   ;; centaur-tabs-modified-marker "*"
-   centaur-tabs-show-navigation-buttons t)
   (defun centaur-tabs-buffer-groups ()
     "`centaur-tabs-buffer-groups' control buffers' group rules.
 
@@ -175,15 +171,24 @@
 	   "OrgMode")
 	  (t
 	   (centaur-tabs-get-group-name (current-buffer))))))
-  :hook
-  (dashboard-mode . centaur-tabs-local-mode)
-  (term-mode . centaur-tabs-local-mode)
-  (calendar-mode . centaur-tabs-local-mode)
-  (org-agenda-mode . centaur-tabs-local-mode)
-  (helpful-mode . centaur-tabs-local-mode)
+  :custom
+  (centaur-tabs-mode t)
+  ;;(centaur-tabs-style "slant")
+  ;;(centaur-tabs-style "wave")
+  (centaur-tabs-style "bar")
+  (centaur-tabs-set-bar 'left)
+  (centaur-tabs-set-icons t)
+  (centaur-tabs-gray-out-icons 'buffer)
+  ;;(centaur-tabs-close-button "x")
+  (centaur-tabs-set-modified-marker t)
+  ;;(centaur-tabs-modified-marker "*")
+  (centaur-tabs-show-navigation-buttons t)
   :bind
   ("C-<prior>" . centaur-tabs-backward)
-  ("C-<next>" . centaur-tabs-forward))
+  ("C-<next>" . centaur-tabs-forward)
+  (:map evil-normal-state-map
+	     ("g t" . centaur-tabs-forward)
+	     ("g T" . centaur-tabs-backward)))
 
 ;; native Emacs tab bar
 ;; (use-package tab-bar
