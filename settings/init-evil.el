@@ -168,6 +168,7 @@
     "s" 'org-schedule
     "t" 'org-todo
     "T" 'org-todo-list
+    "P" 'org-preview-latex-fragment
 
     "b" '(:ignore t :which-key "babel")
     "bp" 'org-babel-previous-src-block
