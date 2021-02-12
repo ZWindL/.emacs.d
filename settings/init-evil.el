@@ -152,7 +152,8 @@
 
   (general-create-definer local-leader-def
     :states 'normal
-    :prefix "SPC m"
+    :prefix "SPC m")
+  (local-leader-def
     :keymaps 'org-mode-map
     "." 'counsel-org-goto
     "/" 'counsel-org-goto-all
