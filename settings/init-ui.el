@@ -245,7 +245,8 @@
   (dashboard-set-navigator t)
   (dashboard-items '((recents   . 10)
                      (projects  . 5)
-                     (bookmarks . 5))))
+                     (bookmarks . 5)
+                     (agenda    . 5))))
 
 (provide 'init-ui)
 
