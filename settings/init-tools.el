@@ -172,24 +172,10 @@
 ;; Pixel alignment for org/markdown tables
 (use-package valign
   :ensure t
-  :straight (:host github :repo "casouri/valign")
   :hook ((markdown-mode org-mode) . valign-mode)
   :config
   ;; compatible with outline mode
-  (define-advice outline-show-entry (:override nil)
-    "Show the body directly following this heading.
-Show the heading too, if it is currently invisible."
-    (interactive)
-    (save-excursion
-      (outline-back-to-heading t)
-      (outline-flag-region (max (point-min) (1- (point)))
-                           (progn
-                             (outline-next-preface)
-                             (if (= 1 (- (point-max) (point)))
-                                 (point-max)
-                               (point)))
-                           nil)))
-  )
+  (define-advice outline-show-entry (:override nil)))
 
 ;; The markdown mode is awesome! unbeatable
 (use-package markdown-mode
@@ -298,14 +284,6 @@ Show the heading too, if it is currently invisible."
   :after treemacs persp-mode
   :ensure t
   :config (treemacs-set-scope-type 'Perspectives))
-
-;; GC optimization
-(use-package gcmh
-  :ensure t
-  :custom
-  (gcmh-idle-delay 10)
-  (gcmh-high-cons-threshold #x6400000) ;; 100 MB
-  :hook (after-init . gcmh-mode))
 
 ;; Pastebin service
 (use-package webpaste

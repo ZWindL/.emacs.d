@@ -87,7 +87,10 @@
                    (:endgroup)
                    ("Mail" . ?@) ("Buy" . ?b)))
   ;; archive
-  (org-archive-location "%s_archive::date-tree"))
+  (org-archive-location "%s_archive::date-tree")
+  :config
+  ;; latex preview
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.6)))
 
 ;; Keep track of tasks
 (use-package org-agenda

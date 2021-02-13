@@ -74,7 +74,6 @@
 
 (require 'init-core)
 (require 'init-basic)
-(require 'init-startup)
 (require 'init-org)
 (require 'init-ui)
 (require 'init-tools)

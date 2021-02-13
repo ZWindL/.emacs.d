@@ -12,15 +12,17 @@
   ;; (load-theme 'doom-one-light t)
   (doom-themes-org-config)
   (doom-themes-visual-bell-config)
-  (setq doom-themes-treemacs-theme "doom-colors")
-  (doom-themes-treemacs-config))
+  (doom-themes-treemacs-config)
+  :custom
+  (doom-themes-treemacs-theme "doom-colors"))
 
 (use-package leuven-theme
   :ensure t
   :config
   ;; (load-theme 'leuven-dark t)
-  (setq org-fontify-whole-heading-line t)
-  (setq leuven-scale-org-agenda-structure t))
+  :custom
+  (org-fontify-whole-heading-line t)
+  (leuven-scale-org-agenda-structure t))
 
 (use-package doom-modeline
   :ensure t
@@ -66,14 +68,14 @@
     "Recenter and blink the current line."
     (recenter)
     (beacon-blink))
-  :config
-  (setq beacon-blink-when-window-scrolls nil)
-  (setq beacon-blink-when-window-changes t)
-  (setq beacon-blink-when-point-moves t)
   :hook ((consel-grep-post-action
          dumb-jump-after-jump
          bookmark-after-jump
-         imenu-after-jump) . my/recenter-and-blink))
+         imenu-after-jump) . my/recenter-and-blink)
+  :custom
+  (beacon-blink-when-window-scrolls nil)
+  (beacon-blink-when-window-changes t)
+  (beacon-blink-when-point-moves t))
 
 ;; Highlight brackets according to their depth
 (use-package rainbow-delimiters
@@ -104,9 +106,9 @@
                    (t
                     :inherit warning
                     :background "#404040" :foreground "#ee6aa7")))
-  (setq
-   whitespace-line-column nil
-   whitespace-style
+  :custom
+  (whitespace-line-column nil)
+  (whitespace-style
    '(face             ; visualize things below:
      empty            ; empty lines at beginning/end of buffer
      lines-tail       ; lines go beyond `fill-column'
@@ -197,6 +199,53 @@
 ;;   :hook (after-init . (lambda ()
 ;;                         (tab-bar-mode)
 ;;                         (tab-bar-history-mode))))
+
+(use-package all-the-icons
+  :ensure t
+  :when (display-graphic-p)
+  :demand t)
+
+(use-package page-break-lines
+  :ensure t
+  :hook (after-init . global-page-break-lines-mode))
+
+(use-package recentf
+  :ensure nil
+  :hook ((after-init . recentf-mode)
+         (focus-out-hook . (recentf-save-list recentf-cleanup)))
+  :custom
+  (recentf-max-saved-items 300)
+  (recentf-auto-cleanup 'never)
+  (recentf-exclude '((expand-file-name package-user-dir)
+                     no-littering-var-directory
+                     no-littering-etc-directory
+                     ".cache"
+                     "cache"
+                     "recentf"
+                     "^/tmp/"
+                     "/ssh:"
+                     "^/usr/include/"
+                     "bookmarks"
+                     "COMMIT_EDITMSG\\'")))
+
+(use-package dashboard
+  :ensure t
+  :hook
+  (after-init . dashboard-setup-startup-hook)
+  (dashboard-mode . (lambda ()
+                             (setq-local global-hl-line-mode nil)))
+  :custom-face
+  (dashboard-heading ((t (:foreground "#f1fa8c" :weight bold))))
+  :custom
+  (dashboard-banner-logo-title "Welcome back! ZWindL")
+  (dashboard-startup-banner 'logo)
+  (dashboard-set-heading-icons t)
+  (dashboard-set-file-icons t)
+  (dashboard-set-init-info t)
+  (dashboard-set-navigator t)
+  (dashboard-items '((recents   . 10)
+                     (projects  . 5)
+                     (bookmarks . 5))))
 
 (provide 'init-ui)
 
