@@ -7,7 +7,11 @@
 (use-package haskell-mode
   :ensure t
   :hook ((haskell-mode . haskell-indentation-mode)
-         (haskell-mode . haskell-doc-mode))
+         (haskell-mode . haskell-doc-mode)
+         (haskell-mode . (lambda ()
+            (set (make-local-variable 'company-backends)
+                 (append '((company-capf company-dabbrev-code))
+                         company-backends)))))
   :custom
   (haskell-completing-read-function 'completing-read)
   (haskell-process-check-cabal-config-on-load nil)

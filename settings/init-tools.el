@@ -436,6 +436,7 @@
 (use-package pyim
   :ensure t
   :demand t
+  :after evil
   :config
   ;; 激活 basedict 拼音词库
   (use-package pyim-basedict
@@ -467,8 +468,11 @@
   (global-set-key (kbd "M-b") 'pyim-backward-word)
   (global-set-key (kbd "C-\\") 'toggle-input-method)
   :bind
-  (("M-j" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合测试
-   ("C-;" . pyim-delete-word-from-personal-buffer)))
+  ("M-j" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合测试
+  ("C-;" . pyim-delete-word-from-personal-buffer)
+  (:map evil-normal-state-map
+        ("w" . pyim-forward-word)
+        ("b" . pyim-backward-word)))
 
 (provide 'init-tools)
 

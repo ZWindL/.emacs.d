@@ -8,6 +8,13 @@
 (use-package doom-themes
   :ensure t
   :config
+  ;; hack for daemonized emacs
+  (defun load-doom-themes (frame)
+    (select-frame frame)
+    (load-theme 'doom-one t))
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions #'load-doom-themes)
+    (load-theme 'doom-one t))
   (load-theme 'doom-one t)
   ;; (load-theme 'doom-one-light t)
   (doom-themes-org-config)
@@ -48,6 +55,14 @@
   (nyan-wavy-trail t)
   :hook
   (after-init . nyan-mode))
+
+;; Emoji is also important
+;; (use-package emojify
+;;   :ensure t
+;;   :hook (after-init . global-emojify-mode)
+;;   :custom
+;;   (emojify-composed-text-p nil)
+;;   (emojify-display-style 'unicode))
 
 ;; Parrot mode
 (use-package parrot
