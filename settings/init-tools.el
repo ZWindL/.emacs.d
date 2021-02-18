@@ -172,10 +172,12 @@
 ;; Pixel alignment for org/markdown tables
 (use-package valign
   :ensure t
-  :hook ((markdown-mode org-mode) . valign-mode)
-  :config
+  :hook ((markdown-mode org-mode) . valign-mode))
+  ;; :config
   ;; compatible with outline mode
-  (define-advice outline-show-entry (:override nil)))
+  ;; (define-advice outline-show-entry (:override nil))
+  ;;:custom
+  ;;(valign-fancy-bar t))
 
 ;; The markdown mode is awesome! unbeatable
 (use-package markdown-mode
@@ -473,6 +475,12 @@
   (:map evil-normal-state-map
         ("w" . pyim-forward-word)
         ("b" . pyim-backward-word)))
+
+(use-package remember
+  :ensure nil
+  :custom
+  (remember-handler-functions '(remember-store-in-files))
+  (remember-data-directory (concat org-directory "remember/")))
 
 (provide 'init-tools)
 
