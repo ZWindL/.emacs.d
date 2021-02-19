@@ -220,12 +220,12 @@
              ("Learning" :keys "l" :type entry :headline "Learning"
               :template "* TODO %^{name}\n %a\n")
              ("Reminder" :keys "n" :type checkitem :headline "Non-recurring"
-              :template "TODO [ ][#B] %i%?")))
+              :template "[ ][#B] %i%?")))
            ("Capture" :keys "c" :file "capture.org" :children
             (("Thoughts" :keys "t" :type plain :headline "Thoughts"
               :template "** %T %?\n")
-             ("Web" :keys "w" :type entry :headline "Web" :immediate-finish t
-              :template "* TODO [[%:link][%:description]]\n %a\n %i")
+             ("Bookmarks" :keys "b" :type entry :headline "Bookmarks"
+              :template "* [[%^{link}][%^{description}]] :READ:\n %a\n %i")
              ("Code Snippets" :keys "c" :type plain :headline "Code Snippets"
               :template "** %T\n#+begin_src %?\n\n#+end_src\n %i")
              ("Code Snippets From Clipboard" :keys "x" :type plain :headline "Code Snippets"
