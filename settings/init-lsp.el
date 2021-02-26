@@ -9,8 +9,7 @@
 (use-package lsp-mode
   :ensure t
   :after (company-mode)
-  :hook (
-         (prog-mode . lsp-deferred)
+  :hook ((prog-mode . lsp-deferred)
          (lsp-mode . lsp-enable-which-key-integration))
   :commands (lsp-enable-which-key-integration lsp-format-buffer lsp-organize-imports lsp)
   ;;:diminish
@@ -20,9 +19,9 @@
   ;; (lsp-face-highlight-* textDocument/documentSymbol)
   :custom
   (lsp-idle-delay 0.5)                 ;; lazy refresh
-  (lsp-log-io t)                     ;; enable log only for debug
+  (lsp-log-io t)                       ;; enable log only for debug
   (lsp-enable-folding t)
-  (lsp-auto-configure t)
+  ;; (lsp-auto-configure t)
   (lsp-enable-links t)
   (lsp-eldoc-render-all t)
   (lsp-enable-symbol-highlighting t)
@@ -43,6 +42,8 @@
   (lsp-eldoc-enable-hover nil)         ;; disable eldoc hover
   (lsp-signature-auto-activate t)      ;; show function signature
   (lsp-signature-doc-lines 2)          ;; but dont take up more lines
+  (lsp-completion-provider :none)
+  (company-lsp-async t)
   (lsp-keymap-prefix "C-c l")
   :bind (:map lsp-mode-map
          ("C-c f" . lsp-format-region)

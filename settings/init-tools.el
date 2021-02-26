@@ -441,9 +441,9 @@
   :after evil
   :config
   ;; 激活 basedict 拼音词库
-  (use-package pyim-basedict
-    :ensure nil
-    :config (pyim-basedict-enable))
+  ;; (use-package pyim-basedict
+  ;;   :ensure nil
+  ;;   :config (pyim-basedict-enable))
   (setq default-input-method "pyim")
   (setq pyim-default-scheme 'xiaohe-shuangpin)
   ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
@@ -481,6 +481,12 @@
   :custom
   (remember-handler-functions '(remember-store-in-files))
   (remember-data-directory (concat org-directory "remember/")))
+
+(use-package wakatime-mode
+  :hook (after-init . global-wakatime-mode)
+  :custom
+  (wakatime-cli-path "/usr/bin/wakatime")
+  :ensure t)
 
 (provide 'init-tools)
 

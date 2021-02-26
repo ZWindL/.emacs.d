@@ -37,6 +37,7 @@
   (org-fontify-quote-and-verse-blocks t)
   (org-catch-invisible-edits 'smart)
   (org-insert-heading-respect-content t)
+  (org-hide-block-all t)
   (org-yank-adjusted-subtrees t)
   ;; block switching the parent to done state
   (org-enforce-todo-dependencies t)

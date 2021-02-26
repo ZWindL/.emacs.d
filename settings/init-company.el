@@ -13,11 +13,11 @@
 ;; yasnippet support
 (use-package yasnippet
   :ensure t
-  :diminish yas-minor-mode
+  ;;:diminish yas-minor-mode
   :hook (after-init . yas-global-mode)
-  :config
-  (setq yas-snippet-dirs
-        '("~/.emacs.d/snippets")))
+  :custom
+  (yas-inhibit-overlay-modification-protection t)
+  (yas-snippet-dirs '("~/.emacs.d/snippets")))
 
 ;; pre-wrote snippets
 (use-package yasnippet-snippets
@@ -29,10 +29,9 @@
   :ensure t
   :hook (after-init . global-company-mode)
   ;; :hook (prog-mode . company-mode)
-  :init
-  (setq company-global-modes '(not erc-mode message-mode help-mode
-                                   gud-mode eshell-mode shell-mode))
   :custom
+  (company-global-modes '(not erc-mode message-mode help-mode
+                                   gud-mode eshell-mode shell-mode))
   (company-idle-delay 0)
   (company-echo-delay 0)
   (company-show-numbers t) ;; Easy navigation to candidates with M-<n>
@@ -44,14 +43,13 @@
   ;; make dabbrev case-sensitive
   (company-dabbrev-ignore-case nil)
   (company-dabbrev-downcase nil)
+  (company-transformers '(company-sort-prefer-same-case-prefix))
   (company-backends
-        '((company-capf :with company-dabbrev-code :separate)
-          (company-files :with company-dabbrev-code)
-          (company-nxml company-dabbrev-code company-keywords :with company-yasnippet)
-          (company-oddmuse :with company-yasnippet)
-          (company-dabbrev :with company-yasnippet)))
-  (company-frontends '(company-pseudo-tooltip-frontend
-                       company-echo-metadata-frontend))
+        '((company-capf company-yasnippet)
+          (company-files company-dabbrev-code company-keywords)
+          company-dabbrev))
+  ;; (company-frontends '(company-pseudo-tooltip-frontend
+                       ;; company-echo-metadata-frontend))
   :bind (:map company-mode-map
               ([remap completion-at-point] . company-complete)
               ("<backtab>" . company-yasnippet)
@@ -75,7 +73,6 @@
   :init (setq company-box-enable-icon t
               company-box-backends-colors nil
               company-box-show-single-candidate t
-              company-box-max-candidates 50
               company-box-doc-delay 0.5)
   :config
   (with-no-warnings
