@@ -287,6 +287,7 @@
 (require 'init-go)
 (require 'init-protobuf)
 (require 'init-haskell)
+(require 'init-shell)
 
 (provide 'init-dev)
 

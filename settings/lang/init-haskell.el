@@ -21,6 +21,12 @@
   (haskell-process-suggest-overloaded-strings nil)
   (haskell-process-suggest-restart nil))
 
+(use-package lsp-haskell
+  :ensure t
+  :hook
+  ((haskell-mode . lsp-mode)
+   (haskell-literate-mode . lsp-mode)))
+
 (use-package dante
   :ensure t
   :hook (haskell-mode . dante-mode)
