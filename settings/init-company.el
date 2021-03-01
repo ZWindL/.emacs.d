@@ -13,21 +13,20 @@
 ;; yasnippet support
 (use-package yasnippet
   :ensure t
-  ;;:diminish yas-minor-mode
+  ;; :diminish yas-minor-mode
   :hook (after-init . yas-global-mode)
   :custom
   (yas-inhibit-overlay-modification-protection t)
-  (yas-snippet-dirs '("~/.emacs.d/snippets")))
+  :config
+  ;; pre-wrote snippets
+  (use-package yasnippet-snippets :ensure t))
 
-;; pre-wrote snippets
-(use-package yasnippet-snippets
-  :ensure t
-  :after yasnippet)
 
 ;; The completion engine
 (use-package company
   :ensure t
   :hook (after-init . global-company-mode)
+  ;; :hook (yas-global-mode . global-company-mode)
   ;; :hook (prog-mode . company-mode)
   :custom
   (company-global-modes '(not erc-mode message-mode help-mode
@@ -45,9 +44,9 @@
   (company-dabbrev-downcase nil)
   (company-transformers '(company-sort-prefer-same-case-prefix))
   (company-backends
-        '((company-capf company-yasnippet)
-          (company-files company-dabbrev-code company-keywords)
-          company-dabbrev))
+   '(company-semantic company-cmake company-capf company-clang company-files
+              (company-dabbrev-code company-gtags company-etags company-keywords)
+              company-oddmuse company-dabbrev))
   ;; (company-frontends '(company-pseudo-tooltip-frontend
                        ;; company-echo-metadata-frontend))
   :bind (:map company-mode-map

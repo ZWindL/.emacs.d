@@ -54,6 +54,9 @@
   :ensure t
   :hook (after-init . global-evil-surround-mode))
 
+(use-package evil-commentary
+  :ensure t)
+
 (use-package evil-org
   :ensure t
   :after org

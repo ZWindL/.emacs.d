@@ -59,8 +59,7 @@
   (ivy-on-del-error-function 'ignore) ;; dont quit minibuffer when del-error
   :config
   ;; Default keybinding: C-'
-  (use-package ivy-avy
-    :ensure t)
+  (use-package ivy-avy :ensure t)
   :bind (
          ("C-c C-r" . ivy-resume)
          ("C-c k" . counsel-ag)
@@ -78,6 +77,14 @@
     (interactive)
     (run-with-idle-timer 0 nil 'ivy-wgrep-change-to-wgrep-mode)
     (ivy-occur)))
+
+(use-package ivy-rich :ensure t
+  :hook (ivy-mode . ivy-rich-mode)
+  :custom (ivy-rich-path-style 'abbrev))
+
+(use-package all-the-icons-ivy-rich
+  :ensure t
+  :init (all-the-icons-ivy-rich-mode 1))
 
 ;; Fuzzy matcher
 (use-package counsel

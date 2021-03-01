@@ -8,14 +8,7 @@
 (use-package doom-themes
   :ensure t
   :config
-  ;; hack for daemonized emacs
-  (defun load-doom-themes (frame)
-    (select-frame frame)
-    (load-theme 'doom-one t))
-  (if (daemonp)
-      (add-hook 'after-make-frame-functions #'load-doom-themes)
-    (load-theme 'doom-one t))
-  (load-theme 'doom-one t)
+  ;; (load-theme 'doom-one t)
   ;; (load-theme 'doom-one-light t)
   (doom-themes-org-config)
   (doom-themes-visual-bell-config)
@@ -26,7 +19,8 @@
 (use-package leuven-theme
   :ensure t
   :config
-  ;; (load-theme 'leuven-dark t)
+  (load-theme 'leuven-dark t)
+  ;; (load-theme 'leuven t)
   :custom
   (org-fontify-whole-heading-line t)
   (leuven-scale-org-agenda-structure t))
