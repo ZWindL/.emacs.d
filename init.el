@@ -31,11 +31,15 @@
 (setq read-process-output-max (* 1024 1024))
 
 ;; elpa mirrors
+;; (setq package-archives
+;;       '(("melpa" . "http://elpa.emacs-china.org/melpa/")
+;;         ("gnu"   . "http://elpa.emacs-china.org/gnu/")
+;;         ("org"   . "http://elpa.emacs-china.org/org/")
+;;         ))
 (setq package-archives
-      '(("melpa" . "http://elpa.emacs-china.org/melpa/")
-        ("gnu"   . "http://elpa.emacs-china.org/gnu/")
-        ("org"   . "http://elpa.emacs-china.org/org/")
-        ))
+      '(("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+        ("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+        ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 
 (package-initialize)
 
@@ -71,6 +75,10 @@
 (add-to-list 'load-path (expand-file-name "settings" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "settings/lang" user-emacs-directory))
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+
+;; Environment variables
+(with-eval-after-load 'exec-path-from-shell
+    (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY" "PATH")))
 
 (require 'init-core)
 (require 'init-basic)

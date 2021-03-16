@@ -8,7 +8,7 @@
 (use-package doom-themes
   :ensure t
   :config
-  ;; (load-theme 'doom-one t)
+  (load-theme 'doom-one t)
   ;; (load-theme 'doom-one-light t)
   (doom-themes-org-config)
   (doom-themes-visual-bell-config)
@@ -19,7 +19,7 @@
 (use-package leuven-theme
   :ensure t
   :config
-  (load-theme 'leuven-dark t)
+  ;; (load-theme 'leuven-dark t)
   ;; (load-theme 'leuven t)
   :custom
   (org-fontify-whole-heading-line t)
@@ -127,7 +127,19 @@
      tab-mark         ; tabs (show by symbol)
      )))
 
-
+;; (use-package sublimity
+;;   :ensure t
+;;   :config
+;;   (require 'sublimity-scroll)
+;;   (require 'sublimity-map)
+;;   ;; (require 'sublimity-attractive)
+;;   (sublimity-mode 1)
+;;   :custom
+;;   (sublimity-scroll-weight 5)
+;;   (sublimity-scroll-drift-length 10)
+;;   (sublimity-map-size 20)
+;;   (sublimity-attractive-centering-width nil)
+;; )
 
 ;; Modern tabs
 (use-package centaur-tabs

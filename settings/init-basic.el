@@ -105,12 +105,12 @@
 ;; If running Emacs under Macos, set :height to 140
 (if (eq system-type 'darwin)
     (set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 140)
-    (set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 110))
+    (set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 105))
 
 (if (display-graphic-p)
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
       (set-fontset-font (frame-parameter nil 'font) charset
-                        (font-spec :family "Noto Sans CJK SC" :height 110))))
+                        (font-spec :family "Noto Sans CJK SC" :height 105))))
 
 
 ;; Prefer shorter names
@@ -334,6 +334,10 @@
 (use-package undo-tree
   :ensure t
   :hook (after-init . global-undo-tree-mode))
+
+;; Copy environment variables from shell
+(use-package exec-path-from-shell
+  :ensure t)
 
 (provide 'init-basic)
 
