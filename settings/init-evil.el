@@ -57,6 +57,13 @@
 (use-package evil-commentary
   :ensure t)
 
+(use-package evil-numbers
+  :ensure t
+  :after (evil)
+  :bind (:map evil-normal-state-map
+              ("C-c +" . evil-numbers/inc-at-pt)
+              ("C-c -" . evil-numbers/dec-at-pt)))
+
 (use-package evil-org
   :ensure t
   :after org

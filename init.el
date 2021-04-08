@@ -32,6 +32,11 @@
 
 ;; elpa mirrors
 ;; (setq package-archives
+;;       '(("melpa" . "https://melpa.org/packages/")
+;;         ("gnu"   . "https://melpa.org/gnu/")
+;;         ("org"   . "https://melpa.org/org/")
+;;         ))
+;; (setq package-archives
 ;;       '(("melpa" . "http://elpa.emacs-china.org/melpa/")
 ;;         ("gnu"   . "http://elpa.emacs-china.org/gnu/")
 ;;         ("org"   . "http://elpa.emacs-china.org/org/")

@@ -18,8 +18,9 @@
 ;; No splash screen
 (setq inhibit-splash-screen 1)
 
-;; Line number settings
+;; Relative line numbers
 (global-display-line-numbers-mode)
+(setq display-line-numbers-type 'relative)
 
 ;; Linux specific
 (setq x-gtk-use-system-tooltips nil

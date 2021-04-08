@@ -334,8 +334,7 @@
                    ("*Shell Command Output*"   :select nil :align t :size 0.4)
                    ("*Async Shell Command*"    :ignore t)
                    ("*package update results*" :select nil :align t :size 10)
-                   ("\\*ivy-occur .*\\*"       :regexp t :select t :align t)))
-  )
+                   ("\\*ivy-occur .*\\*"       :regexp t :select t :align t))))
 
 ;; smart parens
 (use-package smartparens
@@ -494,6 +493,14 @@
   :custom
   (wakatime-cli-path "/usr/bin/wakatime")
   :ensure t)
+
+;; For editing plantuml language
+(use-package plantuml-mode
+  :ensure t
+  :mode ("\\.plantuml\\'" . plantuml-mode)
+  :custom
+  (plantuml-executable-path "/usr/bin/plantuml")
+  (plantuml-default-exec-mode 'executable))
 
 (provide 'init-tools)
 
