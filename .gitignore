@@ -29,3 +29,5 @@ custom.el
 pyim-bigdict.pyim.gz
 org-roam.db
 wget-log
+org-journal.cache
+wget-log.*

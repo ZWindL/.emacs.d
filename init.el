@@ -30,21 +30,25 @@
 ;; `lsp-mode' gains
 (setq read-process-output-max (* 1024 1024))
 
+;; Proxy settings
+(setq url-proxy-services
+   '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
+     ("http" . "127.0.0.1:8123")
+     ("https" . "127.0.0.1:8123")))
+
 ;; elpa mirrors
-;; (setq package-archives
-;;       '(("melpa" . "https://melpa.org/packages/")
-;;         ("gnu"   . "https://melpa.org/gnu/")
-;;         ("org"   . "https://melpa.org/org/")
-;;         ))
+(setq package-archives
+      '(("melpa" . "https://melpa.org/packages/")
+        ("gnu" . "https://elpa.gnu.org/packages/")))
 ;; (setq package-archives
 ;;       '(("melpa" . "http://elpa.emacs-china.org/melpa/")
 ;;         ("gnu"   . "http://elpa.emacs-china.org/gnu/")
 ;;         ("org"   . "http://elpa.emacs-china.org/org/")
 ;;         ))
-(setq package-archives
-      '(("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-        ("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-        ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+;; (setq package-archives
+;;       '(("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+;;         ("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+;;         ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 
 (package-initialize)
 
@@ -62,18 +66,18 @@
   (require 'use-package))
 
 ;; straight.el
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+;; (defvar bootstrap-version)
+;; (let ((bootstrap-file
+;;        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+;;       (bootstrap-version 5))
+;;   (unless (file-exists-p bootstrap-file)
+;;     (with-current-buffer
+;;         (url-retrieve-synchronously
+;;          "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+;;          'silent 'inhibit-cookies)
+;;       (goto-char (point-max))
+;;       (eval-print-last-sexp)))
+;;   (load bootstrap-file nil 'nomessage))
 
 (setq debug-on-error t)
 
@@ -98,6 +102,7 @@
 (require 'init-templates)
 (require 'init-reader)
 (require 'init-evil)
+(require 'init-tex)
 
 (when (file-exists-p custom-file)
   (load custom-file))

@@ -386,6 +386,7 @@
   (org-journal-dir (expand-file-name (concat org-directory "diary")))
   (org-journal-date-format "%A, %d %B %Y")
   (org-journal-file-format "%Y-%m-%d.org")
+  (org-journal-enable-cache t)
   ;; (org-journal-date-prefix "#+title: ")
   (org-extend-today-until 6)
   :init

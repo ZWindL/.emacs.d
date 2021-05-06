@@ -113,6 +113,8 @@
       (set-fontset-font (frame-parameter nil 'font) charset
                         (font-spec :family "Noto Sans CJK SC" :height 105))))
 
+;; Display Color Emoji
+(set-fontset-font t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend)
 
 ;; Prefer shorter names
 (fset 'yes-or-no-p 'y-or-n-p)

@@ -12,26 +12,43 @@
   (org-roam-directory (expand-file-name (concat org-directory "roam/")))
   (org-roam-buffer-no-delete-other-windows t)
   (org-roam-completion-system 'ivy)
-  (org-roam-tag-sources '(prop all-directories))
+  (org-roam-tag-sources '(prop vanilla all-directories))
   (org-roam-title-sources '(title alias))
   (org-roam-index-file (expand-file-name "index.org" org-roam-directory))
   (org-roam-graph-viewer "/usr/bin/firefox-nightly")
+  (org-roam-dailies-directory "roam-daily/")
   (org-roam-completion-system 'ivy)
   (org-roam-db-gc-threshold most-positive-fixnum)
   (org-roam-link-title-format "R:%s")
   (org-roam-completion-everywhere t)
+  (org-roam-dailies-capture-templates
+      '(("s" "study" entry
+         #'org-roam-capture--get-point
+         "* %?"
+         :file-name "daily/%<%Y-%m-%d>"
+         :head "#+title: %<%Y-%m-%d>\n"
+         :olp ("Study notes"))
+
+        ("j" "journal" entry
+         #'org-roam-capture--get-point
+         "* %?"
+         :file-name "daily/%<%Y-%m-%d>"
+         :head "#+title: %<%Y-%m-%d>\n"
+         :olp ("Journal"))))
   (org-roam-capture-templates
         '(("d" "default" plain (function org-roam--capture-get-point)
            ;; shortcut / full-name / plain | entry (for headers) | dedicated function
            "* What is it? %?" ;; The template inserted on each call to `capture'
            :file-name "%<%Y%m%d%H%M%S>-${slug}"
-           :head "#+title: ${title}\n#+roam_alias: \n\n- tags :: \n\n"
+           :head "#+title: ${title}\n#+roam_alias: \n\n#+roam_tags: \n\n - links :: \n\n"
            :unnarrowed t) ;; Tells the org-roam to show the contents of the whole file
           ))
   :bind (:map org-roam-mode-map
          ("C-c n b" . org-roam-switch-to-buffer)
-         ("C-c n c" . org-roam-capture)
-         ("C-c n f" . org-roam-find-file)
+         ("C-c n c d" . org-roam-dailies-capture-today)
+         ("C-c n c c" . org-roam-capture)
+         ("C-c n f f" . org-roam-find-file)
+         ("C-c n f d" . org-roam-dailies-find-today)
          ("C-c n g" . org-roam-graph)
          ("C-c n i" . org-roam-insert)
          ("C-c n j" . org-roam-jump-to-index)
