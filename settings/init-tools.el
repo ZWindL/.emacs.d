@@ -472,15 +472,15 @@
   (setq pyim-page-tooltip 'popup)
   ;; 选词框显示5个候选词
   (setq pyim-page-length 5)
-  (global-set-key (kbd "M-f") 'pyim-forward-word)
-  (global-set-key (kbd "M-b") 'pyim-backward-word)
+  ;; (global-set-key (kbd "M-f") 'pyim-forward-word)
+  ;; (global-set-key (kbd "M-b") 'pyim-backward-word)
   (global-set-key (kbd "C-\\") 'toggle-input-method)
   :bind
   ("M-j" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合测试
-  ("C-;" . pyim-delete-word-from-personal-buffer)
-  (:map evil-normal-state-map
-        ("w" . pyim-forward-word)
-        ("b" . pyim-backward-word)))
+  ("C-;" . pyim-delete-word-from-personal-buffer))
+  ;; (:map evil-normal-state-map
+  ;;       ("w" . pyim-forward-word)
+  ;;       ("b" . pyim-backward-word)))
 
 (use-package remember
   :ensure nil

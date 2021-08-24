@@ -4,15 +4,15 @@
 
 ;;; Code:
 
-;; Microsoft python-language-server support
-(use-package lsp-python-ms
+(use-package lsp-pyright
   :ensure t
-  :defines (lsp-python-ms-python-executable-cmd)
-  :hook (python-mode . (lambda () (require 'lsp-python-ms) (lsp)))
-  :init
-  (setq lsp-python-ms-auto-install-server t)
-  (when (executable-find "python3")
-    (setq lsp-python-ms-python-executable-cmd "mspyls")))
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred
+
+;; Auto recognizes the virtualenv
+(use-package pyvenv
+  :ensure t)
 
 (provide 'init-python)
 

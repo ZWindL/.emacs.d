@@ -26,8 +26,6 @@
 (use-package company
   :ensure t
   :hook (after-init . global-company-mode)
-  ;; :hook (yas-global-mode . global-company-mode)
-  ;; :hook (prog-mode . company-mode)
   :custom
   (company-global-modes '(not erc-mode message-mode help-mode
                                    gud-mode eshell-mode shell-mode))
@@ -42,11 +40,15 @@
   ;; make dabbrev case-sensitive
   (company-dabbrev-ignore-case nil)
   (company-dabbrev-downcase nil)
+  (company-tempo-expand t)
   (company-transformers '(company-sort-prefer-same-case-prefix))
-  (company-backends
-   '(company-semantic company-cmake company-capf company-clang company-files
-              (company-dabbrev-code company-gtags company-etags company-keywords)
-              company-oddmuse company-dabbrev))
+  (company-backends '((company-capf company-yasnippet)
+                      (company-files company-dabbrev-code company-etags company-keywords company-dabbrev)
+                      ))
+  ;; (company-backends '((company-capf company-yasnippet)
+  ;;                     company-files
+  ;;                     (company-dabbrev-code company-etags company-keywords)
+  ;;                     company-dabbrev))
   ;; (company-frontends '(company-pseudo-tooltip-frontend
                        ;; company-echo-metadata-frontend))
   :bind (:map company-mode-map
@@ -64,7 +66,6 @@
               ("C-p" . company-select-previous)
               ("C-n" . company-select-next)))
 
-;; Copied from https://github.com/seagle0128/.emacs.d/blob/master/lisp/init-company.el#L115
 (use-package company-box
   :ensure t
   :defines company-box-icons-all-the-icons
@@ -125,27 +126,6 @@
   :ensure t
   :init
   (company-prescient-mode 1))
-
-;; Let the AI take my job!
-(use-package company-tabnine
-  :ensure t
-  :config
-  (add-to-list 'company-backends #'company-tabnine)
-  ;; workaround for company-transformers
-  (setq company-tabnine--disable-next-transform nil)
-  (defun my-company--transform-candidates (func &rest args)
-    (if (not company-tabnine--disable-next-transform)
-        (apply func args)
-      (setq company-tabnine--disable-next-transform nil)
-      (car args)))
-
-  (defun my-company-tabnine (func &rest args)
-    (when (eq (car args) 'candidates)
-      (setq company-tabnine--disable-next-transform t))
-    (apply func args))
-
-  (advice-add #'company--transform-candidates :around #'my-company--transform-candidates)
-  (advice-add #'company-tabnine :around #'my-company-tabnine))
 
 (provide 'init-company)
 

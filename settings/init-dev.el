@@ -294,6 +294,38 @@
                  "path" "service" "slice" "socket" "swap" "target" "timer")
              string-end) . conf-toml-mode))
 
+;; Let the AI take my job!
+(use-package company-tabnine
+  :ensure t
+  :config
+  (defun company//sort-by-tabnine (candidates)
+    (if (or (functionp company-backend)
+            (not (and (listp company-backend) (memq 'company-tabnine company-backend))))
+        candidates
+      (let ((candidates-table (make-hash-table :test #'equal))
+            candidates-1
+            candidates-2)
+        (dolist (candidate candidates)
+          (if (eq (get-text-property 0 'company-backend candidate)
+                  'company-tabnine)
+              (unless (gethash candidate candidates-table)
+                (push candidate candidates-2))
+            (push candidate candidates-1)
+            (puthash candidate t candidates-table)))
+        (setq candidates-1 (nreverse candidates-1))
+        (setq candidates-2 (nreverse candidates-2))
+        (nconc (seq-take candidates-1 2)
+               (seq-take candidates-2 2)
+               (seq-drop candidates-1 2)
+               (seq-drop candidates-2 2)))))
+
+  (add-to-list 'company-transformers 'company//sort-by-tabnine t)
+  ;; `:separate`  使得不同 backend 分开排序
+  (add-to-list 'company-backends '(company-capf :with company-tabnine :separate))
+  (add-to-list 'company-backends #'company-tabnine))
+
+;; Copied from https://github.com/seagle0128/.emacs.d/blob/master/lisp/init-company.el#L115
+
 (require 'init-cpp)
 (require 'init-elisp)
 (require 'init-rust)
@@ -305,6 +337,7 @@
 (require 'init-protobuf)
 (require 'init-haskell)
 (require 'init-shell)
+(require 'init-scheme)
 
 (provide 'init-dev)
 

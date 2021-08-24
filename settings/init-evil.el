@@ -18,9 +18,13 @@
          ("gl" . evil-avy-goto-line))
   :config
   (evil-ex-define-cmd "q[uit]" 'kill-this-buffer)
+  :init
+  ;; Emacs default keybindings do matter!
+  ;; Looks like this variable can only be set here
+  ;; or in the custome.el
+  (setq evil-disable-insert-state-bindings t)
   :custom
   (evil-cross-lines t)
-  (evil-disable-insert-state-bindings t)
   (evil-respect-visual-line-mode t)
   (evil-split-window-below t)
   (evil-vsplit-window-right t)
@@ -44,7 +48,7 @@
     ;; consistent with ivy
                               (kbd "C-c C-e") 'occur-edit-mode)
   :custom
-  (evil-collection-calendar-want-org-bindings t)
+  ;; (evil-collection-calendar-want-org-bindings t)
   (evil-collection-company-use-tng nil)
   (evil-collection-outline-bind-tab-p nil)
   (evil-collection-setup-minibuffer nil)

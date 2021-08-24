@@ -42,8 +42,8 @@
   (lsp-eldoc-enable-hover nil)         ;; disable eldoc hover
   (lsp-signature-auto-activate t)      ;; show function signature
   (lsp-signature-doc-lines 2)          ;; but dont take up more lines
-  (lsp-completion-provider :none)
   (company-lsp-async t)
+  (company-completion-mode :none)
   (lsp-keymap-prefix "C-c l")
   :bind (:map lsp-mode-map
          ("C-c f" . lsp-format-region)

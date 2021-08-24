@@ -27,7 +27,8 @@
   :ensure t
   :after go-mode)
 
-(use-package go-dlv :ensure t)
+;; go-dlv conficts with emacs 28q
+;; (use-package go-dlv :ensure t)
 (use-package go-fill-struct :ensure t)
 (use-package go-impl :ensure t)
 

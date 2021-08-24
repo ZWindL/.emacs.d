@@ -50,6 +50,7 @@
 ;;         ("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
 ;;         ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 
+;; TODO: Does it conflict with stright.el?
 (package-initialize)
 
 ;; init packages
@@ -66,18 +67,26 @@
   (require 'use-package))
 
 ;; straight.el
-;; (defvar bootstrap-version)
-;; (let ((bootstrap-file
-;;        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-;;       (bootstrap-version 5))
-;;   (unless (file-exists-p bootstrap-file)
-;;     (with-current-buffer
-;;         (url-retrieve-synchronously
-;;          "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-;;          'silent 'inhibit-cookies)
-;;       (goto-char (point-max))
-;;       (eval-print-last-sexp)))
-;;   (load bootstrap-file nil 'nomessage))
+(setq package-enable-at-startup nil)
+(setq straight-repository-branch "develop")
+
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(defvar straight-check-for-modifications)
+(setq straight-check-for-modifications
+      '(check-on-save find-when-checking))
+
 
 (setq debug-on-error t)
 
@@ -88,6 +97,8 @@
 ;; Environment variables
 (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY" "PATH")))
+
+(setq org-roam-v2-ack t)
 
 (require 'init-core)
 (require 'init-basic)
