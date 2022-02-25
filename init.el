@@ -7,28 +7,25 @@
 
 ;;; Code:
 
+;; Increase the amount of data from the process
+;; `lsp-mode' gains
+(setq read-process-output-max (* 1024 1024))
+
 ;; A big contributor to startup times is garbage collection. We up the gc
 ;; threshold to temporarily prevent it from running, and then reset it later
 ;; using a hook.
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
 
-;; Keep a ref to the actual file-name-handler
-(defvar default-file-name-handler-alist file-name-handler-alist)
-
-;; Set the file-name-handler to nil (because regexing is cpu intensive)
-(setq file-name-handler-alist nil)
-
-;; Reset file-name-handler-alist after initialization
-(add-hook 'emacs-startup-hook
-  (lambda ()
-    (setq gc-cons-threshold 16777216
-          gc-cons-percentage 0.1
-          file-name-handler-alist default-file-name-handler-alist)))
-
-;; Increase the amount of data from the process
-;; `lsp-mode' gains
-(setq read-process-output-max (* 1024 1024))
+(unless (or (daemonp) noninteractive)
+  ;; Keep a ref to the actual file-name-handler
+  (defvar default-file-name-handler-alist file-name-handler-alist)
+  ;; Set the file-name-handler to nil (because regexing is cpu intensive)
+  (setq file-name-handler-alist nil)
+  ;; Reset file-name-handler-alist after initialization
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (setq file-name-handler-alist default-file-name-handler-alist))))
 
 ;; Proxy settings
 (setq url-proxy-services
@@ -49,6 +46,11 @@
 ;;       '(("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
 ;;         ("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
 ;;         ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+;; Emacs 27 introduces a quickstart mechanism which concatenate autoloads of all
+;; packages to reduce the IO time.
+;;
+;; Don't forget to M-x package-quickstart-refresh if a new package is installed.
+(setq package-quickstart t)
 
 ;; TODO: Does it conflict with stright.el?
 (package-initialize)
@@ -87,16 +89,32 @@
 (setq straight-check-for-modifications
       '(check-on-save find-when-checking))
 
+;; Ref: https://emacs-china.org/t/package/19959/3
+;; package.el updates the saved version of package-selected-packages correctly only
+;; after custom-file has been loaded, which is a bug. We work around this by adding
+;; the required packages to package-selected-packages after startup is complete.
+;; Make `package-autoremove' work with `use-package'
+(defvar use-package-selected-packages '(use-package)
+  "Packages pulled in by use-package.")
+
+(eval-and-compile
+  (define-advice use-package-handler/:ensure (:around (fn name-symbol keyword args rest state) select)
+    (let ((items (funcall fn name-symbol keyword args rest state)))
+      (dolist (ensure args items)
+        (let ((package
+               (or (and (eq ensure t) (use-package-as-symbol name-symbol))
+                   ensure)))
+          (when package
+            (when (consp package)
+              (setq package (car package)))
+            (push `(add-to-list 'use-package-selected-packages ',package) items)))))))
+
 
 (setq debug-on-error t)
 
 (add-to-list 'load-path (expand-file-name "settings" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "settings/lang" user-emacs-directory))
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-
-;; Environment variables
-(with-eval-after-load 'exec-path-from-shell
-    (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY" "PATH")))
 
 (setq org-roam-v2-ack t)
 

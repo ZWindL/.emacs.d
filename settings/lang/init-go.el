@@ -12,9 +12,6 @@
   :hook ((go-mode . lsp)
          (go-mode . smartparens-mode))
   :config
-  ;; Env vars
-  (with-eval-after-load 'exec-path-from-shell
-    (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
   (with-eval-after-load 'lsp-mode
     (lsp-register-custom-settings
      '(("gopls.usePlaceholders" t t)

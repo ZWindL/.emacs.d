@@ -5,15 +5,16 @@
 
 ;;; Code:
 
+;; Merlin mode
+(use-package merlin
+  :load-path "/home/zwindl/.opam/4.13.1/share/emacs/site-lisp")
+
 ;; Ocaml mode
 (use-package tuareg
   :ensure t
   :mode ("\\.ml\\'" . tuareg-mode)
   :hook (tuareg-mode . lsp)
-  :config
-  ;; Env vars
-  (with-eval-after-load 'exec-path-from-shell
-    (exec-path-from-shell-copy-envs '("PATH")))
+  :hook (tuareg-mode . merlin-mode)
   :custom
   (lsp-ocaml-lang-server-command "ocamllsp"))
 

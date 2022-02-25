@@ -5,6 +5,42 @@
 
 ;;; Code:
 
+;; Supress GUI features
+(setq use-file-dialog nil
+      use-dialog-box nil
+      inhibit-x-resources t
+      inhibit-default-init t
+      inhibit-startup-screen t
+      inhibit-startup-message t
+      inhibit-startup-buffer-menu t)
+
+;; Full screen
+(setq initial-frame-alist (quote ((fullscreen . maximized))))
+
+;; Pixelwise resize
+;; TODO: this line can cause emacs double number overflow
+;;(setq window-resize-pixelwise t
+;;      frame-resize-pixelwise t)
+
+(setq x-gtk-use-system-tooltips nil
+      x-gtk-use-native-input t
+      x-underline-at-descent-line t)
+
+;; If running Emacs under Macos, set :height to 140
+(if (eq system-type 'darwin)
+    (set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 140)
+  (set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 105))
+
+(if (display-graphic-p)
+    (dolist (charset '(kana han symbol cjk-misc bopomofo))
+      (set-fontset-font (frame-parameter nil 'font) charset
+                        (font-spec :family "Noto Sans CJK SC" :height 105))))
+
+;; Fonts
+;; Display Color Emoji
+(set-fontset-font t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend)
+
+;; Linux specific
 (use-package doom-themes
   :ensure t
   :config
@@ -12,9 +48,8 @@
   ;; (load-theme 'doom-one-light t)
   (doom-themes-org-config)
   (doom-themes-visual-bell-config)
-  (doom-themes-treemacs-config)
-  :custom
-  (doom-themes-treemacs-theme "doom-colors"))
+  (setq doom-themes-treemacs-theme "doom-atom")
+  (doom-themes-treemacs-config))
 
 (use-package leuven-theme
   :ensure t
@@ -50,14 +85,6 @@
   :hook
   (after-init . nyan-mode))
 
-;; Emoji is also important
-;; (use-package emojify
-;;   :ensure t
-;;   :hook (after-init . global-emojify-mode)
-;;   :custom
-;;   (emojify-composed-text-p nil)
-;;   (emojify-display-style 'unicode))
-
 ;; Parrot mode
 (use-package parrot
   :ensure t
@@ -71,7 +98,8 @@
 ;; Blink the current line with fancy animation
 (use-package beacon
   :ensure t
-  :init (beacon-mode 1)
+  :hook
+  (after-init . beacon-mode)
   :preface
   (defun my/recenter-and-blink (&rest _)
     "Recenter and blink the current line."
@@ -85,6 +113,14 @@
   (beacon-blink-when-window-scrolls nil)
   (beacon-blink-when-window-changes t)
   (beacon-blink-when-point-moves t))
+
+;; Highlight changes and yanked area
+(use-package evil-goggles
+  :ensure t
+  :after evil
+  :config
+  (evil-goggles-mode)
+  (evil-goggles-use-diff-faces))
 
 ;; Highlight brackets according to their depth
 (use-package rainbow-delimiters
@@ -142,76 +178,76 @@
 ;; )
 
 ;; Modern tabs
-(use-package centaur-tabs
-  :ensure t
-  :demand
-  :after evil
-  :hook
-  (dashboard-mode . centaur-tabs-local-mode)
-  (term-mode . centaur-tabs-local-mode)
-  (calendar-mode . centaur-tabs-local-mode)
-  (org-agenda-mode . centaur-tabs-local-mode)
-  (helpful-mode . centaur-tabs-local-mode)
-  :config
-  (centaur-tabs-headline-match)
-  (defun centaur-tabs-buffer-groups ()
-    "`centaur-tabs-buffer-groups' control buffers' group rules.
+;; (use-package centaur-tabs
+;;   :ensure t
+;;   :demand
+;;   :after evil
+;;   :hook
+;;   (dashboard-mode . centaur-tabs-local-mode)
+;;   (term-mode . centaur-tabs-local-mode)
+;;   (calendar-mode . centaur-tabs-local-mode)
+;;   (org-agenda-mode . centaur-tabs-local-mode)
+;;   (helpful-mode . centaur-tabs-local-mode)
+;;   :config
+;;   (centaur-tabs-headline-match)
+;;   (defun centaur-tabs-buffer-groups ()
+;;     "`centaur-tabs-buffer-groups' control buffers' group rules.
 
- Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
- All buffer name start with * will group to \"Emacs\".
- Other buffer group by `centaur-tabs-get-group-name' with project name."
-    (list
-     (cond
-	  ;; ((not (eq (file-remote-p (buffer-file-name)) nil))
-	  ;; "Remote")
-	  ((or (string-equal "*" (substring (buffer-name) 0 1))
-	       (memq major-mode '(magit-process-mode
-				              magit-status-mode
-				              magit-diff-mode
-				              magit-log-mode
-				              magit-file-mode
-				              magit-blob-mode
-				              magit-blame-mode
-				              )))
-	   "Emacs")
-	  ((derived-mode-p 'prog-mode)
-	   "Editing")
-	  ((derived-mode-p 'dired-mode)
-	   "Dired")
-	  ((memq major-mode '(helpful-mode
-			              help-mode))
-	   "Help")
-	  ((memq major-mode '(org-mode
-			              org-agenda-clockreport-mode
-			              org-src-mode
-			              org-agenda-mode
-			              org-beamer-mode
-			              org-indent-mode
-			              org-bullets-mode
-			              org-cdlatex-mode
-			              org-agenda-log-mode
-			              diary-mode))
-	   "OrgMode")
-	  (t
-	   (centaur-tabs-get-group-name (current-buffer))))))
-  :custom
-  (centaur-tabs-mode t)
-  ;;(centaur-tabs-style "slant")
-  ;;(centaur-tabs-style "wave")
-  (centaur-tabs-style "bar")
-  (centaur-tabs-set-bar 'left)
-  (centaur-tabs-set-icons t)
-  (centaur-tabs-gray-out-icons 'buffer)
-  ;;(centaur-tabs-close-button "x")
-  (centaur-tabs-set-modified-marker t)
-  ;;(centaur-tabs-modified-marker "*")
-  (centaur-tabs-show-navigation-buttons t)
-  :bind
-  ("C-<prior>" . centaur-tabs-backward)
-  ("C-<next>" . centaur-tabs-forward)
-  (:map evil-normal-state-map
-	     ("g t" . centaur-tabs-forward)
-	     ("g T" . centaur-tabs-backward)))
+;;  Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
+;;  All buffer name start with * will group to \"Emacs\".
+;;  Other buffer group by `centaur-tabs-get-group-name' with project name."
+;;     (list
+;;      (cond
+;; 	  ;; ((not (eq (file-remote-p (buffer-file-name)) nil))
+;; 	  ;; "Remote")
+;; 	  ((or (string-equal "*" (substring (buffer-name) 0 1))
+;; 	       (memq major-mode '(magit-process-mode
+;; 				              magit-status-mode
+;; 				              magit-diff-mode
+;; 				              magit-log-mode
+;; 				              magit-file-mode
+;; 				              magit-blob-mode
+;; 				              magit-blame-mode
+;; 				              )))
+;; 	   "Emacs")
+;; 	  ((derived-mode-p 'prog-mode)
+;; 	   "Editing")
+;; 	  ((derived-mode-p 'dired-mode)
+;; 	   "Dired")
+;; 	  ((memq major-mode '(helpful-mode
+;; 			              help-mode))
+;; 	   "Help")
+;; 	  ((memq major-mode '(org-mode
+;; 			              org-agenda-clockreport-mode
+;; 			              org-src-mode
+;; 			              org-agenda-mode
+;; 			              org-beamer-mode
+;; 			              org-indent-mode
+;; 			              org-bullets-mode
+;; 			              org-cdlatex-mode
+;; 			              org-agenda-log-mode
+;; 			              diary-mode))
+;; 	   "OrgMode")
+;; 	  (t
+;; 	   (centaur-tabs-get-group-name (current-buffer))))))
+;;   :custom
+;;   (centaur-tabs-mode t)
+;;   ;;(centaur-tabs-style "slant")
+;;   ;;(centaur-tabs-style "wave")
+;;   (centaur-tabs-style "bar")
+;;   (centaur-tabs-set-bar 'left)
+;;   (centaur-tabs-set-icons t)
+;;   (centaur-tabs-gray-out-icons 'buffer)
+;;   ;;(centaur-tabs-close-button "x")
+;;   (centaur-tabs-set-modified-marker t)
+;;   ;;(centaur-tabs-modified-marker "*")
+;;   (centaur-tabs-show-navigation-buttons t)
+;;   :bind
+;;   ("C-<prior>" . centaur-tabs-backward)
+;;   ("C-<next>" . centaur-tabs-forward)
+;;   (:map evil-normal-state-map
+;; 	     ("g t" . centaur-tabs-forward)
+;; 	     ("g T" . centaur-tabs-backward)))
 
 ;; native Emacs tab bar
 ;; (use-package tab-bar

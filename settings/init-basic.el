@@ -5,27 +5,6 @@
 
 ;;; Code:
 
-;; Supress GUI features
-(setq use-file-dialog nil
-      use-dialog-box nil
-      inhibit-startup-screen t
-      inhibit-startup-message t
-      inhibit-startup-buffer-menu t)
-
-;; Full screen
-(setq initial-frame-alist (quote ((fullscreen . maximized))))
-
-;; No splash screen
-(setq inhibit-splash-screen 1)
-
-;; Relative line numbers
-(global-display-line-numbers-mode)
-(setq display-line-numbers-type 'relative)
-
-;; Linux specific
-(setq x-gtk-use-system-tooltips nil
-      x-underline-at-descent-line t)
-
 ;; MacOS specific
 (setq ns-use-thing-smoothing t
       ns-pop-up-frames nil)
@@ -84,6 +63,9 @@
 ;; Dont scroll without our permission
 (setq auto-window-vscroll nil)
 
+;; Nano-like h-scroll for long lines
+(setq auto-hscroll-mode 'current-line)
+
 ;; Newline behaviour
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "S-<return>") 'comment-indent-new-line)
@@ -102,27 +84,10 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 
-;; Fonts
-;; If running Emacs under Macos, set :height to 140
-(if (eq system-type 'darwin)
-    (set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 140)
-    (set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 105))
-
-(if (display-graphic-p)
-    (dolist (charset '(kana han symbol cjk-misc bopomofo))
-      (set-fontset-font (frame-parameter nil 'font) charset
-                        (font-spec :family "Noto Sans CJK SC" :height 105))))
-
-;; Display Color Emoji
-(set-fontset-font t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend)
-
 ;; Prefer shorter names
 (fset 'yes-or-no-p 'y-or-n-p)
 
-(defalias 'list-buffers 'ibuffer)
-
-;; Use TeX as default IM
-;; (setq default-input-method "TeX")
+(fset 'list-buffers 'ibuffer)
 
 ;; Enable the disabled narrow commands
 (put 'narrow-to-defun  'disabled nil)
@@ -157,6 +122,13 @@
 (use-package simple
   :ensure nil
   :custom
+  ;; show line/column/filesize in modeline
+  (line-number-mode t)
+  (column-number-mode t)
+  (size-indication-mode t)
+  (copy-region-blink-delay 0.2)
+  ;; Relative line numbers
+  (display-line-numbers-type 'relative)
   ;; column starts from 1
   (column-number-indicator-zero-based nil)
   ;; save current clipboard text
@@ -165,15 +137,17 @@
   (kill-do-not-save-duplicates t)
   ;; include '\n'
   (kill-whole-line t)
-  :hook (after-init . (lambda ()
-                        (line-number-mode)
-                        (column-number-mode)
-                        (size-indication-mode))))
+  ;; show the name of character in `what-cursor-position'
+  (what-cursor-show-names t)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  :config
+  (global-display-line-numbers-mode))
 
 ;; Type text
 (use-package text-mode
   :ensure nil
   :custom
+  (word-wrap-by-category t)
   ;; fill
   (adaptive-fill-regexp "[ t]+|[ t]*([0-9]+.|*+)[ t]*")
   (adaptive-fill-first-line-regexp "^* *$")
@@ -256,28 +230,28 @@
 (use-package appt
   :ensure nil
   :hook (after-init . appt-activate)
+  :config
+  (defun appt-display-with-notification (min-to-app new-time appt-msg)
+    (notify-send :title (format "Appointment in %s minutes" min-to-app)
+                 :body appt-msg
+                 :urgency 'critical)
+    (appt-disp-window min-to-app new-time appt-msg))
   :custom
   (appt-display-mode-line t)
   (appt-display-interval 3)
-  (appt-message-warning-time 15))
+  (appt-message-warning-time 15)
+  (appt-disp-window-function #'appt-display-with-notification))
 
-;; lifelog
-(use-package diary-lib
+;; Build regexp with visual feedback
+(use-package re-builder
   :ensure nil
-  :defer t
+  :commands re-builder
+  :bind (:map reb-mode-map
+         ("C-c C-k" . reb-quit)
+         ("C-c C-p" . reb-prev-match)
+         ("C-c C-n" . reb-next-match))
   :custom
-  (diary-number-of-entries 7)
-  (diary-comment-start "#"))
-
-;; quick access to files/tags
-(use-package speedbar
-  :ensure nil
-  :bind ("<f8>" . speedbar-get-focus)
-  :custom-face
-  (speedbar-file-face ((t (:foreground "cyan4"))))
-  (speedbar-selected-face ((t (:foreground "red3" :underline t))))
-  :custom
-  (speedbar-indentation-width 2))
+  (reb-re-syntax 'string))
 
 ;; transparent remote access
 (use-package tramp
@@ -286,37 +260,41 @@
   :custom
   (tramp-default-method "ssh"))
 
-;; htop like monitor
-(use-package proced
-  :ensure nil
-  :defer t
-  :custom
-  (proced-auto-update-flag t))
-
-;; mouse wheel optimization
-(use-package mwheel
-  :ensure nil
-  :defer t
-  :custom
-  (mouse-wheel-progressive-speed nil)
-  (mouse-wheel-scroll-amount '(1 ((shift) . 2) ((control)))))
-
 ;; Better abbrev expansion
 (use-package hippie-exp
   :ensure nil
-  :bind ("M-/" . hippie-expand))
+  :bind ([remap dabbrev-expand] . hippie-expand)
+  :config
+  (defun try-expand-tempo (_old)
+    (require 'tempo)
+    (tempo-expand-if-complete))
+  :custom
+  (hippie-expand-try-functions-list '(try-expand-tempo
+                                      try-expand-dabbrev
+                                      try-expand-dabbrev-all-buffers
+                                      try-expand-dabbrev-from-kill
+                                      try-complete-file-name-partially
+                                      try-complete-file-name
+                                      try-expand-all-abbrevs
+                                      try-expand-list
+                                      try-expand-line
+                                      try-complete-lisp-symbol-partially
+                                      try-complete-lisp-symbol)))
 
 ;; Make align be a simple thing
 (use-package align
   :ensure nil
-  :bind (("C-c [" . align-regexp)
-         ("C-c ]" . align-regexp)))
+  :bind (("C-c ]" . align-regexp)))
 
 ;; Needed by `webpaste'
 (use-package browse-url
   :ensure nil
   :custom
-  (browse-url-generic-program "firefox-nightly"))
+  (browse-url-generic-program (or (executable-find "firefox-nightly")
+                                  (executable-find "chromium")
+                                  (when (eq system-type 'darwin) "open")
+                                  (when (eq system-type 'gnu/linux) "xdg-open")))
+  (browse-url-handlers '(("\\`file:" . browse-url-default-browser))))
 
 ;; Notifications
 (use-package notifications
@@ -340,7 +318,11 @@
 
 ;; Copy environment variables from shell
 (use-package exec-path-from-shell
-  :ensure t)
+  :ensure t
+  :hook (after-init . exec-path-from-shell-initialize)
+  :custom
+  (exec-path-from-shell-arguments '("-l"))
+  (exec-path-from-shell-variables '("GOPATH" "GO111MODULE" "GOPROXY" "PATH")))
 
 (provide 'init-basic)
 

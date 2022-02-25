@@ -8,10 +8,6 @@
 ;; Tips for next keystroke
 (use-package which-key
   :ensure t
-  ;; :init
-  ;; (setq which-key-popup-type 'frame)
-  ;; (setq which-key-frame-max-width 60)
-  ;; (setq which-key-frame-max-height 20)
   :hook (after-init . which-key-mode)
   :custom (which-key-idle-delay 0.5))
 
@@ -78,7 +74,8 @@
     (run-with-idle-timer 0 nil 'ivy-wgrep-change-to-wgrep-mode)
     (ivy-occur)))
 
-(use-package ivy-rich :ensure t
+(use-package ivy-rich
+  :ensure t
   :hook (ivy-mode . ivy-rich-mode)
   :custom (ivy-rich-path-style 'abbrev))
 
@@ -318,15 +315,15 @@
   :custom
   (shackle-default-size 0.5)
   (shackle-default-alignment 'below)
-  (shackle-rules '((magit-status-mode    :select t :inhibit-window-quit t :same t)
-                   (magit-log-mode       :select t :inhibit-window-quit t :same t)
-                   (profiler-report-mode :select t)
-                   (help-mode            :select t :align t :size 0.4)
-                   (comint-mode          :select t :align t :size 0.4)
-                   (Man-mode             :select t :other t)
-                   (woman-mode           :select t :other t)
-                   (grep-mode            :select t :align t)
-                   (rg-mode              :select t :align t)
+  (shackle-rules '((magit-status-mode          :select t :inhibit-window-quit t :same t)
+                   (magit-log-mode             :select t :inhibit-window-quit t :same t)
+                   (profiler-report-mode       :select t)
+                   (help-mode                  :select t :align t :size 0.4)
+                   (comint-mode                :select t :align t :size 0.4)
+                   (Man-mode                   :select t :other t)
+                   (woman-mode                 :select t :other t)
+                   (grep-mode                  :select t :align t)
+                   (rg-mode                    :select t :align t)
                    ("*bm-bookmarks*"           :select t   :align t)
                    ("*Flycheck errors*"        :select t   :align t :size 10)
                    ("*quickrun*"               :select nil :align t :size 15)
@@ -335,6 +332,18 @@
                    ("*Async Shell Command*"    :ignore t)
                    ("*package update results*" :select nil :align t :size 10)
                    ("\\*ivy-occur .*\\*"       :regexp t :select t :align t))))
+
+;; Switch between Tru/False t/nil on/off under cursor immediately
+;; TODO: support more modes
+(use-package cycle-at-point
+  :ensure t
+  :custom
+  (cycle-at-point-list '('(:data ("yes" "no") :case-fold t)
+                         '(:data ("True" "False") :case-fold t)))
+  :general
+  (:states 'normal "gc" 'cycle-at-point)
+  :bind
+  ("C-c C-y" . cycle-at-point))
 
 ;; smart parens
 (use-package smartparens
@@ -384,61 +393,52 @@
   ;;               (back-quote . "`")))
   :bind
   (:map smartparens-mode-map
-        ("C-M-a" . sp-beginning-of-sexp)
-        ("C-M-e" . sp-end-of-sexp)
+        ("C-M-a"         . sp-beginning-of-sexp)
+        ("C-M-e"         . sp-end-of-sexp)
 
-        ("C-<down>" . sp-down-sexp)
-        ("C-<up>"   . sp-up-sexp)
-        ("M-<down>" . sp-backward-down-sexp)
-        ("M-<up>"   . sp-backward-up-sexp)
+        ("C-<down>"      . sp-down-sexp)
+        ("C-<up>"        . sp-up-sexp)
+        ("M-<down>"      . sp-backward-down-sexp)
+        ("M-<up>"        . sp-backward-up-sexp)
 
-        ("C-M-f" . sp-forward-sexp)
-        ("C-M-b" . sp-backward-sexp)
+        ("C-M-f"         . sp-forward-sexp)
+        ("C-M-b"         . sp-backward-sexp)
 
-        ("C-M-n" . sp-next-sexp)
-        ("C-M-p" . sp-previous-sexp)
+        ("C-M-n"         . sp-next-sexp)
+        ("C-M-p"         . sp-previous-sexp)
 
-        ("C-S-f" . sp-forward-symbol)
-        ("C-S-b" . sp-backward-symbol)
+        ("C-S-f"         . sp-forward-symbol)
+        ("C-S-b"         . sp-backward-symbol)
 
-        ("C-<right>" . sp-forward-slurp-sexp)
-        ("M-<right>" . sp-forward-barf-sexp)
-        ("C-<left>"  . sp-backward-slurp-sexp)
-        ("M-<left>"  . sp-backward-barf-sexp)
+        ("C-<right>"     . sp-forward-slurp-sexp)
+        ("M-<right>"     . sp-forward-barf-sexp)
+        ("C-<left>"      . sp-backward-slurp-sexp)
+        ("M-<left>"      . sp-backward-barf-sexp)
 
-        ("C-M-t" . sp-transpose-sexp)
-        ("C-M-k" . sp-kill-sexp)
-        ("C-k"   . sp-kill-hybrid-sexp)
-        ("M-k"   . sp-backward-kill-sexp)
-        ("C-M-w" . sp-copy-sexp)
-        ("C-M-d" . delete-sexp)
+        ("C-M-t"         . sp-transpose-sexp)
+        ("C-M-k"         . sp-kill-sexp)
+        ("C-k"           . sp-kill-hybrid-sexp)
+        ("M-k"           . sp-backward-kill-sexp)
+        ("C-M-w"         . sp-copy-sexp)
+        ("C-M-d"         . delete-sexp)
 
         ("M-<backspace>" . backward-kill-word)
         ("C-<backspace>" . sp-backward-kill-word)
         ([remap sp-backward-kill-word] . backward-kill-word)
 
-        ("M-[" . sp-backward-unwrap-sexp)
-        ("M-]" . sp-unwrap-sexp)
+        ("M-["       . sp-backward-unwrap-sexp)
+        ("M-]"       . sp-unwrap-sexp)
 
-        ("C-x C-t" . sp-transpose-hybrid-sexp)
+        ("C-x C-t"   . sp-transpose-hybrid-sexp)
 
-        ;; ("C-c ("  . wrap-with-parens)
-        ;; ("C-c ["  . wrap-with-brackets)
-        ;; ("C-c {"  . wrap-with-braces)
+        ("C-c ("  . wrap-with-parens)
+        ("C-c ["  . wrap-with-brackets)
+        ("C-c {"  . wrap-with-braces)
         ;; ("C-c '"  . wrap-with-single-quotes)
         ;; ("C-c \"" . wrap-with-double-quotes)
         ;; ("C-c _"  . wrap-with-underscores)
-        ;; ("C-c `"  . wrap-with-back-quotes))
+        ("C-c `"  . wrap-with-back-quotes)
         ))
-
-;; Leetcode!!!
-(use-package leetcode
-  :ensure t
-  :config
-  (setq leetcode-prefer-language "golang")
-  (setq leetcode-prefer-sql "mysql")
-  (setq leetcode-save-solutions t)
-  (setq leetcode-directory "~/Projects/leetcode"))
 
 ;; 内置中文输入法 + 中文分词
 (use-package pyim
@@ -485,8 +485,10 @@
 (use-package remember
   :ensure nil
   :custom
-  (remember-handler-functions '(remember-store-in-files))
-  (remember-data-directory (concat org-directory "remember/")))
+  (remember-handler-functions '(remember-append-to-file))
+  (remember-data-file (expand-file-name "~/notes/remember/notes.txt"))
+  (remember-leader-text "**")
+  (remember-in-new-frame nil))
 
 (use-package wakatime-mode
   :hook (after-init . global-wakatime-mode)
@@ -500,7 +502,9 @@
   :mode ("\\.plantuml\\'" . plantuml-mode)
   :custom
   (plantuml-executable-path "/usr/bin/plantuml")
+  (org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
   (plantuml-default-exec-mode 'executable))
+
 
 (provide 'init-tools)
 

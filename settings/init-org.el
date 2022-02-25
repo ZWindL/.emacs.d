@@ -91,7 +91,60 @@
   (org-archive-location "%s_archive::date-tree")
   :config
   ;; latex preview
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.6)))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.6))
+  (general-create-definer org-leader-def
+    :states 'normal
+    :prefix "SPC m")
+  (org-leader-def
+    :keymaps 'org-mode-map
+    "." 'counsel-org-goto
+    "/" 'counsel-org-goto-all
+    "a" 'org-archive-subtree
+    "d" 'org-deadline
+    "e" 'org-set-effort
+    "f" 'org-footnote-new
+    "l" 'org-lint
+    "o" 'org-toggle-ordered-property
+    "p" 'org-set-property
+    "q" 'org-set-tags-command
+    "r" 'org-refile
+    "s" 'org-schedule
+    "t" 'org-todo
+    "T" 'org-todo-list
+    "P" 'org-preview-latex-fragment
+
+    "b" '(:ignore t :which-key "babel")
+    "bp" 'org-babel-previous-src-block
+    "bn" 'org-babel-next-src-block
+    "be" 'org-babel-expand-src-block
+    "bg" 'org-babel-goto-named-src-block
+    "bs" 'org-babel-execute-subtree
+    "bb" 'org-babel-execute-buffer
+    "bt" 'org-babel-tangle
+    "bf" 'org-babel-tangle-file
+    "bc" 'org-babel-check-src-block
+    "bi" 'org-babel-insert-header-arg
+    "bI" 'org-babel-view-src-block-info
+    "bk" 'org-babel-remove-result-one-or-many
+
+    "c" '(:ignore t :which-key "clock")
+    "cc" 'org-clock-in
+    "cC" 'org-clock-out
+    "cd" 'org-clock-mark-default-task
+    "ce" 'org-clock-modify-effort-estimate
+    "cg" 'org-clock-goto
+    "cl" 'org-clock-in-last
+    "cr" 'org-clock-report
+    "cs" 'org-clock-display
+    "cx" 'org-clock-cancel
+    "c=" 'org-clock-timestamps-up
+    "c-" 'org-clock-timestamps-down
+
+    "i" '(:ignore t :which-key "insert")
+    "id" 'org-insert-drawer
+    "in" 'org-add-note
+    "it" 'org-time-stamp-inactive
+    "iT" 'org-time-stamp))
 
 ;; Keep track of tasks
 (use-package org-agenda
@@ -171,7 +224,7 @@
 ;; Write codes in org-mode
 (use-package org-src
   :ensure nil
-  :after org
+  :hook (org-babel-after-execute . org-redisplay-inline-images)
   :bind (:map org-src-mode-map
               ;; consistent with separedit/magit
               ("C-c C-c" . org-edit-src-exit))
@@ -179,19 +232,35 @@
   (org-src-fontify-natively t)
   (org-src-tab-acts-natively t)
   (org-src-preserve-indentation t)
-  (org-src-window-setup 'current-window)
+  (org-src-window-setup 'other-window)
   (org-confirm-babel-evaluate nil)
   (org-edit-src-content-indentation 0)
-  (org-babel-load-languages '((awk        . t)
-                              (C          . t)
-                              (dot        . t)
-                              (go         . t)
-                              (rust       . t)
-                              (emacs-lisp . t)
-                              (ocaml      . t)
-                              (python     . t)
-                              (shell      . t)
-                              (sql        . t))))
+  (org-src-lang-modes '(("C"         . c)
+                        ("C++"       . c++)
+                        ("asymptote" . asy)
+                        ("bash"      . sh)
+                        ("beamer"    . latex)
+                        ("calc"      . fundamental)
+                        ("cpp"       . c++)
+                        ("ditaa"     . artist)
+                        ("dot"       . graphviz-dot)
+                        ("elisp"     . emacs-lisp)
+                        ("ocaml"     . tuareg)
+                        ("screen"    . shell-script)
+                        ("shell"     . sh)
+                        ("sqlite"    . sql)))
+  :config
+  (with-eval-after-load 'org
+    (org-babel-do-load-languages
+     'org-babel-load-languages '((awk        . t)
+                                 (C          . t)
+                                 (dot        . t)
+                                 (emacs-lisp . t)
+                                 (ocaml      . t)
+                                 (plantuml   . t)
+                                 (python     . t)
+                                 (shell      . t)
+                                 (sql        . t)))))
 
 ;; Rich text clipboard
 (use-package org-rich-yank
