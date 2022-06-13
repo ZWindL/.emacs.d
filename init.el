@@ -50,7 +50,7 @@
 ;; packages to reduce the IO time.
 ;;
 ;; Don't forget to M-x package-quickstart-refresh if a new package is installed.
-(setq package-quickstart t)
+;; (setq package-quickstart t)
 
 ;; TODO: Does it conflict with stright.el?
 (package-initialize)
@@ -110,7 +110,7 @@
             (push `(add-to-list 'use-package-selected-packages ',package) items)))))))
 
 
-(setq debug-on-error t)
+(setq debug-on-error nil)
 
 (add-to-list 'load-path (expand-file-name "settings" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "settings/lang" user-emacs-directory))

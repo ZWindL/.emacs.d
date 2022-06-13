@@ -339,8 +339,7 @@
                            ("github"    . "https://github.com/%s")
                            ("youtube"   . "https://youtube.com/watch?v=%s")
                            ("wikipedia" . "https://en.wikipedia.org/wiki/%s")
-                           ("google"    . "https://google.com/search?q=")))
-  )
+                           ("google"    . "https://google.com/search?q="))))
 
 ;; export
 (use-package ox
@@ -394,8 +393,7 @@
                              (:name "Due soon" :deadline future)
                              (:name "Important" :priority>= "B")
                              (:name "Started" :todo "INPROGRESS" :order 6)
-                             (:todo "WAITING" :order 9)))
-  )
+                             (:todo "WAITING" :order 9))))
 
 ;; Presentation
 (use-package org-tree-slide
@@ -450,7 +448,7 @@
   :ensure t
   :defer t
   :after org
-  :bind ("C-c j" . org-journal-new-entry)
+  :bind ("C-c o j" . org-journal-new-entry)
   :custom
   (org-journal-dir (expand-file-name (concat org-directory "diary")))
   (org-journal-date-format "%A, %d %B %Y")
@@ -460,14 +458,46 @@
   (org-extend-today-until 6)
   :init
   (defun org-journal-file-header-func (time)
-  "Custom function to create journal header."
-  (concat
-    (pcase org-journal-file-type
-      (`daily "#+TITLE: Daily Journal\n#+STARTUP: showeverything")
-      (`weekly "#+TITLE: Weekly Journal\n#+STARTUP: folded")
-      (`monthly "#+TITLE: Monthly Journal\n#+STARTUP: folded")
-      (`yearly "#+TITLE: Yearly Journal\n#+STARTUP: folded"))))
+    "Custom function to create journal header."
+    (concat
+     (pcase org-journal-file-type
+       (`daily "#+TITLE: Daily Journal\n#+STARTUP: showeverything")
+       (`weekly "#+TITLE: Weekly Journal\n#+STARTUP: folded")
+       (`monthly "#+TITLE: Monthly Journal\n#+STARTUP: folded")
+       (`yearly "#+TITLE: Yearly Journal\n#+STARTUP: folded"))))
   (setq org-journal-file-header 'org-journal-file-header-func))
+
+;; org-edit-indirect
+(use-package org-edit-indirect
+  :ensure t
+  :hook (org-mode . org-edit-indirect-mode))
+
+;; (use-package org-modern
+;;   :ensure t
+;;   :hook (org-mode . org-modern-mode))
+
+;; org-transclusion
+(use-package org-transclusion
+  :ensure t
+  :hook (org-mode . org-transclusion-mode)
+  :bind
+  (:map org-mode-map
+        ("C-c t a" . org-transclusion-add)
+        ("C-c t l" . org-transclusion-add-all)
+        ("C-c t m" . org-transclusion-make-from-link))
+  (:map org-transclusion-map
+        ("g" . org-transclusion-refresh))
+  :custom
+  (org-transclusion-include-first-section nil)
+  (org-transclusion-add-all-on-activate t)
+  :config
+  ;; (general-leader-def
+  ;;  "t" '(:keymap org-mode-map :which-key "org-transclusion")
+  ;;  "ta" 'org-transclusion-add
+  ;;  "tl" 'org-transclusion-add-all
+  ;;  "tm" 'org-transclusion-make-from-link)
+  (set-face-attribute
+   'org-transclusion-fringe t))
 
 (require 'init-org-roam)
 (provide 'init-org)

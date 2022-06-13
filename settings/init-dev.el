@@ -325,6 +325,7 @@
 (require 'init-haskell)
 (require 'init-shell)
 (require 'init-scheme)
+(require 'init-lua)
 (require 'init-tree-sitter)
 
 (provide 'init-dev)

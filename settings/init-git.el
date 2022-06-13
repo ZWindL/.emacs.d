@@ -15,7 +15,7 @@
 ;; The awesome git client
 (use-package magit
   :ensure t
-  :bind (("C-x g" . magit-status)
+  :bind (("C-x g g" . magit-status)
          ("C-x M-g" . magit-dispatch))
   :custom
   ;; Supress message
@@ -62,13 +62,15 @@
 ;; Pop up last commit information of current line
 (use-package git-messenger
   :ensure t
-  :bind (:map vc-prefix-map
-         ("p" . git-messenger:popup-message)
-         :map git-messenger-map
-         ("m" . git-messenger:copy-message))
   :custom
   (git-messenger:show-detail t)
-  (git-messenger:use-magit-popup t))
+  (git-messenger:use-magit-popup t)
+  :bind
+  ("C-x g m" . git-messenger:popup-message)
+  (:map vc-prefix-map
+        ("p" . git-messenger:popup-message)
+        :map git-messenger-map
+        ("m" . git-messenger:copy-message)))
 
 ;; Setup gitignore mode
 (use-package conf-mode
@@ -102,8 +104,25 @@
       ("C" "combine"   smerge-combine-with-next)
       ("r" "resolve"   smerge-resolve)
       ("k" "kill"      smerge-kill-current)
-      ("h" "highlight" smerge-refine)]])
-  )
+      ("h" "highlight" smerge-refine)]]))
+
+(use-package blamer
+  :ensure t
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 70)
+  (blamer-author-formatter " ✎ %s ")
+  (setq blamer-commit-formatter "● %s")
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                    :background nil
+                    :height 90
+                    :italic t)))
+  :bind
+  ("C-x g b" . blamer-mode)
+  ("C-x g B" . blamer-show-posframe-commit-info)
+  :config
+  (blamer-mode nil))
 
 (provide 'init-git)
 

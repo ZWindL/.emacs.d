@@ -6,20 +6,22 @@
 ;;; Code:
 
 ;; go to the last edited point
-;; default keybindings: `g ;' `g .'
+;; default keybindings: `g ;' `g ,'
 (use-package goto-chg
   :ensure t)
 
 ;; Be kind to your little finger
 (use-package evil
   :ensure t
-  :hook (after-init . evil-mode)
+  :hook ((after-init . evil-mode)
+         (after-init . visual-line-mode))
   :bind (:map evil-normal-state-map
-         ("gs" . evil-avy-goto-char-timer)
-         ("go" . evil-avy-goto-word-or-subword-1)
-         ("gl" . evil-avy-goto-line))
+              ("gs" . evil-avy-goto-char-timer)
+              ("go" . evil-avy-goto-word-or-subword-1)
+              ("gl" . evil-avy-goto-line))
   :config
   (evil-ex-define-cmd "q[uit]" 'kill-this-buffer)
+  (evil-set-leader 'normal (kbd "SPC"))
   :init
   ;; Emacs default keybindings do matter!
   ;; Looks like this variable can only be set here
@@ -27,26 +29,30 @@
   (setq evil-disable-insert-state-bindings t)
   :custom
   (evil-cross-lines t)
-  (evil-respect-visual-line-mode t)
   (evil-split-window-below t)
   (evil-vsplit-window-right t)
   (evil-symbol-word-search t)
+  (evil-respect-visual-line-mode t)
   (evil-undo-system (if (>= emacs-major-version 28) 'undo-redo 'undo-tree))
   (evil-want-C-g-bindings t)
   (evil-want-C-u-scroll t)
   (evil-want-keybinding nil) ; for evil-collection
-  (evil-want-fine-undo t))
+  (evil-want-fine-undo t)
+  (evil-want-abbrev-expand-on-insert-exit nil)
+  (evil-symbol-word-searh t))
 
 (use-package evil-collection
   :ensure t
-  :hook (evil-mode . evil-collection-init)
+  :after evil
   :custom
   ;; (evil-collection-calendar-want-org-bindings t)
   (evil-collection-outline-bind-tab-p nil)
   (evil-collection-want-unimpaired-p t)
   (evil-collection-setup-minibuffer t)
   (evil-collection-want-find-usages-bindings t)
-  (evil-collection-setup-debugger-keys nil))
+  (evil-collection-setup-debugger-keys nil)
+  :config
+  (evil-collection-init))
 
 (use-package evil-surround
   :ensure t
@@ -76,11 +82,16 @@
   :after evil
   :config
   (general-auto-unbind-keys)
-  (general-create-definer leader-def
+  (general-def
+    :states 'normal
+    :keymaps 'override
+    "[b" 'switch-to-prev-buffer
+    "]b" 'switch-to-next-buffer)
+  (general-create-definer general-leader-def
     :states 'normal
     :prefix "SPC"
     :keymaps 'override)
-  (leader-def
+  (general-leader-def
     ;; file
     "f" '(:ignore t :which-key "file")
     "fF" 'find-file-other-window

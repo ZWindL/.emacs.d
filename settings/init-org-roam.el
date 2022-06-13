@@ -12,9 +12,7 @@
   :custom
   (org-roam-v2-ack t)
   (org-roam-directory (expand-file-name (concat org-directory "roam/")))
-  (org-roam-index-file (expand-file-name "index.org" org-roam-directory))
   (org-roam-graph-viewer "/usr/bin/firefox-nightly")
-  (org-roam-completion-system 'ivy)
   (org-roam-protocol-store-links t)
   (org-roam-db-gc-threshold most-positive-fixnum)
   (org-roam-completion-everywhere t)

@@ -6,8 +6,8 @@
 ;;; Code:
 
 ;; MacOS specific
-(setq ns-use-thing-smoothing t
-      ns-pop-up-frames nil)
+;; (setq ns-use-thing-smoothing t
+;;       ns-pop-up-frames nil)
 
 ;; Optimize for very long lines
 (setq bidi-paragraph-direction 'left-to-right
@@ -323,6 +323,13 @@
   :custom
   (exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-variables '("GOPATH" "GO111MODULE" "GOPROXY" "PATH")))
+
+;; Repeat mode, only for Emacs version >= 28
+(use-package repeat
+  :ensure nil
+  :hook (after-init . repeat-mode)
+  :custom
+  (repeat-exit-key (kbd "RET")))
 
 (provide 'init-basic)
 

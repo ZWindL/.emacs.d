@@ -8,12 +8,12 @@
 ;; lsp-mode
 (use-package lsp-mode
   :ensure t
+  :hook ((prog-mode . lsp-deferred)
+         (lsp-mode  . lsp-enable-which-key-integration))
   :init
   ;; this line makes things in `:general' work properly
   (add-hook 'lsp-mode-hook #'evil-normalize-keymaps)
   (setq lsp-keymap-prefix "C-c C-l")
-  :hook ((prog-mode . lsp-deferred)
-         (lsp-mode . lsp-enable-which-key-integration))
   :commands
   (lsp lsp-deferred lsp-format-buffer lsp-organize-imports lsp-enable-which-key-integration)
   :config
@@ -45,14 +45,14 @@
   (lsp-signature-auto-activate t)      ;; show function signature
   (lsp-signature-doc-lines 2)          ;; but dont take up more lines
   (company-lsp-async t)
+  (lsp-warn-no-matched-clients nil)
   (company-files-exclusions '(".git/" ".DS_Store"))
   :bind (:map lsp-mode-map
               ("C-c f" . lsp-format-region)
               ("C-c F" . lsp-format-buffer)
               ("C-c H" . lsp-describe-thing-at-point)   ;; `h' stands for `hover'
               ("C-c a" . lsp-execute-code-action)
-              ("C-c R" . lsp-rename)
-              )
+              ("C-c R" . lsp-rename))
   :general
   (:definer 'minor-mode :states 'normal :keymaps 'lsp-mode
             "gR" 'lsp-rename

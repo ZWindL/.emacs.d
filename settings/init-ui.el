@@ -44,32 +44,34 @@
 (use-package doom-themes
   :ensure t
   :config
-  (load-theme 'doom-one t)
-  ;; (load-theme 'doom-one-light t)
+  ;; (load-theme 'doom-one t)
+  ;; (load-theme 'doom-outrun-electric t)
+  ;; (load-theme 'doom-one-moonligt t)
+  (load-theme 'doom-one-light t)
   (doom-themes-org-config)
   (doom-themes-visual-bell-config)
   (setq doom-themes-treemacs-theme "doom-atom")
   (doom-themes-treemacs-config))
 
-(use-package leuven-theme
-  :ensure t
-  :config
-  ;; (load-theme 'leuven-dark t)
-  ;; (load-theme 'leuven t)
-  :custom
-  (org-fontify-whole-heading-line t)
-  (leuven-scale-org-agenda-structure t))
+;; (use-package leuven-theme
+;;   :ensure t
+;;   :config
+;;   ;; (load-theme 'leuven-dark t)
+;;   ;; (load-theme 'leuven t)
+;;   :custom
+;;   (org-fontify-whole-heading-line t)
+;;   (leuven-scale-org-agenda-structure t))
 
 (use-package doom-modeline
   :ensure t
+  :hook (after-init . doom-modeline-mode)
   :custom
   (doom-modeline-icon (display-graphic-p))
   (doom-modeline-irc nil)
   (doom-modeline-mu4e nil)
   (doom-modeline-github nil)
   (doom-modeline-unicode-fallback t)
-  (doom-modeline-env-version t)
-  :hook (after-init . doom-modeline-mode))
+  (doom-modeline-env-version t))
 
 ;; Restore windows layout
 (use-package winner-mode
@@ -88,10 +90,20 @@
 ;; Parrot mode
 (use-package parrot
   :ensure t
+  :defer t
+  :hook (after-init . parrot-mode)
+  :bind (("C-x M-n" . parrot-rotate-next-word-at-point)
+         ("C-x M-p" . parrot-rotate-prev-word-at-point))
+  :general
+  (:states 'normal
+           "]r" #'parrot-rotate-next-word-at-point
+           "[r" #'parrot-rotate-prev-word-at-point)
   :config
-  (parrot-mode)
-  :custom
-  (parrot-set-parrot-type 'confused))
+  (parrot-set-parrot-type 'confused)
+  (dolist (entry '((:rot ("emacs" "vim" "vscode") :caps t :upcase t)
+                   (:rot ("t" "nil"))
+                   (:rot ("is" "is not"))))
+    (add-to-list 'parrot-rotate-dict entry)))
 ;; default, confused, emacs, nyan, rotating, science, thumbsup
 ;; (add-hook 'mu4e-index-updated-hook #'parrot-start-animation))
 
