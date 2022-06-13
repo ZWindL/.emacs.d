@@ -111,6 +111,7 @@
 
 
 (setq debug-on-error nil)
+(defconst global-leader-key "SPC")
 
 (add-to-list 'load-path (expand-file-name "settings" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "settings/lang" user-emacs-directory))

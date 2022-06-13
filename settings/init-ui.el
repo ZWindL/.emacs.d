@@ -94,10 +94,10 @@
   :hook (after-init . parrot-mode)
   :bind (("C-x M-n" . parrot-rotate-next-word-at-point)
          ("C-x M-p" . parrot-rotate-prev-word-at-point))
-  :general
-  (:states 'normal
-           "]r" #'parrot-rotate-next-word-at-point
-           "[r" #'parrot-rotate-prev-word-at-point)
+  ;; :general
+  ;; (:states 'normal
+  ;;          "]r" #'parrot-rotate-next-word-at-point
+  ;;          "[r" #'parrot-rotate-prev-word-at-point)
   :config
   (parrot-set-parrot-type 'confused)
   (dolist (entry '((:rot ("emacs" "vim" "vscode") :caps t :upcase t)

@@ -248,9 +248,9 @@
   :ensure nil
   :bind
   ("C-c r" . xref-find-references)
-  ("C-c d" . xref-find-definitions)
-  :general
-  (:states 'normal "gr" 'xref-find-references))
+  ("C-c d" . xref-find-definitions))
+  ;; :general
+  ;; (:states 'normal "gr" 'xref-find-references))
 
 ;; xref display result
 (use-package ivy-xref

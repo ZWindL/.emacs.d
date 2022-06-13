@@ -92,11 +92,7 @@
   :config
   ;; latex preview
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.6))
-  (general-create-definer org-leader-def
-    :states 'normal
-    :prefix "SPC m")
-  (org-leader-def
-    :keymaps 'org-mode-map
+  (define-leader-key 'normal org-mode-map :localleader
     "." 'counsel-org-goto
     "/" 'counsel-org-goto-all
     "a" 'org-archive-subtree
@@ -113,7 +109,6 @@
     "T" 'org-todo-list
     "P" 'org-preview-latex-fragment
 
-    "b" '(:ignore t :which-key "babel")
     "bp" 'org-babel-previous-src-block
     "bn" 'org-babel-next-src-block
     "be" 'org-babel-expand-src-block
@@ -127,7 +122,6 @@
     "bI" 'org-babel-view-src-block-info
     "bk" 'org-babel-remove-result-one-or-many
 
-    "c" '(:ignore t :which-key "clock")
     "cc" 'org-clock-in
     "cC" 'org-clock-out
     "cd" 'org-clock-mark-default-task
@@ -140,7 +134,6 @@
     "c=" 'org-clock-timestamps-up
     "c-" 'org-clock-timestamps-down
 
-    "i" '(:ignore t :which-key "insert")
     "id" 'org-insert-drawer
     "in" 'org-add-note
     "it" 'org-time-stamp-inactive
@@ -449,13 +442,6 @@
   :defer t
   :after org
   :bind ("C-c o j" . org-journal-new-entry)
-  :custom
-  (org-journal-dir (expand-file-name (concat org-directory "diary")))
-  (org-journal-date-format "%A, %d %B %Y")
-  (org-journal-file-format "%Y-%m-%d.org")
-  (org-journal-enable-cache t)
-  ;; (org-journal-date-prefix "#+title: ")
-  (org-extend-today-until 6)
   :init
   (defun org-journal-file-header-func (time)
     "Custom function to create journal header."
@@ -465,7 +451,17 @@
        (`weekly "#+TITLE: Weekly Journal\n#+STARTUP: folded")
        (`monthly "#+TITLE: Monthly Journal\n#+STARTUP: folded")
        (`yearly "#+TITLE: Yearly Journal\n#+STARTUP: folded"))))
-  (setq org-journal-file-header 'org-journal-file-header-func))
+  (setq org-journal-file-header 'org-journal-file-header-func)
+  :custom
+  (org-journal-dir (expand-file-name (concat org-directory "diary")))
+  (org-journal-date-format "%A, %d %B %Y")
+  (org-journal-file-format "%Y-%m-%d.org")
+  (org-journal-enable-cache t)
+  ;; (org-journal-date-prefix "#+title: ")
+  (org-extend-today-until 6)
+  :config
+  (define-leader-key 'normal 'global nil
+                     "oj" 'org-journal-new-entry))
 
 ;; org-edit-indirect
 (use-package org-edit-indirect

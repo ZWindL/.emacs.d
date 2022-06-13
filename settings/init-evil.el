@@ -19,14 +19,13 @@
               ("gs" . evil-avy-goto-char-timer)
               ("go" . evil-avy-goto-word-or-subword-1)
               ("gl" . evil-avy-goto-line))
-  :config
-  (evil-ex-define-cmd "q[uit]" 'kill-this-buffer)
-  (evil-set-leader 'normal (kbd "SPC"))
   :init
   ;; Emacs default keybindings do matter!
   ;; Looks like this variable can only be set here
   ;; or in the custome.el
   (setq evil-disable-insert-state-bindings t)
+  :config
+  (evil-ex-define-cmd "q[uit]" 'kill-this-buffer)
   :custom
   (evil-cross-lines t)
   (evil-split-window-below t)
@@ -77,95 +76,106 @@
   (evil-org-agenda-set-keys))
 
 ;; SPC keybindings
-(use-package general
-  :ensure t
-  :after evil
+(use-package evil
+  :ensure nil
+  :init
+  (defun define-leader-key (state map localleader &rest bindings)
+    "Define leader key in MAP when STATE, a wrapper for
+    `evil-define-key*'. All BINDINGS are prefixed with \"<leader>\"
+    if LOCALLEADER is nil, otherwise \"<localleader>\"."
+    (cl-assert (cl-evenp (length bindings)))
+    (let ((prefix (if localleader "<localleader>" "<leader>")))
+      (while bindings
+        (let ((key (pop bindings))
+              (def (pop bindings)))
+          (evil-define-key* state map (kbd (concat prefix key)) def)))))
   :config
-  (general-auto-unbind-keys)
-  (general-def
-    :states 'normal
-    :keymaps 'override
+  (evil-set-leader 'normal (kbd "SPC"))
+  (evil-set-leader 'normal (kbd "C-SPC") t) ;local leader
+  ;; switch buffer, consistent with my nvim config
+  (evil-define-key 'normal 'global
     "[b" 'switch-to-prev-buffer
     "]b" 'switch-to-next-buffer)
-  (general-create-definer general-leader-def
-    :states 'normal
-    :prefix "SPC"
-    :keymaps 'override)
-  (general-leader-def
-    ;; file
-    "f" '(:ignore t :which-key "file")
-    "fF" 'find-file-other-window
-    "fg" 'rgrep
-    "fj" 'counsel-file-jump
-    "fo" 'counsel-find-file-extern
-    "fC" 'my/copy-current-file
-    "fD" 'my/delete-current-file
-    "fy" 'my/copy-current-filename
-    "fR" 'my/rename-current-file
-    "fr" 'recentf-open-files
-    "fl" 'find-file-literally
-    "fz" 'counsel-fzf
+  (define-leader-key 'normal 'global nil
+                     ;; files
+                     "fF" 'find-file-other-window
+                     "fg" 'rgrep
+                     "fj" 'counsel-file-jump
+                     "fo" 'counsel-find-file-extern
+                     "fC" 'my/copy-current-file
+                     "fD" 'my/delete-current-file
+                     "fy" 'my/copy-current-filename
+                     "fR" 'my/rename-current-file
+                     "fr" 'recentf-open-files
+                     "fl" 'find-file-literally
+                     "fz" 'counsel-fzf
 
-    ;; code
-    "c" '(:ignore t :which-key "code")
-    "ca" 'add-change-log-entry-other-window
-    "cd" 'rmsbolt-compile
-    "cc" 'compile
-    "cC" 'recompile
-    "ck" 'kill-compilation
-    "cx" 'quickrun
-    "cX" 'quickrun-shell
+                     ;; dired
+                     "dj" 'dired-jump
+                     "dJ" 'dired-jump-other-window
 
-    ;; window
-    "w" '(:keymap evil-window-map :which-key "window")
-    "wx" 'kill-buffer-and-window
-    "wu" 'my/transient-winner-undo
+                     ;; code
+                     "ca" 'add-change-log-entry-other-window
+                     "cd" 'rmsbolt-compile
+                     "cc" 'compile
+                     "cC" 'recompile
+                     "ck" 'kill-compilation
+                     "cx" 'quickrun
+                     "cX" 'quickrun-shell
 
-    ;; text
-    "x" '(:ignore t :which-key "text")
-    "xj" 'set-justification
-    "xw" 'delete-trailing-whitespace
-    "x TAB" 'indent-rigidly
+                     ;; buffer & bookmark
+                     "bb" 'switch-to-buffer
+                     "bB" 'switch-to-buffer-other-window
+                     "bc" 'clone-indirect-buffer
+                     "bC" 'clone-indirect-buffer-other-window
+                     "by" '+copy-current-buffer-name
+                     "bv" 'revert-buffer
+                     "bx" 'scratch-buffer
+                     "bz" 'bury-buffer
+                     ;; --------------
+                     "bm" 'bookmark-set
+                     "bM" 'bookmark-set-no-overwrite
+                     "bi" 'bookmark-insert
+                     "br" 'bookmark-rename
+                     "bd" 'bookmark-delete
+                     "bw" 'bookmark-write
+                     "bj" 'bookmark-jump
+                     "bJ" 'bookmark-jump-other-window
+                     "bl" 'bookmark-bmenu-list
+                     ;; text
+                     "xj" 'set-justification
+                     "xw" 'delete-trailing-whitespace
+                     "x TAB" 'indent-rigidly
 
-    ;; search
-    "s" '(:ignore t :which-key "search")
-    "ss" 'swiper-isearch
-    "sS" 'swiper-isearch-thing-at-point
-    "sa" 'swiper-all
-    "sA" 'swiper-all-thing-at-point
-    "sj" 'evil-show-jumps
-    "sm" 'evil-show-marks
-    "sr" 'evil-show-registers
-    "si" 'imenu
-    "sl" 'ivy-resume
-    "sg" 'counsel-rg
+                     ;; search
+                     "sa" 'swiper-all
+                     "sA" 'swiper-all-thing-at-point
+                     "sj" 'evil-show-jumps
+                     "sm" 'evil-show-marks
+                     "sr" 'evil-show-registers
+                     "si" 'imenu
+                     "sl" 'ivy-resume
+                     "sg" 'counsel-rg
 
-    ;; insert
-    "i" '(:ignore t :which-key "insert")
-    "iq" 'quickurl-prefix-map
-    "it" 'insert-date-time
-    "iu" 'counsel-unicode-char
-    "iy" 'clipboard-yank
+                     ;; git
+                     "g." 'magit-file-dispatch
+                     "gb" 'magit-branch-checkout
+                     "gB" 'magit-blame-addition
+                     "gc" 'magit-branch-and-checkout
+                     "gC" 'magit-commit-create
+                     "gd" 'magit-diff
+                     "gf" 'magit-find-file
+                     "gg" 'magit-status
+                     "gG" 'magit-status-here
+                     "gi" 'magit-init
+                     "gr" 'magit-rebase-interactive
 
-    ;; git
-    "g" '(:ignore t :which-key "git")
-    "g." 'magit-file-dispatch
-    "gb" 'magit-branch-checkout
-    "gB" 'magit-blame-addition
-    "gc" 'magit-branch-and-checkout
-    "gC" 'magit-commit-create
-    "gd" 'magit-diff
-    "gf" 'magit-find-file
-    "gg" 'magit-status
-    "gG" 'magit-status-here
-    "gi" 'magit-init
-    "gr" 'magit-rebase-interactive
+                     ;; project
+                     "p" 'projectile-command-map
 
-    ;; project
-    "p" '(:package projectile :keymap projectile-command-map :which-key "project"))
-  :custom
-  (general-implicit-kbd t)
-  (general-override-auto-enable t))
+                     ;; app
+                     "aa" 'org-agenda))
+
 
 (provide 'init-evil)
 

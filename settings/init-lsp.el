@@ -10,14 +10,17 @@
   :ensure t
   :hook ((prog-mode . lsp-deferred)
          (lsp-mode  . lsp-enable-which-key-integration))
+  :after evil
   :init
-  ;; this line makes things in `:general' work properly
-  (add-hook 'lsp-mode-hook #'evil-normalize-keymaps)
   (setq lsp-keymap-prefix "C-c C-l")
   :commands
   (lsp lsp-deferred lsp-format-buffer lsp-organize-imports lsp-enable-which-key-integration)
-  :config
-  (keymap-set lsp-mode-map "C-c C-l" lsp-command-map)
+  :bind (:map lsp-mode-map
+              ("C-c f" . lsp-format-region)
+              ("C-c F" . lsp-format-buffer)
+              ("C-c H" . lsp-describe-thing-at-point)   ;; `h' stands for `hover'
+              ("C-c a" . lsp-execute-code-action)
+              ("C-c R" . lsp-rename))
   :custom
   (lsp-idle-delay 0.5)                 ;; lazy refresh
   (lsp-log-io nil)                     ;; enable log only for debug
@@ -47,40 +50,31 @@
   (company-lsp-async t)
   (lsp-warn-no-matched-clients nil)
   (company-files-exclusions '(".git/" ".DS_Store"))
-  :bind (:map lsp-mode-map
-              ("C-c f" . lsp-format-region)
-              ("C-c F" . lsp-format-buffer)
-              ("C-c H" . lsp-describe-thing-at-point)   ;; `h' stands for `hover'
-              ("C-c a" . lsp-execute-code-action)
-              ("C-c R" . lsp-rename))
-  :general
-  (:definer 'minor-mode :states 'normal :keymaps 'lsp-mode
-            "gR" 'lsp-rename
-            "ga" 'lsp-execute-code-action))
+  :config
+  ;; this line makes evil-define-key works properly
+  (add-hook 'lsp-mode-hook #'evil-normalize-keymaps)
+  (keymap-set lsp-mode-map "C-c C-l" lsp-command-map)
+  (evil-define-key 'normal lsp-mode-map
+    "gR" 'lsp-rename
+    "ga" 'lsp-execute-code-action))
 
 (use-package lsp-ivy
   :ensure t
   :init
-  ;; this line makes things in `:general' work properly
-  (add-hook 'lsp-mode-hook #'evil-normalize-keymaps)
   :commands lsp-ivy-workspace-symbol
   :bind (:map lsp-mode-map
               ("C-c C-l s" . lsp-ivy-workspace-symbol))
-  :general
-  (:definer 'minor-mode :states 'normal :keymaps 'lsp-mode
-            "gy" 'lsp-ivy-workspace-symbol))
+  :config
+  (evil-define-key 'normal 'lsp-mode
+    "gy" 'lsp-ivy-workspace-symbol))
 
 ;; lsp-ui
 (use-package lsp-ui
   :ensure t
-  :init
-  ;; this line makes things in `:general' work properly
-  (add-hook 'lsp-ui-mode-hook #'evil-normalize-keymaps)
   :hook
   (lsp-mode . lsp-ui-mode)
   (lsp-ui-imenu-mode . (lambda () (display-line-numbers-mode -1)))
-  :custom-face
-  (lsp-ui-sideline-code-action ((t (:inherit warning))))
+  :init
   :bind (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
               ([remap xref-find-references]  . lsp-ui-peek-find-references)
@@ -93,17 +87,6 @@
          :map lsp-ui-doc-frame-mode-map
               ("M-o" . lsp-ui-doc-unfocus-frame)
               ("q"   . my/unfocus-and-hide-doc))
-  :general
-  (:definer 'minor-mode :states 'normal :keymaps 'lsp-ui-mode
-           "gh" 'lsp-ui-doc-show)
-  :config
-  ;; `C-g'to close doc
-  (advice-add #'keyboard-quit :before #'lsp-ui-doc-hide)
-  (defun my/unfocus-and-hide-doc ()
-      "Close lsp-ui-doc frame"
-      (interactive)
-      (lsp-ui-doc-unfocus-frame)
-      (lsp-ui-doc-hide))
   :custom
   ;; lsp-ui-sideline
   (lsp-ui-sideline-show-diagnostics t)
@@ -120,7 +103,21 @@
   (lsp-ui-doc-show-with-mouse t)
   ;; lsp-ui-imenu
   (lsp-ui-imenu-window-width 50)
-  (lsp-ui-imenu-auto-refresh t))
+  (lsp-ui-imenu-auto-refresh t)
+  :custom-face
+  (lsp-ui-sideline-code-action ((t (:inherit warning))))
+  :config
+  ;; this line makes evil-define-key works properly
+  (add-hook 'lsp-mode-hook #'evil-normalize-keymaps)
+  ;; `C-g'to close doc
+  (advice-add #'keyboard-quit :before #'lsp-ui-doc-hide)
+  (defun my/unfocus-and-hide-doc ()
+      "Close lsp-ui-doc frame"
+      (interactive)
+      (lsp-ui-doc-unfocus-frame)
+      (lsp-ui-doc-hide))
+  (evil-define-key 'normal 'lsp-ui-mode
+    "gh" 'lsp-ui-doc-show))
 
 ;; lsp-treemacs
 (use-package lsp-treemacs
