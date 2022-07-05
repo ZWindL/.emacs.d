@@ -117,7 +117,8 @@
       (lsp-ui-doc-unfocus-frame)
       (lsp-ui-doc-hide))
   (evil-define-key 'normal 'lsp-ui-mode
-    "gh" 'lsp-ui-doc-show))
+    "gh" 'lsp-ui-doc-show
+    "gr" 'lsp-ui-peek-find-references))
 
 ;; lsp-treemacs
 (use-package lsp-treemacs
