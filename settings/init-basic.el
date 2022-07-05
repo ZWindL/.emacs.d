@@ -34,6 +34,8 @@
                      ,no-littering-etc-directory
                      ".cache"
                      "cache"
+                     "node_modules"
+                     ".git"
                      "^/tmp/"
                      "/ssh:"
                      "/su\\(do\\)?:"
