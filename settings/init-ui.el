@@ -44,10 +44,10 @@
 (use-package doom-themes
   :ensure t
   :config
-  ;; (load-theme 'doom-one t)
+  (load-theme 'doom-one t)
   ;; (load-theme 'doom-outrun-electric t)
   ;; (load-theme 'doom-one-moonligt t)
-  (load-theme 'doom-one-light t)
+  ;; (load-theme 'doom-one-light t)
   (doom-themes-org-config)
   (doom-themes-visual-bell-config)
   (setq doom-themes-treemacs-theme "doom-atom")
@@ -175,99 +175,6 @@
      tab-mark         ; tabs (show by symbol)
      )))
 
-;; (use-package sublimity
-;;   :ensure t
-;;   :config
-;;   (require 'sublimity-scroll)
-;;   (require 'sublimity-map)
-;;   ;; (require 'sublimity-attractive)
-;;   (sublimity-mode 1)
-;;   :custom
-;;   (sublimity-scroll-weight 5)
-;;   (sublimity-scroll-drift-length 10)
-;;   (sublimity-map-size 20)
-;;   (sublimity-attractive-centering-width nil)
-;; )
-
-;; Modern tabs
-;; (use-package centaur-tabs
-;;   :ensure t
-;;   :demand
-;;   :after evil
-;;   :hook
-;;   (dashboard-mode . centaur-tabs-local-mode)
-;;   (term-mode . centaur-tabs-local-mode)
-;;   (calendar-mode . centaur-tabs-local-mode)
-;;   (org-agenda-mode . centaur-tabs-local-mode)
-;;   (helpful-mode . centaur-tabs-local-mode)
-;;   :config
-;;   (centaur-tabs-headline-match)
-;;   (defun centaur-tabs-buffer-groups ()
-;;     "`centaur-tabs-buffer-groups' control buffers' group rules.
-
-;;  Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
-;;  All buffer name start with * will group to \"Emacs\".
-;;  Other buffer group by `centaur-tabs-get-group-name' with project name."
-;;     (list
-;;      (cond
-;; 	  ;; ((not (eq (file-remote-p (buffer-file-name)) nil))
-;; 	  ;; "Remote")
-;; 	  ((or (string-equal "*" (substring (buffer-name) 0 1))
-;; 	       (memq major-mode '(magit-process-mode
-;; 				              magit-status-mode
-;; 				              magit-diff-mode
-;; 				              magit-log-mode
-;; 				              magit-file-mode
-;; 				              magit-blob-mode
-;; 				              magit-blame-mode
-;; 				              )))
-;; 	   "Emacs")
-;; 	  ((derived-mode-p 'prog-mode)
-;; 	   "Editing")
-;; 	  ((derived-mode-p 'dired-mode)
-;; 	   "Dired")
-;; 	  ((memq major-mode '(helpful-mode
-;; 			              help-mode))
-;; 	   "Help")
-;; 	  ((memq major-mode '(org-mode
-;; 			              org-agenda-clockreport-mode
-;; 			              org-src-mode
-;; 			              org-agenda-mode
-;; 			              org-beamer-mode
-;; 			              org-indent-mode
-;; 			              org-bullets-mode
-;; 			              org-cdlatex-mode
-;; 			              org-agenda-log-mode
-;; 			              diary-mode))
-;; 	   "OrgMode")
-;; 	  (t
-;; 	   (centaur-tabs-get-group-name (current-buffer))))))
-;;   :custom
-;;   (centaur-tabs-mode t)
-;;   ;;(centaur-tabs-style "slant")
-;;   ;;(centaur-tabs-style "wave")
-;;   (centaur-tabs-style "bar")
-;;   (centaur-tabs-set-bar 'left)
-;;   (centaur-tabs-set-icons t)
-;;   (centaur-tabs-gray-out-icons 'buffer)
-;;   ;;(centaur-tabs-close-button "x")
-;;   (centaur-tabs-set-modified-marker t)
-;;   ;;(centaur-tabs-modified-marker "*")
-;;   (centaur-tabs-show-navigation-buttons t)
-;;   :bind
-;;   ("C-<prior>" . centaur-tabs-backward)
-;;   ("C-<next>" . centaur-tabs-forward)
-;;   (:map evil-normal-state-map
-;; 	     ("g t" . centaur-tabs-forward)
-;; 	     ("g T" . centaur-tabs-backward)))
-
-;; native Emacs tab bar
-;; (use-package tab-bar
-;;   :ensure nil
-;;   :when (>= emacs-major-version 27)
-;;   :hook (after-init . (lambda ()
-;;                         (tab-bar-mode)
-;;                         (tab-bar-history-mode))))
 
 (use-package all-the-icons
   :ensure t
