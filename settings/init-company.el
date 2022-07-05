@@ -117,7 +117,7 @@
               (Template . ,(all-the-icons-material "format_align_left" :height 1.0 :v-adjust -0.2)))
             company-box-icons-alist 'company-box-icons-all-the-icons))))
 
-
+;; Simple but effective sorting and filtering for company
 (use-package company-prescient
   :ensure t
   :hook
