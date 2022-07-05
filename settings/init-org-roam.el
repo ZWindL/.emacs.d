@@ -16,40 +16,24 @@
   (org-roam-protocol-store-links t)
   (org-roam-db-gc-threshold most-positive-fixnum)
   (org-roam-completion-everywhere t)
-  (org-roam-node-display-template "${directories:10} ${tags:10} ${title:100} ${backlinkscount:6}")
-  (org-roam-dailies-directory  "roam-daily/")
-  (org-roam-dailies-capture-templates
-   '(("s" "study" entry
-      #'org-roam-capture--get-point
-      "* %?"
-      :file-name "daily/%<%Y-%m-%d>.org"
-      :head "#+title: %<%Y-%m-%d>\n"
-      :olp ("Study notes"))
-
-     ("j" "journal" entry
-      #'org-roam-capture--get-point
-      "* %?"
-      :file-name "daily/%<%Y-%m-%d>.org"
-      :head "#+title: %<%Y-%m-%d>\n"
-      :olp ("Journal"))))
+  ;; (org-roam-node-display-template "${tags:10} ${title:100} ${backlinkscount:6}")
+  (org-roam-node-display-template
+    (concat (propertize "${tags:20}  " 'face 'org-tag)
+            "${title:*} ${backlinkscount:*}"))
   (org-roam-capture-templates
    '(("d" "default" plain
-      "%?" ;; The template inserted on each call to `capture'
+      "%?"
       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                          "#+title: ${title}\n\n#+filetags: \n\n - tags :: \n\n* What is it?\n")
       :unnarrowed t) ;; Tells the org-roam to show the contents of the whole file
      ))
   (org-roam-mode-section-functions
    (list #'org-roam-backlinks-section
-         #'org-roam-reflinks-section
-         ;; #'org-roam-unlinked-references-section
-         ))
+         #'org-roam-reflinks-section))
   :bind (("C-c n b"   . org-roam-buffer-toggle)
          ("C-c n B"   . org-roam-buffer-display-dedicated)
-         ("C-c n c t" . org-roam-dailies-capture-today)
-         ("C-c n c c" . org-roam-capture)
+         ("C-c n c"   . org-roam-capture)
          ("C-c n f"   . org-roam-node-find)
-         ("C-c n t"   . org-roam-dailies-goto-today)
          ("C-c n g"   . org-roam-graph)
          ("C-c n i"   . org-roam-node-insert)
          ("C-c n l"   . org-roam-buffer-toggle))
@@ -63,10 +47,6 @@
                (direction . right)
                (window-width . 0.33)
                (window-height . fit-window-to-buffer)))
-  (cl-defmethod org-roam-node-directories ((node org-roam-node))
-    (if-let ((dirs (file-name-directory (file-relative-name (org-roam-node-file node) org-roam-directory))))
-        (format "(%s)" (car (f-split dirs)))
-      ""))
   (cl-defmethod org-roam-node-backlinkscount ((node org-roam-node))
     (let* ((count (caar (org-roam-db-query
                          [:select (funcall count source)
@@ -87,6 +67,7 @@
   :bind
   ("C-c n u" . org-roam-ui-mode)
   ("C-c n w" . org-roam-ui-open)
+  ("C-c n o" . org-roam-ui-follow-mode)
   :config
   (setq org-roam-ui-sync-theme t
           org-roam-ui-follow t

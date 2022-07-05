@@ -135,6 +135,7 @@
     "c-" 'org-clock-timestamps-down
 
     "id" 'org-insert-drawer
+    "ii" 'org-id-get-create
     "in" 'org-add-note
     "it" 'org-time-stamp-inactive
     "iT" 'org-time-stamp))
@@ -487,11 +488,10 @@
   (org-transclusion-include-first-section nil)
   (org-transclusion-add-all-on-activate t)
   :config
-  ;; (general-leader-def
-  ;;  "t" '(:keymap org-mode-map :which-key "org-transclusion")
-  ;;  "ta" 'org-transclusion-add
-  ;;  "tl" 'org-transclusion-add-all
-  ;;  "tm" 'org-transclusion-make-from-link)
+  (define-leader-key 'normal org-mode-map :localleader
+        "xa" 'org-transclusion-add
+        "xl" 'org-transclusion-add-all
+        "xm" 'org-transclusion-make-from-link)
   (set-face-attribute
    'org-transclusion-fringe t))
 
