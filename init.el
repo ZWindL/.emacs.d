@@ -69,25 +69,25 @@
   (require 'use-package))
 
 ;; straight.el
-(setq package-enable-at-startup nil)
-(setq straight-repository-branch "develop")
+;; (setq package-enable-at-startup nil)
+;; (setq straight-repository-branch "develop")
 
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+;; (defvar bootstrap-version)
+;; (let ((bootstrap-file
+;;        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+;;       (bootstrap-version 5))
+;;   (unless (file-exists-p bootstrap-file)
+;;     (with-current-buffer
+;;         (url-retrieve-synchronously
+;;          "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+;;          'silent 'inhibit-cookies)
+;;       (goto-char (point-max))
+;;       (eval-print-last-sexp)))
+;;   (load bootstrap-file nil 'nomessage))
 
-(defvar straight-check-for-modifications)
-(setq straight-check-for-modifications
-      '(check-on-save find-when-checking))
+;; (defvar straight-check-for-modifications)
+;; (setq straight-check-for-modifications
+;;       '(check-on-save find-when-checking))
 
 ;; Ref: https://emacs-china.org/t/package/19959/3
 ;; package.el updates the saved version of package-selected-packages correctly only
