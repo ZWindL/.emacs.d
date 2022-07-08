@@ -126,7 +126,7 @@
 (require 'init-tools)
 (require 'init-shell)
 (require 'init-dev)
-(require 'init-lsp)
+(require 'init-lsp-bridge)
 (require 'init-company)
 (require 'init-git)
 (require 'init-templates)

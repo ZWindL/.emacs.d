@@ -72,27 +72,27 @@
     (delete-overlay gud-overlay)))
 
 ;; Debugger Dap mode
-(use-package dap-mode
-  :ensure t
-  :custom
-  (dap-auto-configure-features '(sessions locals controls tooltip))
-  :config
-  (require 'dap-gdb-lldb)
-  (dap-register-debug-template "Rust::GDB Run Configuration"
-                               (list :type "gdb"
-                                     :request "launch"
-                                     :name "GDB::Run"
-                                     :gdbpath "rust-gdb"
-                                     :target nil
-                                     :cwd nil))
-  (dap-register-debug-template "Rust::GDB Run Configuration"
-                               (list :type "gdb"
-                                     :request "launch"
-                                     :name "GDB::Run"
-                                     :gdbpath "rust-gdb"
-                                     :target nil
-                                     :cwd nil))
-  (require 'dap-go))
+;; (use-package dap-mode
+;;   :ensure t
+;;   :custom
+;;   (dap-auto-configure-features '(sessions locals controls tooltip))
+;;   :config
+;;   (require 'dap-gdb-lldb)
+;;   (dap-register-debug-template "Rust::GDB Run Configuration"
+;;                                (list :type "gdb"
+;;                                      :request "launch"
+;;                                      :name "GDB::Run"
+;;                                      :gdbpath "rust-gdb"
+;;                                      :target nil
+;;                                      :cwd nil))
+;;   (dap-register-debug-template "Rust::GDB Run Configuration"
+;;                                (list :type "gdb"
+;;                                      :request "launch"
+;;                                      :name "GDB::Run"
+;;                                      :gdbpath "rust-gdb"
+;;                                      :target nil
+;;                                      :cwd nil))
+;;   (require 'dap-go))
 
 ;; Highlight TODO
 (use-package hl-todo

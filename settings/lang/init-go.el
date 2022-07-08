@@ -9,13 +9,12 @@
   :bind
   (:map go-mode-map
         ("C-c e g" . godoc-at-point))
-  :hook ((go-mode . lsp)
-         (go-mode . smartparens-mode))
+  :hook 
+  (go-mode . smartparens-mode)
   :config
-  (with-eval-after-load 'lsp-mode
-    (lsp-register-custom-settings
-     '(("gopls.usePlaceholders" t t)
-       ("codelens.gc_details" t t))))
+  (lsp-register-custom-settings
+   '(("gopls.usePlaceholders" t t)
+     ("codelens.gc_details" t t)))
   :init
   (setq go-fontify-function-calls t))
 
