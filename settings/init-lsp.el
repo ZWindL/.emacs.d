@@ -56,7 +56,8 @@
   (keymap-set lsp-mode-map "C-c C-l" lsp-command-map)
   (evil-define-key 'normal lsp-mode-map
     "gR" 'lsp-rename
-    "ga" 'lsp-execute-code-action))
+    "ga" 'lsp-execute-code-action
+    "gH" 'eldoc))
 
 (use-package lsp-ivy
   :ensure t

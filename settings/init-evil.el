@@ -14,18 +14,20 @@
 (use-package evil
   :ensure t
   :hook ((after-init . evil-mode)
-         (after-init . visual-line-mode))
-  :bind (:map evil-normal-state-map
-              ("gs" . evil-avy-goto-char-timer)
-              ("go" . evil-avy-goto-word-or-subword-1)
-              ("gl" . evil-avy-goto-line))
+         (after-init . global-visual-line-mode))
+  :bind (([remap evil-quit] . kill-this-buffer)
+         :map evil-motion-state-map
+         ("f"  . evil-avy-goto-char-in-line)
+         :map evil-normal-state-map
+         ("s"  . evil-avy-goto-char-timer)
+         ("gs" . evil-avy-goto-char-timer)
+         ("go" . evil-avy-goto-word-or-subword-1)
+         ("gl" . evil-avy-goto-line))
   :init
   ;; Emacs default keybindings do matter!
   ;; Looks like this variable can only be set here
   ;; or in the custome.el
   (setq evil-disable-insert-state-bindings t)
-  :config
-  (evil-ex-define-cmd "q[uit]" 'kill-this-buffer)
   :custom
   (evil-cross-lines t)
   (evil-split-window-below t)
