@@ -43,6 +43,16 @@
   (or (buffer-file-name) (error "No file is visiting"))
   (my/delete-file (buffer-file-name)))
 
+;;;###autoload
+(defun my/compile-dir ()
+  "Byte compile all elisp files of the DIR."
+  (interactive)
+  (let* ((dir (read-string "Dir: ")))
+    (dolist (elc (directory-files dir t "^.*\\.elc$"))
+        (delete-file elc))
+    (dolist (el (directory-files dir t "^.*\\.el$"))
+        (byte-compile-file el))))
+
 (provide 'init-core)
 
 ;;; init-core.el ends here
