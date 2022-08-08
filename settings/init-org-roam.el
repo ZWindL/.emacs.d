@@ -10,7 +10,6 @@
   ;; (after-init . org-roam-mode)
   (after-init . org-roam-db-autosync-mode)
   :custom
-  (org-roam-v2-ack t)
   (org-roam-directory (expand-file-name (concat org-directory "roam/")))
   (org-roam-graph-viewer "/usr/bin/firefox-nightly")
   (org-roam-protocol-store-links t)

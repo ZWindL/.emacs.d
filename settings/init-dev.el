@@ -326,6 +326,9 @@
 (require 'init-shell)
 (require 'init-scheme)
 (require 'init-lua)
+(require 'init-scala)
+(require 'init-erlang)
+(require 'init-clojure)
 (require 'init-tree-sitter)
 
 (provide 'init-dev)

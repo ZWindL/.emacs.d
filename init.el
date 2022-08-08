@@ -94,6 +94,7 @@
 ;; after custom-file has been loaded, which is a bug. We work around this by adding
 ;; the required packages to package-selected-packages after startup is complete.
 ;; Make `package-autoremove' work with `use-package'
+
 (defvar use-package-selected-packages '(use-package)
   "Packages pulled in by use-package.")
 
@@ -109,15 +110,17 @@
               (setq package (car package)))
             (push `(add-to-list 'use-package-selected-packages ',package) items)))))))
 
+(when (fboundp 'package--save-selected-packages)
+  (add-hook 'after-init-hook
+            (lambda ()
+              (package--save-selected-packages
+               (seq-uniq (append use-package-selected-packages package-selected-packages))))))
 
 (setq debug-on-error nil)
-(defconst global-leader-key "SPC")
 
 (add-to-list 'load-path (expand-file-name "settings" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "settings/lang" user-emacs-directory))
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-
-(setq org-roam-v2-ack t)
 
 (require 'init-core)
 (require 'init-basic)

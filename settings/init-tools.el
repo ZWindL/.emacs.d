@@ -509,6 +509,27 @@
 (use-package vundo
   :ensure t)
 
+;; Search with web search engine
+(use-package engine-mode
+  :ensure t
+  :config
+  (engine-mode t)
+  (defengine google
+             "http://www.google.com/search?ie=utf-8&oe=utf-8&q=%s"
+             :keybinding "g")
+  (defengine github
+             "https://github.com/search?ref=simplesearch&q=%s"
+             :keybinding "t"
+             :docstring "Search on GitHub")
+  (defengine rfcs
+             "http://pretty-rfc.herokuapp.com/search?q=%s"
+             :keybinding "r")
+  (defengine stack-overflow
+             "https://stackoverflow.com/search?q=%s"
+             :keybinding "s")
+  (defengine wolfram-alpha
+             "http://www.wolframalpha.com/input/?i=%s"
+             :keybinding "w"))
 
 (provide 'init-tools)
 
