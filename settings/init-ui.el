@@ -40,6 +40,8 @@
 ;; Display Color Emoji
 (set-fontset-font t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend)
 
+(use-package posframe :ensure t)
+
 ;; Linux specific
 (use-package doom-themes
   :ensure t
@@ -100,6 +102,9 @@
   ;;          "[r" #'parrot-rotate-prev-word-at-point)
   :config
   (parrot-set-parrot-type 'confused)
+  (evil-define-key 'normal 'global
+    "]r" #'parrot-rotate-next-word-at-point
+    "[r" #'parrot-rotate-prev-word-at-point)
   (dolist (entry '((:rot ("emacs" "vim" "vscode") :caps t :upcase t)
                    (:rot ("t" "nil"))
                    (:rot ("is" "is not"))))
@@ -207,7 +212,6 @@
 (use-package dashboard
   :ensure t
   :hook
-  (after-init . dashboard-setup-startup-hook)
   (dashboard-mode . (lambda ()
                              (setq-local global-hl-line-mode nil)))
   :custom-face
@@ -222,7 +226,10 @@
   (dashboard-items '((recents   . 10)
                      (projects  . 5)
                      (bookmarks . 5)
-                     (agenda    . 5))))
+                     (agenda    . 5)))
+  :config
+  (dashboard-setup-startup-hook)
+  (use-package page-break-lines :ensure t))
 
 (provide 'init-ui)
 
