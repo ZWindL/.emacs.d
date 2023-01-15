@@ -3,6 +3,11 @@
 
 ;;; Code:
 
+;; A big contributor to startup times is garbage collection. We up the gc
+;; threshold to temporarily prevent it from running, and then reset it later
+;; using a hook.
+(setq gc-cons-threshold most-positive-fixnum)
+
 ;; Faster to disable these here (before they've been initialized)
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
@@ -12,11 +17,6 @@
 ;; font. By inhibiting this, we easily halve startup times with fonts that are
 ;; larger than the system default.
 (setq frame-inhibit-implied-resize t)
-
-;; Ignore X resources; its settings would be redundant with the other settings
-;; in this file and can conflict with later config (particularly where the
-;; cursor color is concerned).
-(advice-add #'x-apply-session-resources :override #'ignore)
 
 (provide 'early-init)
 ;;; early-init.el ends here

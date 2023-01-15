@@ -11,48 +11,31 @@
 ;; `lsp-mode' gains
 (setq read-process-output-max (* 1024 1024))
 
-;; A big contributor to startup times is garbage collection. We up the gc
-;; threshold to temporarily prevent it from running, and then reset it later
-;; using a hook.
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6)
-
-(unless (or (daemonp) noninteractive)
-  ;; Keep a ref to the actual file-name-handler
-  (defvar default-file-name-handler-alist file-name-handler-alist)
-  ;; Set the file-name-handler to nil (because regexing is cpu intensive)
-  (setq file-name-handler-alist nil)
-  ;; Reset file-name-handler-alist after initialization
-  (add-hook 'emacs-startup-hook
-            (lambda ()
-              (setq file-name-handler-alist default-file-name-handler-alist))))
-
 ;; Proxy settings
-(setq url-proxy-services
-   '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
-     ("http" . "127.0.0.1:8123")
-     ("https" . "127.0.0.1:8123")))
+;; (setq url-proxy-services
+;;       '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
+;;         ("http" . "127.0.0.1:8123")
+;;         ("https" . "127.0.0.1:8123")))
 
 ;; elpa mirrors
-(setq package-archives
-      '(("melpa" . "https://melpa.org/packages/")
-        ("gnu" . "https://elpa.gnu.org/packages/")))
+;; (setq package-archives
+;;     '(("melpa" . "https://melpa.org/packages/")
+;;       ("gnu" . "https://elpa.gnu.org/packages/")))
 ;; (setq package-archives
 ;;       '(("melpa" . "http://elpa.emacs-china.org/melpa/")
 ;;         ("gnu"   . "http://elpa.emacs-china.org/gnu/")
 ;;         ("org"   . "http://elpa.emacs-china.org/org/")
 ;;         ))
-;; (setq package-archives
-;;       '(("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-;;         ("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-;;         ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+(setq package-archives
+      '(("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+        ("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+        ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 ;; Emacs 27 introduces a quickstart mechanism which concatenate autoloads of all
 ;; packages to reduce the IO time.
 ;;
 ;; Don't forget to M-x package-quickstart-refresh if a new package is installed.
 ;; (setq package-quickstart t)
 
-;; TODO: Does it conflict with stright.el?
 (package-initialize)
 
 ;; init packages
@@ -67,27 +50,6 @@
   (setq use-package-enable-imenu-support t))
 (eval-when-compile
   (require 'use-package))
-
-;; straight.el
-;; (setq package-enable-at-startup nil)
-;; (setq straight-repository-branch "develop")
-
-;; (defvar bootstrap-version)
-;; (let ((bootstrap-file
-;;        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-;;       (bootstrap-version 5))
-;;   (unless (file-exists-p bootstrap-file)
-;;     (with-current-buffer
-;;         (url-retrieve-synchronously
-;;          "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-;;          'silent 'inhibit-cookies)
-;;       (goto-char (point-max))
-;;       (eval-print-last-sexp)))
-;;   (load bootstrap-file nil 'nomessage))
-
-;; (defvar straight-check-for-modifications)
-;; (setq straight-check-for-modifications
-;;       '(check-on-save find-when-checking))
 
 ;; Ref: https://emacs-china.org/t/package/19959/3
 ;; package.el updates the saved version of package-selected-packages correctly only
