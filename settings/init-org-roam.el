@@ -3,9 +3,14 @@
 ;;; Commentary:
 
 ;;; Code:
+
+;; Dependency of org-roam
+(use-package emacsql-sqlite-builtin :ensure t)
+
 ;; Make better connection in your notes
 (use-package org-roam
   :ensure t
+  :requires emacsql-sqlite-builtin
   :hook
   ;; (after-init . org-roam-mode)
   (after-init . org-roam-db-autosync-mode)
@@ -15,6 +20,7 @@
   (org-roam-protocol-store-links t)
   (org-roam-db-gc-threshold most-positive-fixnum)
   (org-roam-completion-everywhere t)
+  (org-roam-database-connector 'sqlite-builtin)
   ;; (org-roam-node-display-template "${tags:10} ${title:100} ${backlinkscount:6}")
   (org-roam-node-display-template
     (concat (propertize "${tags:20}  " 'face 'org-tag)
