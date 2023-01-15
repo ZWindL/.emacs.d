@@ -13,7 +13,8 @@
 (use-package tuareg
   :ensure t
   :mode ("\\.ml\\'" . tuareg-mode)
-  :hook (tuareg-mode . lsp)
+  ;; :hook (tuareg-mode . lsp)
+  :hook (tuareg-mode . eglot-ensure)
   :hook (tuareg-mode . merlin-mode)
   :custom
   (lsp-ocaml-lang-server-command "ocamllsp"))

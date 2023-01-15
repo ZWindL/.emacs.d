@@ -46,7 +46,7 @@
   (add-hook 'mmm-typescript-mode-enter-hook 'fix-mmm-syntax)
   :config
   (add-to-list 'mmm-save-local-variables '(syntax-ppss-table buffer))
-  (add-hook 'vue-mode-hook #'lsp))
+  (add-hook 'vue-mode-hook #'eglot-ensure))
 
 (provide 'init-web-dev)
 

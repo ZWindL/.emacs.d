@@ -15,12 +15,14 @@
 
 .cache/
 .extension/
+.ccls-cache/
 elpa/
 eshell/
 straight/
 transient/
 url/
 var/
+.lsp-session-v1
 auto-save-list
 bookmarks
 network-security.data

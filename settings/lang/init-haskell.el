@@ -4,15 +4,18 @@
 
 ;;; Code:
 
-(use-package lsp-haskell :ensure t)
+;; TODO: remove lsp-haskell
+;; (use-package lsp-haskell :ensure t)
 
 (use-package haskell-mode
   :ensure t
   :hook
   (haskell-mode . haskell-indentation-mode)
   (haskell-mode . haskell-doc-mode)
-  (haskell-mode . lsp-mode)
-  (haskell-literate-mode . lsp-mode))
+  ;; (haskell-mode . lsp-mode)
+  (haskell-mode . eglot-ensure)
+  ;; (haskell-literate-mode . lsp-mode))
+  (haskell-literate-mode . eglot-ensure))
   ;; :custom
   ;; (haskell-completing-read-function 'completing-read)
   ;; (haskell-process-check-cabal-config-on-load nil)

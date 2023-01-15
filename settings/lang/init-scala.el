@@ -15,6 +15,7 @@
 (use-package sbt-mode
   :ensure t
   :commands sbt-start sbt-command
+  :hook (scala-mode . eglot-ensure)
   :config
   ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
   ;; allows using SPACE when in the minibuffer

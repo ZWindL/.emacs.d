@@ -8,7 +8,7 @@
 ;; Erlang mode
 (use-package erlang
   :ensure t
-  :hook (erlang-mode . lsp-mode))
+  :hook (erlang-mode . eglot-ensure))
 
 (provide 'init-erlang)
 

@@ -9,7 +9,7 @@
 (use-package sh-mode
   :ensure nil
   :hook
-  (sh-mode . lsp)
+  (sh-mode . eglot-ensure)
   :mode
   ("\\.sh\\'" . sh-mode)
   ("\\.zsh\\'" . sh-mode)
