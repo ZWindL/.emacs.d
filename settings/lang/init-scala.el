@@ -26,8 +26,8 @@
   (setq sbt:program-options '("-Dsbt.supershell=false")))
 
 ;; Add metals backend for lsp-mode
-(use-package lsp-metals
-  :ensure t)
+;; (use-package lsp-metals
+;;   :ensure t)
 
 (provide 'init-scala)
 

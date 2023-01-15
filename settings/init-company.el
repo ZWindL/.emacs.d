@@ -118,6 +118,8 @@
             company-box-icons-alist 'company-box-icons-all-the-icons))))
 
 ;; Simple but effective sorting and filtering for company
+(use-package prescient
+  :ensure t)
 (use-package company-prescient
   :ensure t
   :hook

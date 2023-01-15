@@ -8,8 +8,11 @@
 ;; lsp-mode
 (use-package lsp-mode
   :ensure t
-  :hook ((prog-mode . lsp-deferred)
-         (lsp-mode  . lsp-enable-which-key-integration))
+  :hook
+  (prog-mode            . lsp-deferred)
+  (lsp-mode             . lsp-enable-which-key-integration)
+  (lsp-mode             . parrot-start-animation)
+  (lsp-after-initialize . parrot-stop-animation)
   :after evil
   :init
   (setq lsp-keymap-prefix "C-c C-l")
@@ -53,7 +56,8 @@
   :config
   ;; this line makes evil-define-key works properly
   (add-hook 'lsp-mode-hook #'evil-normalize-keymaps)
-  (keymap-set lsp-mode-map "C-c C-l" lsp-command-map)
+  (keymap-set lsp-mode-map "C-c C-l" lsp-command-map) ;; for emacs >= 29
+  ;; (define-key lsp-mode-map (kbd "C-c C-l") lsp-command-map) ;; for emacs <= 28
   (evil-define-key 'normal lsp-mode-map
     "gR" 'lsp-rename
     "ga" 'lsp-execute-code-action
@@ -119,7 +123,8 @@
       (lsp-ui-doc-hide))
   (evil-define-key 'normal 'lsp-ui-mode
     "gh" 'lsp-ui-doc-show
-    "gr" 'lsp-ui-peek-find-references))
+    "gr" 'lsp-ui-peek-find-references
+    "gi" 'lsp-ui-peek-find-implementation))
 
 ;; lsp-treemacs
 (use-package lsp-treemacs
