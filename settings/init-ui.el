@@ -1,7 +1,6 @@
 ;;; init-ui --- custmize UI components
 
 ;;; Commentary:
-;; consider using ivy-postframe, it's good looking but overlap a part of the main frame
 
 ;;; Code:
 
