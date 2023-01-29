@@ -330,6 +330,7 @@
 (require 'init-erlang)
 (require 'init-clojure)
 (require 'init-racket)
+(require 'init-elm)
 (require 'init-tree-sitter)
 
 (provide 'init-dev)
