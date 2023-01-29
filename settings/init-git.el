@@ -77,35 +77,6 @@
   :ensure nil
   :mode (("\\.gitignore\\'" . conf-unix-mode)))
 
-(use-package smerge-mode
-  :ensure nil
-  :requires transient
-  :bind (:map smerge-mode-map
-         ("C-c m" . my/smerge-menu))
-  :config
-  (transient-define-prefix my/smerge-menu
-    "Smerge"
-    [["Navigation"
-      ("p" "prev" smerge-prev)
-      ("n" "next" smerge-next)]
-     ["Keep"
-      ("b" "base"    smerge-keep-base)
-      ("u" "upper"   smerge-keep-upper)
-      ("l" "lower"   smerge-keep-lower)
-      ("a" "all"     smerge-keep-all)
-      ("c" "current" smerge-keep-current)]
-     ["Diff"
-      ("<" "base against upper"  smerge-diff-base-upper)
-      ("=" "upper against lower" smerge-diff-upper-lower)
-      (">" "base against lower"  smerge-diff-base-lower)
-      ("R" "refine"              smerge-refine)
-      ("E" "ediff"               smerge-ediff)]
-     ["Other"
-      ("C" "combine"   smerge-combine-with-next)
-      ("r" "resolve"   smerge-resolve)
-      ("k" "kill"      smerge-kill-current)
-      ("h" "highlight" smerge-refine)]]))
-
 (use-package blamer
   :ensure t
   :custom

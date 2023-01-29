@@ -93,13 +93,9 @@
 (use-package parrot
   :ensure t
   :defer t
-  :hook (after-init . parrot-mode)
+  :hook (evil-mode . parrot-mode)
   :bind (("C-x M-n" . parrot-rotate-next-word-at-point)
          ("C-x M-p" . parrot-rotate-prev-word-at-point))
-  ;; :general
-  ;; (:states 'normal
-  ;;          "]r" #'parrot-rotate-next-word-at-point
-  ;;          "[r" #'parrot-rotate-prev-word-at-point)
   :config
   (parrot-set-parrot-type 'confused)
   (evil-define-key 'normal 'global

@@ -15,7 +15,10 @@
 
 .cache/
 .extension/
+.ccls-cache/
+.lsp-session-v1
 elpa/
+eln-cache/
 eshell/
 straight/
 transient/

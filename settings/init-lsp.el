@@ -13,7 +13,6 @@
   (lsp-mode             . lsp-enable-which-key-integration)
   (lsp-mode             . parrot-start-animation)
   (lsp-after-initialize . parrot-stop-animation)
-  :after evil
   :init
   (setq lsp-keymap-prefix "C-c C-l")
   :commands
@@ -54,14 +53,15 @@
   (lsp-warn-no-matched-clients nil)
   (company-files-exclusions '(".git/" ".DS_Store"))
   :config
-  ;; this line makes evil-define-key works properly
-  (add-hook 'lsp-mode-hook #'evil-normalize-keymaps)
-  (keymap-set lsp-mode-map "C-c C-l" lsp-command-map) ;; for emacs >= 29
-  ;; (define-key lsp-mode-map (kbd "C-c C-l") lsp-command-map) ;; for emacs <= 28
-  (evil-define-key 'normal lsp-mode-map
-    "gR" 'lsp-rename
-    "ga" 'lsp-execute-code-action
-    "gH" 'eldoc))
+  (with-eval-after-load 'evil
+    ;; this line makes evil-define-key works properly
+    (add-hook 'lsp-mode-hook #'evil-normalize-keymaps)
+    (keymap-set lsp-mode-map "C-c C-l" lsp-command-map) ;; for emacs >= 29
+    ;; (define-key lsp-mode-map (kbd "C-c C-l") lsp-command-map) ;; for emacs <= 28
+    (evil-define-key 'normal lsp-mode-map
+      "gR" 'lsp-rename
+      "ga" 'lsp-execute-code-action
+      "gH" 'eldoc)))
 
 (use-package lsp-ivy
   :ensure t

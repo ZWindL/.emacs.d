@@ -92,53 +92,54 @@
   :config
   ;; latex preview
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.6))
-  (define-leader-key 'normal org-mode-map :localleader
-    "." 'counsel-org-goto
-    "/" 'counsel-org-goto-all
-    "a" 'org-archive-subtree
-    "d" 'org-deadline
-    "e" 'org-set-effort
-    "f" 'org-footnote-new
-    "l" 'org-lint
-    "o" 'org-toggle-ordered-property
-    "p" 'org-set-property
-    "q" 'org-set-tags-command
-    "r" 'org-refile
-    "s" 'org-schedule
-    "t" 'org-todo
-    "T" 'org-todo-list
-    "P" 'org-preview-latex-fragment
+  (with-eval-after-load 'evil
+    (define-leader-key 'normal org-mode-map :localleader
+                       "." 'counsel-org-goto
+                       "/" 'counsel-org-goto-all
+                       "a" 'org-archive-subtree
+                       "d" 'org-deadline
+                       "e" 'org-set-effort
+                       "f" 'org-footnote-new
+                       "l" 'org-lint
+                       "o" 'org-toggle-ordered-property
+                       "p" 'org-set-property
+                       "q" 'org-set-tags-command
+                       "r" 'org-refile
+                       "s" 'org-schedule
+                       "t" 'org-todo
+                       "T" 'org-todo-list
+                       "P" 'org-preview-latex-fragment
 
-    "bp" 'org-babel-previous-src-block
-    "bn" 'org-babel-next-src-block
-    "be" 'org-babel-expand-src-block
-    "bg" 'org-babel-goto-named-src-block
-    "bs" 'org-babel-execute-subtree
-    "bb" 'org-babel-execute-buffer
-    "bt" 'org-babel-tangle
-    "bf" 'org-babel-tangle-file
-    "bc" 'org-babel-check-src-block
-    "bi" 'org-babel-insert-header-arg
-    "bI" 'org-babel-view-src-block-info
-    "bk" 'org-babel-remove-result-one-or-many
+                       "bp" 'org-babel-previous-src-block
+                       "bn" 'org-babel-next-src-block
+                       "be" 'org-babel-expand-src-block
+                       "bg" 'org-babel-goto-named-src-block
+                       "bs" 'org-babel-execute-subtree
+                       "bb" 'org-babel-execute-buffer
+                       "bt" 'org-babel-tangle
+                       "bf" 'org-babel-tangle-file
+                       "bc" 'org-babel-check-src-block
+                       "bi" 'org-babel-insert-header-arg
+                       "bI" 'org-babel-view-src-block-info
+                       "bk" 'org-babel-remove-result-one-or-many
 
-    "cc" 'org-clock-in
-    "cC" 'org-clock-out
-    "cd" 'org-clock-mark-default-task
-    "ce" 'org-clock-modify-effort-estimate
-    "cg" 'org-clock-goto
-    "cl" 'org-clock-in-last
-    "cr" 'org-clock-report
-    "cs" 'org-clock-display
-    "cx" 'org-clock-cancel
-    "c=" 'org-clock-timestamps-up
-    "c-" 'org-clock-timestamps-down
+                       "cc" 'org-clock-in
+                       "cC" 'org-clock-out
+                       "cd" 'org-clock-mark-default-task
+                       "ce" 'org-clock-modify-effort-estimate
+                       "cg" 'org-clock-goto
+                       "cl" 'org-clock-in-last
+                       "cr" 'org-clock-report
+                       "cs" 'org-clock-display
+                       "cx" 'org-clock-cancel
+                       "c=" 'org-clock-timestamps-up
+                       "c-" 'org-clock-timestamps-down
 
-    "id" 'org-insert-drawer
-    "ii" 'org-id-get-create
-    "in" 'org-add-note
-    "it" 'org-time-stamp-inactive
-    "iT" 'org-time-stamp))
+                       "id" 'org-insert-drawer
+                       "ii" 'org-id-get-create
+                       "in" 'org-add-note
+                       "it" 'org-time-stamp-inactive
+                       "iT" 'org-time-stamp)))
 
 ;; Keep track of tasks
 (use-package org-agenda
@@ -488,10 +489,11 @@
   (org-transclusion-include-first-section nil)
   (org-transclusion-add-all-on-activate t)
   :config
-  (define-leader-key 'normal org-mode-map :localleader
-        "xa" 'org-transclusion-add
-        "xl" 'org-transclusion-add-all
-        "xm" 'org-transclusion-make-from-link)
+  (with-eval-after-load 'evil
+    (define-leader-key 'normal org-mode-map :localleader
+                       "xa" 'org-transclusion-add
+                       "xl" 'org-transclusion-add-all
+                       "xm" 'org-transclusion-make-from-link))
   (set-face-attribute
    'org-transclusion-fringe t))
 

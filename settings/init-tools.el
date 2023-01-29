@@ -270,8 +270,7 @@
       (`(t . t)
        (treemacs-git-mode 'deferred))
       (`(t . _)
-       (treemacs-git-mode 'simple))))
-)
+       (treemacs-git-mode 'simple)))))
 
 (use-package treemacs-projectile
   :after treemacs projectile

@@ -60,7 +60,8 @@
   :hook (after-init . global-evil-surround-mode))
 
 (use-package evil-commentary
-  :ensure t)
+  :ensure t
+  :after evil)
 
 (use-package evil-numbers
   :ensure t
