@@ -28,8 +28,8 @@
 ;;         ))
 (setq package-archives
       '(("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-        ("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-        ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+        ("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+        ;; ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 ;; Emacs 27 introduces a quickstart mechanism which concatenate autoloads of all
 ;; packages to reduce the IO time.
 ;;
