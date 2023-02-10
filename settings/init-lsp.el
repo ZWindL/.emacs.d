@@ -61,7 +61,7 @@
     (evil-define-key 'normal lsp-mode-map
       "gR" 'lsp-rename
       "ga" 'lsp-execute-code-action
-      "gH" 'eldoc)))
+      "gh" 'eldoc)))
 
 (use-package lsp-ivy
   :ensure t
@@ -97,7 +97,7 @@
   (lsp-ui-sideline-show-diagnostics t)
   (lsp-ui-sideline-show-hover t)
   (lsp-ui-sideline-show-code-actions t)
-  (lsp-ui-sideline-update-mode t)
+  (lsp-ui-sideline-update-mode 'line)
   (lsp-ui-sideline-delay 2)
   ;; lsp-ui-peekpp
   (lsp-ui-peek-enable t)
@@ -106,6 +106,8 @@
   (lsp-ui-doc-enable t)
   (lsp-ui-doc-delay 2)
   (lsp-ui-doc-show-with-mouse t)
+  (lsp-ui-doc-show-with-cursor nil)
+  (lsp-ui-doc-position 'at-point)
   ;; lsp-ui-imenu
   (lsp-ui-imenu-window-width 50)
   (lsp-ui-imenu-auto-refresh t)
@@ -122,7 +124,7 @@
       (lsp-ui-doc-unfocus-frame)
       (lsp-ui-doc-hide))
   (evil-define-key 'normal 'lsp-ui-mode
-    "gh" 'lsp-ui-doc-show
+    "K" 'lsp-ui-doc-show
     "gr" 'lsp-ui-peek-find-references
     "gi" 'lsp-ui-peek-find-implementation))
 

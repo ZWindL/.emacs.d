@@ -24,6 +24,9 @@
   (magit-ediff-dwim-show-on-hunks t)
   (magit-diff-refine-hunk t))
 
+;; This package is somehow required by org-roam
+(use-package magit-section :ensure t)
+
 ;; Todo integration
 (use-package magit-todos
   :ensure t

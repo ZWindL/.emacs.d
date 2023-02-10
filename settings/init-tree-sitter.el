@@ -15,5 +15,14 @@
   (use-package tree-sitter-langs
     :ensure t))
 
+;; TODO: ⛔ Error (use-package): treesit-auto/:config: Symbol’s function definition is void: global-treesit-auto-mode
+;; (use-package treesit-auto
+;;   :ensure t
+;;   :demand t
+;;   :config
+;;   (add-to-list 'treesit-auto-fallback-alist '(bash-ts-mode . sh-mode))
+;;   (setq treesit-auto-install 'prompt)
+;;   (global-treesit-auto-mode))
+
 (provide 'init-tree-sitter)
 ;;; init-tree-sitter.el ends here

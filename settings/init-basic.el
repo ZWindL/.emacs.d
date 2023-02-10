@@ -107,6 +107,12 @@
 (when (fboundp 'set-scroll-bar-mode)
   (set-scroll-bar-mode nil))
 
+;; Supress emacs-native-comp warnings
+(setq-default native-comp-async-report-warnings-errors nil)
+
+;; Supress warnings in *Warnings* buffer
+(setq-default warning-minimum-level :error)
+
 ;; Highlight parenthesises
 (use-package paren
   :ensure nil
