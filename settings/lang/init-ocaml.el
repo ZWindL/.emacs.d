@@ -6,8 +6,9 @@
 ;;; Code:
 
 ;; Merlin mode
-(use-package merlin
-  :load-path "/home/zwindl/.opam/4.13.1/share/emacs/site-lisp")
+(when (eq system-type 'gnu/linux)
+  (use-package merlin
+    :load-path "/home/zwindl/.opam/4.13.1/share/emacs/site-lisp"))
 
 ;; Ocaml mode
 (use-package tuareg

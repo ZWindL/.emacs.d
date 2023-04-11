@@ -33,15 +33,19 @@
       x-gtk-use-native-input t
       x-underline-at-descent-line t)
 
-;; If running Emacs under Macos, set :height to 140
+;; font settings
 (if (eq system-type 'darwin)
-    (set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 140)
+    (set-face-attribute 'default nil :family "Monaco" :height 120)
   (set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 105))
 
-(if (display-graphic-p)
+(if (and (eq system-type 'darwin) (display-graphic-p))
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
       (set-fontset-font (frame-parameter nil 'font) charset
-                        (font-spec :family "Noto Sans CJK SC" :height 105))))
+                        (font-spec :family "PingFang SC Regular" :height 105)))
+  (if (display-graphic-p)
+      (dolist (charset '(kana han symbol cjk-misc bopomofo))
+        (set-fontset-font (frame-parameter nil 'font) charset
+                          (font-spec :family "Noto Sans CJK SC" :height 105)))))
 
 ;; Fonts
 ;; Display Color Emoji
@@ -49,7 +53,6 @@
 
 (use-package posframe :ensure t)
 
-;; Linux specific
 (use-package doom-themes
   :ensure t
   :config

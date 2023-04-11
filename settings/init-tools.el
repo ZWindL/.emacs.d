@@ -489,11 +489,17 @@
   (remember-leader-text "**")
   (remember-in-new-frame nil))
 
-(use-package wakatime-mode
-  :hook (after-init . global-wakatime-mode)
-  :custom
-  (wakatime-cli-path "/usr/bin/wakatime")
-  :ensure t)
+(when (eq system-type 'gnu/linux)
+
+  (use-package wakatime-mode
+    :hook (after-init . global-wakatime-mode)
+    :custom
+    (wakatime-cli-path "/usr/bin/wakatime")
+    :ensure t)
+
+  ;; Visual undo-tree
+  (use-package vundo
+    :ensure t))
 
 ;; For editing plantuml language
 (use-package plantuml-mode
@@ -503,10 +509,6 @@
   (plantuml-executable-path "/usr/bin/plantuml")
   (org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
   (plantuml-default-exec-mode 'executable))
-
-;; Visual undo-tree
-(use-package vundo
-  :ensure t)
 
 ;; Search with web search engine
 (use-package engine-mode
