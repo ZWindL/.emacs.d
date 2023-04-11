@@ -94,6 +94,7 @@
 (require 'init-reader)
 (require 'init-evil)
 (require 'init-tex)
+(require 'init-gpt)
 
 (when (file-exists-p custom-file)
   (load custom-file))
