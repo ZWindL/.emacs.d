@@ -36,3 +36,4 @@ org-roam.db
 wget-log
 org-journal.cache
 wget-log.*
+/tree-sitter/
