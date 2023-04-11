@@ -20,7 +20,8 @@
   (org-roam-protocol-store-links t)
   (org-roam-db-gc-threshold most-positive-fixnum)
   (org-roam-completion-everywhere t)
-  (org-roam-database-connector 'sqlite-builtin)
+  (when (sqlite-available-p)
+    (org-roam-database-connector 'sqlite-builtin))
   ;; (org-roam-node-display-template "${tags:10} ${title:100} ${backlinkscount:6}")
   (org-roam-node-display-template
     (concat (propertize "${tags:20}  " 'face 'org-tag)

@@ -6,6 +6,9 @@
 ;;; Code:
 
 ;; Tree-sitter
+(when (not (treesit-available-p))
+  (use-package tree-sitter :ensure t))
+
 (use-package tree-sitter
   :hook
   (prog-mode            . global-tree-sitter-mode)
