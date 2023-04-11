@@ -338,6 +338,14 @@
   :custom
   (repeat-exit-key (kbd "RET")))
 
+;; Quelpa, the substitution for straight.el
+(use-package quelpa
+  :ensure t
+  :hook (after-init . quelpa-upgrade-all-maybe)
+  :custom
+  (quelpa-update-melpa-p nil)
+  (quelpa-upgrade-interval 7))
+
 (provide 'init-basic)
 
 ;;; init-basic.el ends here
