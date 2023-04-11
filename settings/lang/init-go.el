@@ -9,7 +9,7 @@
   :bind
   (:map go-mode-map
         ("C-c e g" . godoc-at-point))
-  :hook ((go-mode . lsp)
+  :hook ((go-mode . lsp-mode)
          (go-mode . smartparens-mode))
   :config
   (with-eval-after-load 'lsp-mode

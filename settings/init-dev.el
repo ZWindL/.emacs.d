@@ -311,8 +311,6 @@
   :config
   (add-to-list 'company-backends #'company-tabnine))
 
-;; Copied from https://github.com/seagle0128/.emacs.d/blob/master/lisp/init-company.el#L115
-
 (require 'init-cpp)
 (require 'init-elisp)
 (require 'init-rust)

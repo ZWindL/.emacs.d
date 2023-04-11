@@ -22,6 +22,13 @@
 ;;(setq window-resize-pixelwise t
 ;;      frame-resize-pixelwise t)
 
+(use-package pixel-scroll
+  :hook
+  (after-init . pixel-scroll-precision-mode)
+  (after-init . pixel-scroll-mode)
+  :custom
+  (pixel-scroll-precision-large-scroll-height nil))
+
 (setq x-gtk-use-system-tooltips nil
       x-gtk-use-native-input t
       x-underline-at-descent-line t)
