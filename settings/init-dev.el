@@ -311,6 +311,8 @@
   :config
   (add-to-list 'company-backends #'company-tabnine))
 
+(quelpa '(codeium :fetcher github :repo "Exafunction/codeium.el"))
+
 (require 'init-cpp)
 (require 'init-elisp)
 (require 'init-rust)
