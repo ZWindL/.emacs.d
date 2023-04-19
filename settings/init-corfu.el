@@ -20,7 +20,7 @@
   :ensure t
   :hook
   (after-init        . global-corfu-mode)
-  (corfu-global-mode . corfu-popupinfo-mode)
+  (global-corfu-mode . corfu-popupinfo-mode)
   (eshell-mode       . (lambda ()
                          (setq-local corfu-auto nil)
                          (corfu-mode)))
@@ -74,14 +74,14 @@
 ;;     (corfu-terminal-mode +1)))
 
 ;; Display icons before candidates
-(use-package kind-icon
-  :ensure t
-  :after corfu
-  :custom
-  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
-  :config
-  (use-package svg-lib :ensure t)
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+;; (use-package kind-icon
+;;   :ensure t
+;;   :after corfu
+;;   :custom
+;;   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+;;   :config
+;;   (use-package svg-lib :ensure t)
+;;   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless

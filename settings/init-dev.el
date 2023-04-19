@@ -312,6 +312,15 @@
 ;;   (add-to-list 'company-backends #'company-tabnine))
 
 (quelpa '(codeium :fetcher github :repo "Exafunction/codeium.el"))
+(use-package codeium
+  :init
+  (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
+  :config
+  (setq use-dialog-box nil)
+  ;; get codeium status in the modeline
+  (setq codeium-mode-line-enable
+        (lambda (api) (not (memq api '(CancelRequest Heartbeat AcceptCompletion)))))
+  (add-to-list 'mode-line-format '(:eval (car-safe codeium-mode-line)) t))
 
 (require 'init-cpp)
 (require 'init-elisp)
