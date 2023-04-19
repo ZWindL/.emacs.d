@@ -74,7 +74,7 @@
               (package--save-selected-packages
                (seq-uniq (append use-package-selected-packages package-selected-packages))))))
 
-(setq debug-on-error nil)
+(setq debug-on-error t)
 
 (add-to-list 'load-path (expand-file-name "settings" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "settings/lang" user-emacs-directory))
@@ -88,7 +88,7 @@
 (require 'init-shell)
 (require 'init-dev)
 (require 'init-lsp)
-(require 'init-company)
+(require 'init-corfu)
 (require 'init-git)
 (require 'init-templates)
 (require 'init-reader)

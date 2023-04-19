@@ -1,4 +1,4 @@
-;; init-tree-sitter.el --- Initialize company configurations.	-*- lexical-binding: t -*-
+;; init-tree-sitter.el --- Initialize tree-sitter configurations.	-*- lexical-binding: t -*-
 ;;; Commentary:
 ;;
 ;; Tree-sitter configurations.
@@ -6,10 +6,13 @@
 ;;; Code:
 
 ;; Tree-sitter
-(when (not (treesit-available-p))
-  (use-package tree-sitter :ensure t))
+;; TODO: tree-sitter is built-in on Emacs 30
+;; (when (not (treesit-available-p))
+;;   (use-package tree-sitter :ensure t))
 
+;; Tree-sitter
 (use-package tree-sitter
+  :ensure t
   :hook
   (prog-mode            . global-tree-sitter-mode)
   (tree-sitter-after-on . tree-sitter-hl-mode))

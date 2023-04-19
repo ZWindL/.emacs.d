@@ -305,11 +305,11 @@
              string-end) . conf-toml-mode))
 
 ;; Let the AI take my job!
-(use-package company-tabnine
-  :after company
-  :ensure t
-  :config
-  (add-to-list 'company-backends #'company-tabnine))
+;; (use-package company-tabnine
+;;   :after company
+;;   :ensure t
+;;   :config
+;;   (add-to-list 'company-backends #'company-tabnine))
 
 (quelpa '(codeium :fetcher github :repo "Exafunction/codeium.el"))
 

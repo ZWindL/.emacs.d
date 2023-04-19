@@ -49,9 +49,9 @@
   (lsp-eldoc-enable-hover nil)         ;; disable eldoc hover
   (lsp-signature-auto-activate t)      ;; show function signature
   (lsp-signature-doc-lines 2)          ;; but dont take up more lines
-  (company-lsp-async t)
+  ;;(company-lsp-async t)
   (lsp-warn-no-matched-clients nil)
-  (company-files-exclusions '(".git/" ".DS_Store"))
+  ;; (company-files-exclusions '(".git/" ".DS_Store"))
   :config
   (with-eval-after-load 'evil
     ;; this line makes evil-define-key works properly
