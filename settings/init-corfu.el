@@ -74,14 +74,23 @@
 ;;     (corfu-terminal-mode +1)))
 
 ;; Display icons before candidates
-;; (use-package kind-icon
-;;   :ensure t
-;;   :after corfu
-;;   :custom
-;;   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
-;;   :config
-;;   (use-package svg-lib :ensure t)
-;;   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+  :config
+  (insert (let ((kind-icon-default-style
+               '(:padding -1 :stroke 0 :margin 0 :radius 0 :height 0.5 :scale 1.0)))
+          (kind-icon-reset-cache)
+          (kind-icon-formatted 'variable)))
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+(use-package svg-lib
+  :ensure t
+  :custom
+  (svg-lib-style-default
+   '(:background "#282c34" :foreground "#bbc2cf" :padding -1 :margin 0 :stroke 2 :radius 3 :alignment 0.5 :width 10 :height 0.5 :scale 0.75 :ascent center :crop-left nil :crop-right nil :collection "material" :font-family "Monaco" :font-size 9 :font-weight regular)))
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
