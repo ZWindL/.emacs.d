@@ -33,7 +33,7 @@
   (company-echo-delay 0)
   (company-show-numbers t) ;; Easy navigation to candidates with M-<n>
   (company-require-match nil)
-  (company-minimum-prefix-length 0)
+  (company-minimum-prefix-length 1)
   (company-tooltip-align-annotations t)
   (company-tooltip-flip-when-above t)
   ;; complete `abbrev' only in current buffer
