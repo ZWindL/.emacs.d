@@ -33,7 +33,7 @@
   (company-echo-delay 0)
   (company-show-numbers t) ;; Easy navigation to candidates with M-<n>
   (company-require-match nil)
-  (company-minimum-prefix-length 2)
+  (company-minimum-prefix-length 0)
   (company-tooltip-align-annotations t)
   (company-tooltip-flip-when-above t)
   ;; complete `abbrev' only in current buffer
@@ -43,7 +43,7 @@
   (company-dabbrev-downcase nil)
   (company-tempo-expand t)
   (company-transformers '(company-sort-prefer-same-case-prefix))
-  (company-backends '((company-capf company-yasnippet)
+  (company-backends '((company-capf :with company-yasnippet)
                       (company-files company-dabbrev-code company-etags company-keywords company-dabbrev)))
   :bind (:map company-mode-map
               ([remap completion-at-point] . company-complete)
@@ -56,7 +56,10 @@
               :map company-search-map
               ([escape] . company-search-abort)
               ("C-p"    . company-select-previous)
-              ("C-n"    . company-select-next)))
+              ("C-n"    . company-select-next))
+  :config
+  ;; For codeium
+  (setq company-frontends (cons 'company-preview-frontend company-frontends)))
 
 (use-package company-try-hard
   :ensure t

@@ -31,6 +31,7 @@
   (lsp-enable-links t)
   (lsp-eldoc-render-all t)
   (lsp-enable-symbol-highlighting t)
+  (lsp-completion-provider :none)        ;; don't touch my company backends
   (lsp-diagnostic-package :flycheck)   ;; prefer flycheck
   (lsp-modeline-code-actions-segments '(count icon name))
   (lsp-lens-auto-enable t)             ;; enable lens
@@ -49,7 +50,6 @@
   (lsp-eldoc-enable-hover nil)         ;; disable eldoc hover
   (lsp-signature-auto-activate t)      ;; show function signature
   (lsp-signature-doc-lines 2)          ;; but dont take up more lines
-  (company-lsp-async t)
   (lsp-warn-no-matched-clients nil)
   (company-files-exclusions '(".git/" ".DS_Store"))
   :config
