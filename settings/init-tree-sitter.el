@@ -21,7 +21,8 @@
   :ensure t
   :demand t
   :custom
-  (treesit-auto-install 'prompt)
+  (treesit-auto-install t)
+  ;; (treesit-auto-install 'prompt)
   :config
   ;; (add-to-list 'treesit-auto-fallback-alist '(bash-ts-mode . sh-mode))
   (global-treesit-auto-mode))

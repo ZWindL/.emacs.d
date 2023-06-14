@@ -316,8 +316,9 @@
 
 (quelpa '(codeium :fetcher github :repo "Exafunction/codeium.el"))
 (use-package codeium
+  :bind (:map prog-mode-map
+         ("C-c C-/" . my/enable-codeium))
   :config
-  (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
   ;; get codeium status in the modeline
   (setq codeium-mode-line-enable
         (lambda (api) (not (memq api '(CancelRequest Heartbeat AcceptCompletion)))))
@@ -333,6 +334,13 @@
   ;; (add-hook 'python-mode-hook
   ;;     (lambda ()
   ;;         (setq-local codeium/editor_options/tab_size 4)))
+
+  ;; Workaround: manually prepend codeium capf backend to capfs list due to
+  ;; `lsp-mode' automatically prepend itself to the first
+  (defun my/enable-codeium ()
+     "Enable codeium capf by prepend it to the `capfs' list, it has to be the 1st one to work"
+     (interactive)
+     (add-to-list 'completion-at-point-functions #'codeium-completion-at-point))
 
   ;; You can overwrite all the codeium configs!
   ;; for example, we recommend limiting the string sent to codeium for better performance

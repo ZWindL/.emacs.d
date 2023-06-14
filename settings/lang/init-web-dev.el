@@ -48,6 +48,9 @@
   (add-to-list 'mmm-save-local-variables '(syntax-ppss-table buffer))
   (add-hook 'vue-mode-hook #'lsp))
 
+(use-package firefox-javascript-repl
+  :ensure t)
+
 (provide 'init-web-dev)
 
 ;;; init-web-dev.el ends here

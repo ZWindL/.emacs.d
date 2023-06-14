@@ -544,6 +544,10 @@
                                                  :left-fringe 16
                                                  :right-fringe 16)))
 
+;; Search in big log files
+(use-package occurx-mode
+  :ensure t)
+
 (provide 'init-tools)
 
 ;;; init-tools.el ends here
