@@ -36,7 +36,7 @@
 ;; font settings
 (if (eq system-type 'darwin)
     (set-face-attribute 'default nil :family "Monaco" :height 120)
-  (set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 105))
+  (set-face-attribute 'default nil :family "Fantasque Sans Mono" :height 110))
 
 (if (and (eq system-type 'darwin) (display-graphic-p))
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
@@ -50,6 +50,11 @@
 ;; Fonts
 ;; Display Color Emoji
 (set-fontset-font t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend)
+
+(use-package unicode-fonts
+  :ensure t
+  :config
+  (unicode-fonts-setup))
 
 (use-package posframe :ensure t)
 

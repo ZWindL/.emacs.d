@@ -101,6 +101,7 @@
     "]b" 'switch-to-next-buffer)
   (define-leader-key 'normal 'global nil
                      ;; files
+                    "f" '("files" . (keymap))
                      "fF" 'find-file-other-window
                      "fg" 'rgrep
                      "fj" 'counsel-file-jump
@@ -114,10 +115,12 @@
                      "fz" 'counsel-fzf
 
                      ;; dired
+                     "d" '("dired" . (keymap))
                      "dj" 'dired-jump
                      "dJ" 'dired-jump-other-window
 
                      ;; code
+                     "c" '("code" . (keymap))
                      "ca" 'add-change-log-entry-other-window
                      "cd" 'rmsbolt-compile
                      "cc" 'compile
@@ -127,6 +130,7 @@
                      "cX" 'quickrun-shell
 
                      ;; buffer & bookmark
+                     "b" '("buffer & bookmark" . (keymap))
                      "bb" 'switch-to-buffer
                      "bB" 'switch-to-buffer-other-window
                      "bc" 'clone-indirect-buffer
@@ -146,11 +150,13 @@
                      "bJ" 'bookmark-jump-other-window
                      "bl" 'bookmark-bmenu-list
                      ;; text
+                     "x" '("text" . (keymap))
                      "xj" 'set-justification
                      "xw" 'delete-trailing-whitespace
                      "x TAB" 'indent-rigidly
 
                      ;; search
+                     "s" '("search" . (keymap))
                      "sa" 'swiper-all
                      "sA" 'swiper-all-thing-at-point
                      "sj" 'evil-show-jumps
@@ -161,6 +167,7 @@
                      "sg" 'counsel-rg
 
                      ;; git
+                     "g" '("git" . (keymap))
                      "g." 'magit-file-dispatch
                      "gb" 'magit-branch-checkout
                      "gB" 'magit-blame-addition

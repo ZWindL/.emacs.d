@@ -9,7 +9,17 @@
 (use-package which-key
   :ensure t
   :hook (after-init . which-key-mode)
-  :custom (which-key-idle-delay 0.5))
+  :custom
+  (which-key-idle-delay 0.5)
+  (which-key-ellipsis ".."))
+  ;; :custom-face
+  ;; (which-key-key-face ((t (:height 0.8 :family "Monaco"))))
+  ;; (which-key-separator-face ((t (:height 0.8 :family "Monaco"))))
+  ;; (which-key-note-face ((t (:height 0.8 :family "Monaco"))))
+  ;; (which-key-special-key-face ((t (:height 0.8 :family "Monaco" :inverse-video t :weight bold))))
+  ;; (which-key-group-description-face ((t (:height 0.8 :family "Monaco"))))
+  ;; (which-key-command-description-face ((t (:height 0.8 :family "Monaco"))))
+  ;; (which-key-local-map-description-face ((t (:height 0.8 :family "Monaco")))))
 
 ;; The blazing grep tool
 ;; Press C-c s to search

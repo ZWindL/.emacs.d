@@ -278,13 +278,15 @@
   ;; https://www.reddit.com/r/emacs/comments/fs7tk3/how_to_manage_todo_tasks_in_my_project/
   (org-capture-templates
    (doct '(("Task" :keys "t" :file "task.org" :children
-            (("Tasks" :keys "t" :type entry :headline "Tasks" :clock-in t :clock-resume t
+            (("Task" :keys "t" :type entry :headline "Tasks" :clock-in t :clock-resume t
               :datetree t :tree-type week :template "* TODO %?\n %i\n %a\n")
+             ("Thinking" :keys "i" :type entry :headline "Thinkings"
+              :template "* %^{name}\n %a\n")
              ("Reading" :keys "r" :type entry :headline "Reading"
-              :template "* TODO %^{name}\n %a\n")
+              :template "* %^{name}\n %a\n")
              ("Learning" :keys "l" :type entry :headline "Learning"
-              :template "* TODO %^{name}\n %a\n")
-             ("Reminder" :keys "n" :type checkitem :headline "Non-recurring"
+              :template "* %^{name}\n %a\n")
+             ("Dessert" :keys "d" :type checkitem :headline "Desserts"
               :template "[ ][#B] %i%?")))
            ("Capture" :keys "c" :file "capture.org" :children
             (("Thoughts" :keys "t" :type plain :headline "Thoughts"
