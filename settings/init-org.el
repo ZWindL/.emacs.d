@@ -287,7 +287,7 @@
              ("Learning" :keys "l" :type entry :headline "Learning"
               :template "* %^{name}\n %a\n")
              ("Dessert" :keys "d" :type checkitem :headline "Desserts"
-              :template "[ ][#B] %i%?")))
+              :template "[ ] [#B] %i%?")))
            ("Capture" :keys "c" :file "capture.org" :children
             (("Thoughts" :keys "t" :type plain :headline "Thoughts"
               :template "** %T %?\n")
