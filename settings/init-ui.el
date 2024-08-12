@@ -1,4 +1,4 @@
-;;; init-ui --- custmize UI components
+;;; init-ui --- custmize UI components -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;; consider using ivy-postframe, it's good looking but overlap a part of the main frame
@@ -125,6 +125,7 @@
 
 ;; Blink the current line with fancy animation
 (use-package beacon
+  :disabled
   :ensure t
   :hook
   (after-init . beacon-mode)

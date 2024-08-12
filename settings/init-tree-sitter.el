@@ -9,13 +9,14 @@
 ;; (when (not (treesit-available-p))
 ;;   (use-package tree-sitter :ensure t))
 
-(use-package tree-sitter
-  :ensure t
+(use-package treesit
   :hook
-  (prog-mode            . global-tree-sitter-mode)
-  (tree-sitter-after-on . tree-sitter-hl-mode))
+  (tree-sitter-after-on . tree-sitter-hl-mode)
+  :custom
+  (global-treesit-auto-mode t)
+  (treesit-auto-install t))
 
-(use-package tree-sitter-langs :ensure t)
+;; (use-package tree-sitter-langs :ensure t)
 
 (use-package treesit-auto
   :ensure t
